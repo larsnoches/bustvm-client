@@ -1,4 +1,4 @@
-import { catchError, retry } from 'rxjs';
+import { catchError, retry, tap } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
 import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 import { HttpClient } from '@angular/common/http';
@@ -10,8 +10,9 @@ import { config } from '@helpers/config';
   providedIn: 'root',
 })
 export class BusPointTypeStoreService extends ThrowableService {
+  loading = new BehaviorSubjectItem(false);
+  busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
   private apiFetchUrl = `${config.apiPath}/busPoints`;
-  private busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
 
   constructor(private http: HttpClient) {
     super();
@@ -22,8 +23,13 @@ export class BusPointTypeStoreService extends ThrowableService {
     this.http
       .get<Array<BusPointType>>(this.apiFetchUrl)
       .pipe(
+        tap(() => (this.loading.value = true)),
         retry(3),
-        catchError(er => this.handleError(er)),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
       )
       .subscribe(data => this.setBusPointTypeData(data));
   }
