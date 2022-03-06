@@ -1,4 +1,4 @@
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
 import { Bus } from '@modules/buses/models/bus.model';
 import { HttpClient } from '@angular/common/http';

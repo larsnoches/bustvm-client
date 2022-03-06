@@ -2140,7 +2140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^12.20.46":
+"@types/node@npm:^12.11.1":
   version: 12.20.46
   resolution: "@types/node@npm:12.20.46"
   checksum: 5326c3b5a576e041e522670d642aa17f92d833fa33ff6a6619d7d9fbac54c6a29f329905a7ccd7642a3aac79c80f9cc6887f45e2afa2c24dcf81269c296121a8
@@ -2179,133 +2179,6 @@ __metadata:
   version: 0.12.1
   resolution: "@types/retry@npm:0.12.1"
   checksum: 5f46b2556053655f78262bb33040dc58417c900457cc63ff37d6c35349814471453ef511af0cec76a540c601296cd2b22f64bab1ab649c0dacc0223765ba876c
-  languageName: node
-  linkType: hard
-
-"@types/rx-core-binding@npm:*":
-  version: 4.0.4
-  resolution: "@types/rx-core-binding@npm:4.0.4"
-  dependencies:
-    "@types/rx-core": "*"
-  checksum: 73ea26765c594cefef868619b229528f152f8a750fb8c92801bd64a79821ff880cc737847e1253b0ed026a0c042fd0c5ecb31fc12cb8ec5a8bbfe19113ac6510
-  languageName: node
-  linkType: hard
-
-"@types/rx-core@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-core@npm:4.0.3"
-  checksum: 346e291247fc3309db57a0a928ed35d5980a09896cc9f895e36dc4afb7a3e8dc043aace7b2ec901a395944ef9f8bdb51fa74ce686f63c483d5f34f07ff87f5c2
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-aggregates@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-lite-aggregates@npm:4.0.3"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 3fa1c843f9c6c3ed4100e5692d98f24f164c3743c63723ccb631612c33d49cc13f24ef5982caa3bc5376981ed5b845ac41c78d4944c3ada5f10863e76e1e2be1
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-async@npm:*":
-  version: 4.0.2
-  resolution: "@types/rx-lite-async@npm:4.0.2"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: f7bf6bfcef65537a85dbf6e745223ac7c5c37a8cd0d5bebc909abd9320526c846a8912409b92dab4faf09c91dd86a286484ff810d468dd1f18f1dc0ccc44359f
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-backpressure@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-lite-backpressure@npm:4.0.3"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 5974f81bba795a87cde236b9bab529b81177c9de727a7e66584106bc7332936784b326ecc7bdcbab3749e090394000134275d63c750d05e55d84cd392428f45d
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-coincidence@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-lite-coincidence@npm:4.0.3"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 315460244ff6c4b40b0163263d91303632b9ad08c80723487b25f3da0e975004708c05233365ebd125b9b652ea1cf9e2697870ca8023c2674a853f3f0738de49
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-experimental@npm:*":
-  version: 4.0.1
-  resolution: "@types/rx-lite-experimental@npm:4.0.1"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 1060be17d6f757f84db2a8486d852746be14ab6cf6325359ae51e4bea4e28c7f1fee2b698c0f5fa625b946f8bca549a9e5f3b926d0d873eb0ea0861b86d82d28
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-joinpatterns@npm:*":
-  version: 4.0.1
-  resolution: "@types/rx-lite-joinpatterns@npm:4.0.1"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 45eb59eb0061d396fdc1b46ae199d9ce7b86c3f17bb6c6b72143190a2792b1722b6e433ceae988c981a26be4794078399a8ca77796b7548d7aaf160b69030748
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-testing@npm:*":
-  version: 4.0.1
-  resolution: "@types/rx-lite-testing@npm:4.0.1"
-  dependencies:
-    "@types/rx-lite-virtualtime": "*"
-  checksum: 128d92f1737c44d25d4086cd7541c5d1e32e81c6e2bb16bc655e5af780acbaeb48f0b4c7ec05ce556c9e148f552cb57c3f0ee0e9b591021d49e4e7fe1d3f6480
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-time@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-lite-time@npm:4.0.3"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: da92dfc267321f3929c9d20b179ea524abf41da734ae77fc8a89aa6a24d0737bd15bbab20685f176333fc4010571cf5c483b6dabdffe0cc0bc50960b12f174b1
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite-virtualtime@npm:*":
-  version: 4.0.3
-  resolution: "@types/rx-lite-virtualtime@npm:4.0.3"
-  dependencies:
-    "@types/rx-lite": "*"
-  checksum: 8b050df8a6a9a46b8527e9b9aa317b7089f76dd42c76e93d436b7474381d63dc6d189925bedf996c9375ba57f375ae3a2a61348ad2ec4990ac9aa650df1c77c1
-  languageName: node
-  linkType: hard
-
-"@types/rx-lite@npm:*":
-  version: 4.0.6
-  resolution: "@types/rx-lite@npm:4.0.6"
-  dependencies:
-    "@types/rx-core": "*"
-    "@types/rx-core-binding": "*"
-  checksum: 4cd606daa8d314e516ebd1d96150da431967d829c09255e2006ab9c56120b68ec55be066e1c7d8b175556a50b74d814f5617cffa79c8cfe0e4c437d2160bf549
-  languageName: node
-  linkType: hard
-
-"@types/rx@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "@types/rx@npm:4.1.2"
-  dependencies:
-    "@types/rx-core": "*"
-    "@types/rx-core-binding": "*"
-    "@types/rx-lite": "*"
-    "@types/rx-lite-aggregates": "*"
-    "@types/rx-lite-async": "*"
-    "@types/rx-lite-backpressure": "*"
-    "@types/rx-lite-coincidence": "*"
-    "@types/rx-lite-experimental": "*"
-    "@types/rx-lite-joinpatterns": "*"
-    "@types/rx-lite-testing": "*"
-    "@types/rx-lite-time": "*"
-    "@types/rx-lite-virtualtime": "*"
-  checksum: 8527dad04f6dab8004e7880995fb9ebbeed84a7d017f2eca6db39186b6fa22f005ec7b886cbc781edac38046e1af176c49ac4eeb7da20fbf32920343fcf0bec2
   languageName: node
   linkType: hard
 
@@ -3342,9 +3215,8 @@ __metadata:
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/jasmine": ~3.10.0
     "@types/jest": ^27.4.1
-    "@types/node": ^12.20.46
+    "@types/node": ^12.11.1
     "@types/prettier": ^2.4.4
-    "@types/rx": ^4.1.2
     "@typescript-eslint/eslint-plugin": ^5.12.1
     "@typescript-eslint/parser": ^5.12.1
     bootstrap: ^5.1.3
@@ -3362,7 +3234,7 @@ __metadata:
     karma-jasmine-html-reporter: ~1.7.0
     ngx-bootstrap: ^8.0.0
     prettier: ^2.5.1
-    rxjs: ^6.5.5
+    rxjs: ~7.5.0
     tslib: ^2.3.0
     typescript: ~4.5.2
     zone.js: ~0.11.4
@@ -8621,7 +8493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:6.6.7, rxjs@npm:^6.5.5":
+"rxjs@npm:6.6.7":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
@@ -8630,7 +8502,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.2.0":
+"rxjs@npm:^7.2.0, rxjs@npm:~7.5.0":
   version: 7.5.4
   resolution: "rxjs@npm:7.5.4"
   dependencies:
