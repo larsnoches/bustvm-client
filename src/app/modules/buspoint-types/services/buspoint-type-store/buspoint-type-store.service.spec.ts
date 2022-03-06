@@ -1,4 +1,4 @@
-import { BuspointTypesStoreService } from './buspoint-types-store.service';
+import { BuspointTypesStoreService } from './buspoint-type-store.service';
 import { TestBed } from '@angular/core/testing';
 
 describe('BuspointTypesStoreService', () => {
