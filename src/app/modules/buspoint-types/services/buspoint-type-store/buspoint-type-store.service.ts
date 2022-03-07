@@ -1,6 +1,10 @@
+import {
+  BusPointType,
+  BusPointTypeRequestDto,
+  BusPointTypeResponseDto,
+} from '@modules/buspoint-types/models/buspoint-type.model';
 import { catchError, retry, tap } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
-import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ThrowableService } from '@helpers/throwable-http-service';
@@ -12,7 +16,7 @@ import { config } from '@helpers/config';
 export class BusPointTypeStoreService extends ThrowableService {
   loading = new BehaviorSubjectItem(false);
   busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
-  private apiFetchUrl = `${config.apiPath}/busPointTypes`;
+  private apiUrl = `${config.apiPath}/busPointTypes`;
 
   constructor(private http: HttpClient) {
     super();
@@ -21,7 +25,7 @@ export class BusPointTypeStoreService extends ThrowableService {
 
   fetch() {
     this.http
-      .get<Array<BusPointType>>(this.apiFetchUrl)
+      .get<Array<BusPointType>>(this.apiUrl)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
@@ -36,5 +40,17 @@ export class BusPointTypeStoreService extends ThrowableService {
 
   setBusPointTypeData(value: Array<BusPointType>) {
     this.busPointTypeData.value = value;
+  }
+
+  create(busPointTypeDto: BusPointTypeRequestDto) {
+    this.http.post<BusPointTypeResponseDto>(this.apiUrl, busPointTypeDto).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
   }
 }

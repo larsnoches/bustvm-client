@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-buspoint-types-list',
-  templateUrl: './buspoint-types-list.component.html',
-  styleUrls: ['./buspoint-types-list.component.scss'],
+  templateUrl: './buspoint-type-list.component.html',
+  styleUrls: ['./buspoint-type-list.component.scss'],
 })
-export class BusPointTypesListComponent {
+export class BusPointTypeListComponent {
   busPointTypesData: Observable<Array<BusPointType>>;
   loading$: Observable<boolean>;
 
