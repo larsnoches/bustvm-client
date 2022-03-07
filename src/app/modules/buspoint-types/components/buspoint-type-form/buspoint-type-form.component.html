@@ -1,1 +1,14 @@
-<p>buspoint-type-form works!</p>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="username" 
+          name="username" [(ngModel)]="name"
+          placeholder="Название типа остановочного пункта" 
+          autofocus autocomplete="off"
+          required>
+  <label for="username">Название</label>
+</div>
+<div class="mb-3">
+  <button 
+    class="w-100 btn btn-lg btn-primary" 
+    [disabled]="loading$ | async"
+    (click)="createBusPointType()">Создать</button>
+</div>
