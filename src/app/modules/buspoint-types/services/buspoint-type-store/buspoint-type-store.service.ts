@@ -2,7 +2,9 @@ import {
   BusPointType,
   BusPointTypeRequestDto,
   BusPointTypeResponseDto,
+  BusPointTypesResponseDto,
 } from '@modules/buspoint-types/models/buspoint-type.model';
+import { PageData, initialPageData } from '@helpers/page-data';
 import { catchError, retry, tap } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +17,10 @@ import { config } from '@helpers/config';
 })
 export class BusPointTypeStoreService extends ThrowableService {
   loading = new BehaviorSubjectItem(false);
-  busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
+  busPointTypeData = new BehaviorSubjectItem<Array<BusPointTypeResponseDto>>(
+    [],
+  );
+  pageData = new BehaviorSubjectItem<PageData>(initialPageData());
   private apiUrl = `${config.apiPath}/busPointTypes`;
 
   constructor(private http: HttpClient) {
@@ -25,7 +30,7 @@ export class BusPointTypeStoreService extends ThrowableService {
 
   fetch() {
     this.http
-      .get<Array<BusPointType>>(this.apiUrl)
+      .get<BusPointTypesResponseDto>(this.apiUrl)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
@@ -38,8 +43,14 @@ export class BusPointTypeStoreService extends ThrowableService {
       .subscribe(data => this.setBusPointTypeData(data));
   }
 
-  setBusPointTypeData(value: Array<BusPointType>) {
-    this.busPointTypeData.value = value;
+  setBusPointTypeData(value: BusPointTypesResponseDto) {
+    const { _embedded, page } = value;
+    if (_embedded != null) {
+      this.busPointTypeData.value = _embedded.busPointTypes ?? [];
+    }
+    if (page) {
+      this.pageData.value = page;
+    }
   }
 
   create(busPointTypeDto: BusPointTypeRequestDto) {
