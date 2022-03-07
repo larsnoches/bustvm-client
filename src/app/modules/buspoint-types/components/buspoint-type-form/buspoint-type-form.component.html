@@ -1,14 +1,38 @@
-<div class="form-floating mb-3">
-  <input type="text" class="form-control" id="username" 
-          name="username" [(ngModel)]="name"
-          placeholder="Автовокзал, автостанция или остановка" 
-          autofocus autocomplete="off"
-          required>
-  <label for="username">Название типа остановочного пункта</label>
-</div>
-<div class="mb-3">
-  <button 
-    class="w-100 btn btn-lg btn-primary" 
-    [disabled]="loading$ | async"
-    (click)="createBusPointType()">Создать</button>
-</div>
+<form
+  [formGroup]="busPointTypeForm"
+  (ngSubmit)="createBusPointType()"
+  novalidate
+>
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Автовокзал, автостанция или остановка"
+      autofocus
+      autocomplete="off"
+      formControlName="name"
+      required
+    />
+    <label for="name">Название типа остановочного пункта</label>
+  </div>
+  <div
+    *ngIf="name.invalid && (name.dirty || name.touched)"
+    class="alert alert-danger"
+  >
+    <div *ngIf="name.errors?.['required']">Название обязательно.</div>
+    <div *ngIf="name.errors?.['minlength']">
+      Название должно быть не менее 3 символов.
+    </div>
+    <div *ngIf="name.errors?.['pattern']">Недопустимые символы.</div>
+  </div>
+  <div class="mb-3">
+    <button
+      class="w-100 btn btn-lg btn-primary"
+      [disabled]="name.invalid || (loading$ | async)"
+    >
+      Создать
+    </button>
+  </div>
+</form>

@@ -1,9 +1,9 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BusPointTypeFormComponent } from './components/buspoint-type-form/buspoint-type-form.component';
 import { BusPointTypeItemComponent } from './components/buspoint-type-item/buspoint-type-item.component';
 import { BusPointTypeListComponent } from './components/buspoint-type-list/buspoint-type-list.component';
 import { BusPointTypeStoreService } from './services/buspoint-type-store/buspoint-type-store.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { NgModule } from '@angular/core';
     BusPointTypeItemComponent,
     BusPointTypeFormComponent,
   ],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   providers: [BusPointTypeStoreService],
 })
 export class BuspointTypesModule {}
