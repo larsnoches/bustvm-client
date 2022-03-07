@@ -1,1 +1,3 @@
-<p>buspoint-types-list works!</p>
+<div *ngFor="let busPointType of busPointTypesData$ | async">
+  <div>{{ busPointType.name }}</div>
+</div>

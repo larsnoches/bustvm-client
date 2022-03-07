@@ -4,16 +4,16 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-buspoint-types-list',
+  selector: 'app-buspoint-type-list',
   templateUrl: './buspoint-type-list.component.html',
   styleUrls: ['./buspoint-type-list.component.scss'],
 })
 export class BusPointTypeListComponent {
-  busPointTypesData: Observable<Array<BusPointType>>;
+  busPointTypesData$: Observable<Array<BusPointType>>;
   loading$: Observable<boolean>;
 
   constructor(private busPointTypeStoreService: BusPointTypeStoreService) {
-    this.busPointTypesData = busPointTypeStoreService.busPointTypeData.value$;
+    this.busPointTypesData$ = busPointTypeStoreService.busPointTypeData.value$;
     this.loading$ = busPointTypeStoreService.loading.value$;
   }
 

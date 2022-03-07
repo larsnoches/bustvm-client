@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-buspoint-type-form',
   templateUrl: './buspoint-type-form.component.html',
-  styleUrls: ['./buspoint-type-form.component.scss']
+  styleUrls: ['./buspoint-type-form.component.scss'],
 })
-export class BuspointTypeFormComponent implements OnInit {
+export class BusPointTypeFormComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
