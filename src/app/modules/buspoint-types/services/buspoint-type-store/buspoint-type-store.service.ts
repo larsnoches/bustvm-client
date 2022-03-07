@@ -12,7 +12,7 @@ import { config } from '@helpers/config';
 export class BusPointTypeStoreService extends ThrowableService {
   loading = new BehaviorSubjectItem(false);
   busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
-  private apiFetchUrl = `${config.apiPath}/busPoints`;
+  private apiFetchUrl = `${config.apiPath}/busPointTypes`;
 
   constructor(private http: HttpClient) {
     super();
