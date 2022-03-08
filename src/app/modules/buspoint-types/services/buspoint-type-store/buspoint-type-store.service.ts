@@ -17,9 +17,8 @@ import { config } from '@helpers/config';
 })
 export class BusPointTypeStoreService extends ThrowableService {
   loading = new BehaviorSubjectItem(false);
-  busPointTypeData = new BehaviorSubjectItem<Array<BusPointTypeResponseDto>>(
-    [],
-  );
+  // busPointTypeData = new BehaviorSubjectItem<Array<BusPointTypeResponseDto>>(
+  busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
   pageData = new BehaviorSubjectItem<PageData>(initialPageData());
   private apiUrl = `${config.apiPath}/busPointTypes`;
 
@@ -46,7 +45,11 @@ export class BusPointTypeStoreService extends ThrowableService {
   setBusPointTypeData(value: BusPointTypesResponseDto) {
     const { _embedded, page } = value;
     if (_embedded != null) {
-      this.busPointTypeData.value = _embedded.busPointTypes ?? [];
+      this.busPointTypeData.value = _embedded.busPointTypes?.map(dto => ({
+        id: dto.id,
+        name: dto.name,
+        href: dto._links?.self.href,
+      }));
     }
     if (page) {
       this.pageData.value = page;
@@ -55,6 +58,18 @@ export class BusPointTypeStoreService extends ThrowableService {
 
   create(busPointTypeDto: BusPointTypeRequestDto) {
     this.http.post<BusPointTypeResponseDto>(this.apiUrl, busPointTypeDto).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
+  }
+
+  deleteOne(itemHref: string) {
+    this.http.delete(itemHref).pipe(
       tap(() => (this.loading.value = true)),
       retry(3),
       catchError(er => {

@@ -1,4 +1,4 @@
-import { BusPointTypeResponseDto } from '@modules/buspoint-types/models/buspoint-type.model';
+import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 import { BusPointTypeStoreService } from '@modules/buspoint-types/services/buspoint-type-store/buspoint-type-store.service';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { PageData } from '@helpers/page-data';
   styleUrls: ['./buspoint-type-list.component.scss'],
 })
 export class BusPointTypeListComponent {
-  busPointTypesData$: Observable<Array<BusPointTypeResponseDto>>;
+  busPointTypesData$: Observable<Array<BusPointType>>;
   pageData$: Observable<PageData>;
   loading$: Observable<boolean>;
 

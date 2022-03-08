@@ -4,7 +4,8 @@ import { PageData } from '@helpers/page-data';
 export interface BusPointType {
   id: number;
   name: string;
-  busPoints: Array<BusPoint>;
+  href: string;
+  busPoints?: Array<BusPoint>;
 }
 
 export interface BusPointTypeRequestDto {
