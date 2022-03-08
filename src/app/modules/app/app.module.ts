@@ -3,11 +3,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BusTripsModule } from '@modules/bustrips/bustrips.module';
+import { HomePageComponent } from './components/home-page/home-page.component';
 import { NgModule } from '@angular/core';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundPageComponent],
+  declarations: [AppComponent, NotFoundPageComponent, HomePageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
