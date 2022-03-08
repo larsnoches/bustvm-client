@@ -1,15 +1,14 @@
+import * as coreComponents from '@modules/core/components';
 import { RouterModule, Routes } from '@angular/router';
-import { BusPointTypesModule } from '@modules/buspoint-types/buspoint-types.module';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
-import { BusTripsModule } from '@modules/bustrips/bustrips.module';
-import { HomePageComponent } from './components/home-page/home-page.component';
+// import { HomePageComponent } from '../core/components/home-page/home-page.component';
 import { NgModule } from '@angular/core';
-import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+// import { NotFoundPageComponent } from '../core/components/not-found-page/not-found-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomePageComponent,
+    component: coreComponents.HomePageComponent,
   },
   {
     path: 'buspoint-types',
@@ -17,12 +16,12 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundPageComponent,
+    component: coreComponents.NotFoundPageComponent,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), BusTripsModule, BusPointTypesModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
