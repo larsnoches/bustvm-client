@@ -1,4 +1,9 @@
-import { AuthModule, LogLevel } from 'angular-auth-oidc-client';
+import {
+  AuthInterceptor,
+  AuthModule,
+  LogLevel,
+} from 'angular-auth-oidc-client';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -14,8 +19,20 @@ import { NgModule } from '@angular/core';
         silentRenew: true,
         useRefreshToken: true,
         logLevel: LogLevel.Debug,
+        // secureRoutes: [
+        //   'https://my-secure-url.com/',
+        //   'https://my-second-secure-url.com/',
+        // ],
       },
     }),
+    HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   exports: [AuthModule],
 })
