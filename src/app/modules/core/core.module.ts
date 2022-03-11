@@ -1,5 +1,5 @@
 import * as coreComponents from './components';
-// import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthService } from './services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -8,5 +8,6 @@ import { RouterModule } from '@angular/router';
   declarations: [...coreComponents.components],
   imports: [CommonModule, RouterModule],
   exports: [...coreComponents.components],
+  providers: [AuthService],
 })
 export class CoreModule {}
