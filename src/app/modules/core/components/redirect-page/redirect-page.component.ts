@@ -3,10 +3,10 @@ import { AuthService } from '@modules/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-redirect',
-  templateUrl: './redirect.component.html',
-  styleUrls: ['./redirect.component.scss'],
+  templateUrl: './redirect-page.component.html',
+  styleUrls: ['./redirect-page.component.scss'],
 })
-export class RedirectComponent implements OnInit {
+export class RedirectPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.redirectOnCallback();
   }

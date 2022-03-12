@@ -5,6 +5,7 @@ import {
   OAuthService,
   OAuthSuccessEvent,
 } from 'angular-oauth2-oidc';
+import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -20,20 +21,43 @@ export class AuthService {
     issuer: 'http://192.168.56.104:8180/auth/realms/bustvm_realm',
     redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: `${window.location.origin}/logout`,
-    clientId: 'demo',
-    scope: 'openid profile email offline_access',
+    clientId: 'bustvm_client',
+    scope: 'openid profile email',
+    // scope: 'openid profile email offline_access',
     responseType: 'code',
     sessionChecksEnabled: true,
+
+    showDebugInformation: true,
+    requireHttps: false,
   };
+
+  private isAuthenticatedSubject = new BehaviorSubjectItem(false);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public isAuthenticated$ = this.isAuthenticatedSubject.value$;
 
   constructor(private oauthService: OAuthService, private router: Router) {
     this.configure();
     // For SSO logout
+    // this.oauthService.events
+    //   .pipe(filter(e => e.type === 'session_changed'))
+    //   .subscribe(_e => {
+    //     console.log(_e);
+    //     // this.logout();
+    //   });
+    this.oauthService.events.subscribe(_ => {
+      this.isAuthenticatedSubject.value =
+        this.oauthService.hasValidAccessToken();
+    });
+
     this.oauthService.events
-      .pipe(filter(e => e.type === 'session_changed'))
-      .subscribe(_e => {
-        this.logout();
-      });
+      .pipe(filter(e => ['token_received'].includes(e.type)))
+      .subscribe(_e => this.loadUserProfile());
+
+    this.oauthService.events
+      .pipe(
+        filter(e => ['session_terminated', 'session_error'].includes(e.type)),
+      )
+      .subscribe(_e => this.navigateToLoginPage());
   }
 
   /**
@@ -85,9 +109,10 @@ export class AuthService {
       if (ev instanceof OAuthErrorEvent) {
         console.error(ev);
       } else if (ev instanceof OAuthSuccessEvent) {
-        if (ev.type === 'token_received') {
-          this.router.navigateByUrl('/buspoint-types');
-        }
+        // if (ev.type === 'token_received') {
+        //   this.router.navigateByUrl('/buspoint-types');
+        // }
+        console.info(ev);
       } else {
         console.warn(ev);
       }
@@ -114,7 +139,7 @@ export class AuthService {
       .then(() => {
         this.oauthService.loadUserProfile();
       })
-      .catch(() => true);
+      .catch(er => console.log(er));
   }
 
   /**
@@ -124,5 +149,14 @@ export class AuthService {
     const accessToken: string = this.oauthService.getAccessToken();
     const tokens: string[] = accessToken.split('.');
     return JSON.parse(atob(tokens[1]));
+  }
+
+  private navigateToLoginPage(): void {
+    // TODO: Remember current URL
+    this.router.navigateByUrl('/');
+  }
+
+  private loadUserProfile(): void {
+    this.oauthService.loadUserProfile();
   }
 }

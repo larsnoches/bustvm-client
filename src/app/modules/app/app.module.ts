@@ -18,9 +18,10 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     BrowserAnimationsModule,
     BusPointTypesModule,
     CoreModule,
+    // AuthGuard,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['http://localhost:8080/api'],
+        allowedUrls: ['http://192.168.56.1:8080/api'],
         sendAccessToken: true,
       },
     }),

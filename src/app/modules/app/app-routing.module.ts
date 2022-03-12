@@ -15,6 +15,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'logout',
+    component: coreComponents.LogoutPageComponent,
+  },
+  {
+    path: 'callback',
+    component: coreComponents.RedirectPageComponent,
+  },
+  {
     path: '**',
     component: coreComponents.NotFoundPageComponent,
   },
