@@ -1,4 +1,9 @@
-<div *ngIf="busPointType">
-  <div>{{ busPointType?.name }}</div>
-  <app-button [size]="0">Удалить</app-button>
-</div>
+<tr *ngIf="busPointType">
+  <td>{{ busPointType?.name }}</td>
+  <td>
+    <div class="row">
+      <app-button [size]="0">Редактировать</app-button>
+      <app-button [size]="0">Удалить</app-button>
+    </div>
+  </td>
+</tr>

@@ -37,7 +37,7 @@ export class BusPointTypeStoreService extends ThrowableService {
           this.loading.value = false;
           return this.handleError(er);
         }),
-        tap(() => (this.loading.value = false)),
+        tap(() => setTimeout(() => (this.loading.value = false), 1500)),
       )
       .subscribe(data => this.setBusPointTypeData(data));
   }

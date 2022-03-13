@@ -1,3 +1,41 @@
-<div *ngFor="let bpt of busPointTypesData$ | async">
-  <app-buspoint-types-item [busPointType]="bpt"></app-buspoint-types-item>
-</div>
+<ng-template #loadingBlock>
+  <app-spinner></app-spinner>
+</ng-template>
+<ng-template #emptyBlock>Ничего нет</ng-template>
+
+<ng-template #dataBlock>
+  <ng-container *ngIf="busPointTypesData$ | async as busPointTypes">
+    <div
+      class="table-responsive"
+      *ngIf="busPointTypes.length > 0; else emptyBlock"
+    >
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>Название</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let bpt of busPointTypes">
+          <tr *ngIf="bpt">
+            <td>{{ bpt?.name }}</td>
+            <td>
+              <div class="row">
+                <app-button [size]="0" (click)="editOne(bpt)"
+                  >Редактировать</app-button
+                >
+                <app-button [size]="0" (click)="deleteOne(bpt)"
+                  >Удалить</app-button
+                >
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-container
+  *ngIf="loading$ | async; then loadingBlock; else dataBlock"
+></ng-container>

@@ -112,7 +112,7 @@ export class AuthService {
         // if (ev.type === 'token_received') {
         //   this.router.navigateByUrl('/buspoint-types');
         // }
-        console.info(ev);
+        // console.info(ev);
       } else {
         console.warn(ev);
       }
