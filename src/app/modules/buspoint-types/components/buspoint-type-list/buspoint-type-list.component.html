@@ -1,41 +1,46 @@
-<ng-template #loadingBlock>
-  <app-spinner></app-spinner>
-</ng-template>
-<ng-template #emptyBlock>Ничего нет</ng-template>
+<table class="table">
+  <caption>
+    <ng-container *ngIf="loading$ | async">
+      <app-spinner></app-spinner>
+    </ng-container>
+  </caption>
+  <thead class="table-dark">
+    <tr class="d-flex">
+      <th class="d-flex align-items-center col-10">Название</th>
+      <th class="d-flex align-items-center col-2"></th>
+    </tr>
+  </thead>
 
-<ng-template #dataBlock>
   <ng-container *ngIf="busPointTypesData$ | async as busPointTypes">
-    <div
-      class="table-responsive"
-      *ngIf="busPointTypes.length > 0; else emptyBlock"
-    >
-      <table class="table">
-        <thead class="table-dark">
-          <tr>
-            <th>Название</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let bpt of busPointTypes">
-          <tr *ngIf="bpt">
-            <td>{{ bpt?.name }}</td>
-            <td>
-              <div class="row">
-                <app-button [size]="0" (click)="editOne(bpt)"
-                  >Редактировать</app-button
-                >
-                <app-button [size]="0" (click)="deleteOne(bpt)"
-                  >Удалить</app-button
-                >
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ng-container *ngIf="busPointTypes.length === 0">
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <div class="d-flex justify-content-center">
+              <strong>Ничего нет</strong>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+    <ng-container *ngIf="busPointTypes.length > 0">
+      <tbody *ngFor="let bpt of busPointTypes">
+        <tr *ngIf="bpt" class="d-flex">
+          <td class="d-flex align-items-center col-10">
+            {{ bpt?.name }}
+          </td>
+          <td class="d-flex align-items-center col-2">
+            <div class="d-flex flex-row justify-content-between w-100">
+              <app-button [size]="0" (click)="editOne(bpt)"
+                >Редактировать</app-button
+              >
+              <app-button [size]="0" (click)="deleteOne(bpt)"
+                >Удалить</app-button
+              >
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
   </ng-container>
-</ng-template>
-
-<ng-container
-  *ngIf="loading$ | async; then loadingBlock; else dataBlock"
-></ng-container>
+</table>
