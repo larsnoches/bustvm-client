@@ -7,6 +7,10 @@
     <input
       type="text"
       class="form-control"
+      [ngClass]="{
+        'form-control': true,
+        'is-invalid': name.invalid && (name.dirty || name.touched)
+      }"
       id="name"
       name="name"
       placeholder="Автовокзал, автостанция или остановка"
@@ -15,24 +19,56 @@
       formControlName="name"
       required
     />
-    <label for="name">Название типа остановочного пункта</label>
+    <ng-container
+      *ngIf="
+        name.invalid && (name.dirty || name.touched);
+        then hasErrors;
+        else withoutErrors
+      "
+    >
+    </ng-container>
   </div>
-  <div
-    *ngIf="name.invalid && (name.dirty || name.touched)"
-    class="alert alert-danger"
-  >
-    <div *ngIf="name.errors?.['required']">Название обязательно.</div>
-    <div *ngIf="name.errors?.['minlength']">
-      Название должно быть не менее 3 символов.
-    </div>
-    <div *ngIf="name.errors?.['pattern']">Недопустимые символы.</div>
-  </div>
-  <div class="mb-3">
+
+  <!-- <div class="mb-3">
     <button
       class="w-100 btn btn-lg btn-primary"
       [disabled]="name.invalid || (loading$ | async)"
     >
       Создать
     </button>
-  </div>
+  </div> -->
 </form>
+
+<ng-template #hasErrors>
+  <label for="name" *ngIf="name.errors?.['required']"
+    >Название обязательно</label
+  >
+  <label for="name" *ngIf="name.errors?.['minlength']">
+    Название должно быть не менее 3 символов
+  </label>
+  <label for="name" *ngIf="name.errors?.['pattern']"
+    >Недопустимые символы</label
+  >
+
+  <ng-container *ngIf="name.errors?.['required']; then HasErrorsRequired">
+  </ng-container>
+
+</ng-template>
+
+
+<ng-template #HasErrorsRequired>
+  <label for="name">Название обязательно</label>
+</ng-template>
+
+
+<ng-template #HasErrorsMinLength>
+  <label for="name">Название должно быть не менее 3 символов</label>
+</ng-template>
+
+<ng-template #HasErrorsPattern>
+  <label for="name">Недопустимые символы</label>
+</ng-template>
+
+<ng-template #withoutErrors>
+  <label for="name">Название типа остановочного пункта</label>
+</ng-template>
