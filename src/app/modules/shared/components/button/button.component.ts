@@ -7,7 +7,7 @@ enum ButtonSize {
 }
 
 @Component({
-  selector: 'app-button',
+  selector: 'app-shared-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })

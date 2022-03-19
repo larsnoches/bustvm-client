@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-spinner',
+  selector: 'app-shared-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
 })
