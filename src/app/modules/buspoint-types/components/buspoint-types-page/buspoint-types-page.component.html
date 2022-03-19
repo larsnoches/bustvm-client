@@ -1,11 +1,26 @@
 <div class="container">
   <h2>Типы остановочных пунктов</h2>
   <div class="d-flex px-2 pt-4 pb-3">
-    <app-shared-button [size]="0" (click)="openModal(template)">Добавить</app-shared-button>
+    <app-shared-button [size]="0" (click)="openAddDialog(addDialogTemplate)"
+      >Добавить</app-shared-button
+    >
+    <!-- <app-shared-button [size]="0" (click)="openModal(template)">Добавить</app-shared-button> -->
   </div>
   <app-buspoint-type-list></app-buspoint-type-list>
 
-  <ng-template #template>
+  <ng-template #addDialogTemplate>
+    <app-shared-dialog
+      title="Добавление"
+      confirmBtnCaption="Добавить"
+      declineBtnCaption="Отменить"
+      (confirmBtnClick)="onConfirmAddBtnClick()"
+      (declineBtnClick)="onDeclineBtnClick()"
+    >
+      <app-buspoint-type-form></app-buspoint-type-form>
+    </app-shared-dialog>
+  </ng-template>
+
+  <!-- <ng-template #template>
     <div class="modal-header">
       <h4 class="modal-title pull-left">Добавление</h4>
       <button
@@ -29,4 +44,5 @@
       </button>
     </div>
   </ng-template>
+</div> -->
 </div>

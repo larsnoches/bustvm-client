@@ -1,5 +1,5 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-shared-dialog',
@@ -7,9 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
-  title?: string;
-  applyBtnCaption?: string;
-  cancelBtnCaption?: string;
+  @Input() title?: string;
+  @Input() confirmBtnCaption?: string;
+  @Input() declineBtnCaption?: string;
+  @Output() confirmBtnClick: EventEmitter<any> = new EventEmitter();
+  @Output() declineBtnClick: EventEmitter<any> = new EventEmitter();
 
   constructor(public bsModalRef: BsModalRef) {}
+
+  confirmBtnClickHandler(): void {
+    this.confirmBtnClick.emit();
+  }
+
+  declineBtnClickHandler(): void {
+    this.declineBtnClick.emit();
+  }
 }

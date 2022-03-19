@@ -1,5 +1,6 @@
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Component, TemplateRef } from '@angular/core';
+// import { DialogComponent } from '@modules/shared/components';
 
 @Component({
   selector: 'app-buspoint-types-page',
@@ -11,16 +12,20 @@ export class BusPointTypesPageComponent {
 
   constructor(private modalService: BsModalService) {}
 
-  openModal(template: TemplateRef<any>): void {
+  // openModal(template: TemplateRef<any>): void {
+  //   this.modalRef = this.modalService.show(template);
+  // }
+
+  openAddDialog(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template);
   }
 
-  confirm(): void {
+  onConfirmAddBtnClick(): void {
     // this.message = 'Confirmed!';
     this.modalRef?.hide();
   }
 
-  decline(): void {
+  onDeclineBtnClick(): void {
     // this.message = 'Declined!';
     this.modalRef?.hide();
   }
