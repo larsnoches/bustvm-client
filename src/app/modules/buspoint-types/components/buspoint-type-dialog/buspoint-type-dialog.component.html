@@ -46,8 +46,14 @@
   </ng-template>
 
   <ng-template #hasErrorsMinLength>
-    <ng-container *ngIf="name.errors?.['minlength']; else hasErrorsPattern">
+    <ng-container *ngIf="name.errors?.['minlength']; else hasErrorsMaxLength">
       <label for="name">Название должно быть не менее 3 символов</label>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #hasErrorsMaxLength>
+    <ng-container *ngIf="name.errors?.['maxlength']; else hasErrorsPattern">
+      <label for="name">Название должно быть не более 45 символов</label>
     </ng-container>
   </ng-template>
 

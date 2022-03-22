@@ -35,11 +35,14 @@ export class BuspointTypeDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.busPointTypeForm = new FormGroup({
-      name: new FormControl('', [
+      name: new FormControl(this.busPointType?.name ?? '', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('^[a-zA-Z]*$'),
+        Validators.maxLength(45),
+        Validators.pattern(
+          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._]+ )*[а-яА-Яa-zA-Z0-9._]+(?<![_.])$',
+        ),
       ]),
     });
   }
