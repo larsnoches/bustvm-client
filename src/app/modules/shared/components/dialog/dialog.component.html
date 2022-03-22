@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <h4 class="modal-title pull-left">{{ caption }}</h4>
   <button
     type="button"
     class="btn-close close pull-right"
@@ -18,8 +18,10 @@
 >
   <button
     *ngIf="confirmBtnCaption != null"
-    type="button"
+    type="submit"
     class="btn btn-primary"
+    [attr.form]="formId"
+    [disabled]="buttonsDisabled"
     (click)="confirmBtnClickHandler()"
   >
     {{ confirmBtnCaption }}
@@ -28,6 +30,7 @@
     *ngIf="declineBtnCaption != null"
     type="button"
     class="btn btn-default"
+    [disabled]="buttonsDisabled"
     (click)="declineBtnClickHandler()"
   >
     {{ declineBtnCaption }}

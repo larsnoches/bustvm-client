@@ -12,35 +12,45 @@
   </thead>
 
   <ng-container *ngIf="busPointTypesData$ | async as busPointTypes">
-    <ng-container *ngIf="busPointTypes.length === 0">
-      <tbody>
-        <tr>
-          <td colspan="2">
-            <div class="d-flex justify-content-center">
-              <strong>Ничего нет</strong>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </ng-container>
-    <ng-container *ngIf="busPointTypes.length > 0">
-      <tbody *ngFor="let bpt of busPointTypes">
-        <tr *ngIf="bpt" class="d-flex">
-          <td class="d-flex align-items-center col-10">
-            {{ bpt?.name }}
-          </td>
-          <td class="d-flex align-items-center col-2">
-            <div class="d-flex flex-row justify-content-between w-100">
-              <app-shared-button [size]="0" (click)="editOne(bpt)"
-                >Редактировать</app-shared-button
-              >
-              <app-shared-button [size]="0" (click)="deleteOne(bpt)"
-                >Удалить</app-shared-button
-              >
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </ng-container>
+    <tbody *ngIf="busPointTypes.length === 0">
+      <tr>
+        <td colspan="2">
+          <div class="d-flex justify-content-center">
+            <strong>Ничего нет</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+    <tbody *ngIf="busPointTypes.length > 0">
+      <tr *ngFor="let bpt of busPointTypes">
+        <td class="d-flex align-items-center col-10">
+          {{ bpt?.name }}
+        </td>
+        <td class="d-flex align-items-center col-2">
+          <div class="d-flex flex-row justify-content-between w-100">
+            <app-shared-button [size]="0" (click)="editOne(bpt)"
+              >Редактировать</app-shared-button
+            >
+            <app-shared-button [size]="0" (click)="deleteOne(bpt)"
+              >Удалить</app-shared-button
+            >
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
   </ng-container>
 </table>
+
+<!-- <ng-template #editDialogTemplate>
+  <app-shared-dialog
+    title="Добавление"
+    confirmBtnCaption="Добавить"
+    declineBtnCaption="Отменить"
+    (confirmBtnClick)="onConfirmAddBtnClick()"
+    (declineBtnClick)="onDeclineBtnClick()"
+  >
+    <app-buspoint-type-form [busPointType]=""></app-buspoint-type-form>
+  </app-shared-dialog>
+</ng-template> -->

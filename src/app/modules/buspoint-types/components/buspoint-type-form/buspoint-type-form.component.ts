@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./buspoint-type-form.component.scss'],
 })
 export class BusPointTypeFormComponent implements OnInit {
-  // name_: string;
   loading$: Observable<boolean>;
   busPointTypeForm: FormGroup;
 

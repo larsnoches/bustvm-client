@@ -1,0 +1,64 @@
+<app-shared-dialog
+  [caption]="busPointType != null ? 'Редактирование' : 'Добавление'"
+  [confirmBtnCaption]="busPointType != null ? 'Сохранить' : 'Добавить'"
+  declineBtnCaption="Отменить"
+  [formId]="formId"
+  [buttonsDisabled]="busPointTypeForm.valid === false"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+>
+  <form
+    [id]="formId"
+    [formGroup]="busPointTypeForm"
+    (ngSubmit)="onSubmitBusPointType()"
+    novalidate
+  >
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'form-control': true,
+          'is-invalid': name.invalid && (name.dirty || name.touched)
+        }"
+        id="name"
+        name="name"
+        placeholder="Автовокзал, автостанция или остановка"
+        autofocus
+        autocomplete="off"
+        formControlName="name"
+        required
+      />
+      <ng-container
+        *ngIf="
+          name.invalid && (name.dirty || name.touched);
+          then hasErrors;
+          else withoutErrors
+        "
+      >
+      </ng-container>
+    </div>
+  </form>
+
+  <ng-template #hasErrors>
+    <ng-container *ngIf="name.errors?.['required']; else hasErrorsMinLength">
+      <label for="name">Название обязательно</label>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #hasErrorsMinLength>
+    <ng-container *ngIf="name.errors?.['minlength']; else hasErrorsPattern">
+      <label for="name">Название должно быть не менее 3 символов</label>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #hasErrorsPattern>
+    <ng-container *ngIf="name.errors?.['pattern']; else withoutErrors">
+      <label for="name">Недопустимые символы</label>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #withoutErrors>
+    <label for="name">Название типа остановочного пункта</label>
+  </ng-template>
+</app-shared-dialog>

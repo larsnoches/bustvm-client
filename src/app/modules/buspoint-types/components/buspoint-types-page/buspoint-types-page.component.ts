@@ -18,6 +18,7 @@ export class BusPointTypesPageComponent {
 
   openAddDialog(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template);
+    // this.modalRef.content
   }
 
   onConfirmAddBtnClick(): void {

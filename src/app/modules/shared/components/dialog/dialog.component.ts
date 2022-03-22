@@ -7,9 +7,11 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
-  @Input() title?: string;
+  @Input() caption?: string;
   @Input() confirmBtnCaption?: string;
   @Input() declineBtnCaption?: string;
+  @Input() formId?: string;
+  @Input() buttonsDisabled?: boolean;
   @Output() confirmBtnClick: EventEmitter<any> = new EventEmitter();
   @Output() declineBtnClick: EventEmitter<any> = new EventEmitter();
 
