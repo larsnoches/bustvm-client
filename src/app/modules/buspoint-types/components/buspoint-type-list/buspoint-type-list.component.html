@@ -21,9 +21,8 @@
         </td>
       </tr>
     </tbody>
-
     <tbody *ngIf="busPointTypes.length > 0">
-      <tr *ngFor="let bpt of busPointTypes">
+      <tr *ngFor="let bpt of busPointTypes" class="d-flex">
         <td class="d-flex align-items-center col-10">
           {{ bpt?.name }}
         </td>
@@ -39,18 +38,5 @@
         </td>
       </tr>
     </tbody>
-
   </ng-container>
 </table>
-
-<!-- <ng-template #editDialogTemplate>
-  <app-shared-dialog
-    title="Добавление"
-    confirmBtnCaption="Добавить"
-    declineBtnCaption="Отменить"
-    (confirmBtnClick)="onConfirmAddBtnClick()"
-    (declineBtnClick)="onDeclineBtnClick()"
-  >
-    <app-buspoint-type-form [busPointType]=""></app-buspoint-type-form>
-  </app-shared-dialog>
-</ng-template> -->

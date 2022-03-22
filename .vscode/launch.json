@@ -18,11 +18,11 @@
       "port": 9222,
       "sourceMaps": true,
       "runtimeExecutable": "/snap/bin/chromium",
-      // "runtimeArgs": [
-      //     "--new-window",
-      // //     "--remote-debugging-port=9222",
-      //     "--auto-open-devtools-for-tabs"
-      // ],
+      "runtimeArgs": [
+          "--new-window",
+      //     "--remote-debugging-port=9222",
+          "--auto-open-devtools-for-tabs"
+      ],
     },
     {
       "name": "ng test",

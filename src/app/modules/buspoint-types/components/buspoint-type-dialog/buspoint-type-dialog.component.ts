@@ -48,10 +48,18 @@ export class BusPointTypeDialogComponent implements OnInit {
   }
 
   onSubmitBusPointType(): void {
-    console.log(this.busPointTypeForm.valid);
-    console.log(this.busPointTypeForm.value);
-    console.log('123');
-    // this.bsModalRef?.hide();
+    if (!this.busPointTypeForm.valid) return;
+
+    if (this.busPointType != null) {
+      this.busPointTypeStoreService.edit(
+        this.busPointType.href,
+        this.busPointTypeForm.value,
+      );
+      this.bsModalRef?.hide();
+      return;
+    }
+    this.busPointTypeStoreService.create(this.busPointTypeForm.value);
+    this.bsModalRef?.hide();
   }
 
   onDeclineBtnClick(): void {

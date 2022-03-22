@@ -17,7 +17,6 @@ import { config } from '@helpers/config';
 })
 export class BusPointTypeStoreService extends ThrowableService {
   loading = new BehaviorSubjectItem(false);
-  // busPointTypeData = new BehaviorSubjectItem<Array<BusPointTypeResponseDto>>(
   busPointTypeData = new BehaviorSubjectItem<Array<BusPointType>>([]);
   pageData = new BehaviorSubjectItem<PageData>(initialPageData());
   private apiUrl = `${config.apiPath}/busPointTypes`;
@@ -27,7 +26,7 @@ export class BusPointTypeStoreService extends ThrowableService {
     this.fetch();
   }
 
-  fetch() {
+  fetch(): void {
     this.http
       .get<BusPointTypesResponseDto>(this.apiUrl)
       .pipe(
@@ -44,7 +43,7 @@ export class BusPointTypeStoreService extends ThrowableService {
       );
   }
 
-  setBusPointTypeData(value: BusPointTypesResponseDto) {
+  setBusPointTypeData(value: BusPointTypesResponseDto): void {
     const { _embedded, page } = value;
     if (_embedded != null) {
       this.busPointTypeData.value = _embedded.busPointTypes?.map(dto => ({
@@ -53,24 +52,67 @@ export class BusPointTypeStoreService extends ThrowableService {
         href: dto._links?.self.href,
       }));
     }
+    this.busPointTypeData.value.sort((a, b) => a.id - b.id);
+
     if (page) {
       this.pageData.value = page;
     }
   }
 
-  create(busPointTypeDto: BusPointTypeRequestDto) {
-    this.http.post<BusPointTypeResponseDto>(this.apiUrl, busPointTypeDto).pipe(
-      tap(() => (this.loading.value = true)),
-      retry(3),
-      catchError(er => {
-        this.loading.value = false;
-        return this.handleError(er);
-      }),
-      tap(() => (this.loading.value = false)),
-    );
+  create(busPointTypeDto: BusPointTypeRequestDto): void {
+    this.http
+      .post<BusPointTypeResponseDto>(this.apiUrl, busPointTypeDto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(data => this.appendBusPointTypeDataItem(data));
   }
 
-  deleteOne(itemHref: string) {
+  appendBusPointTypeDataItem(value: BusPointTypeResponseDto): void {
+    this.busPointTypeData.value.push({
+      id: value.id,
+      name: value.name,
+      href: value._links?.self.href,
+    });
+    this.busPointTypeData.value.sort((a, b) => a.id - b.id);
+  }
+
+  edit(itemHref: string, busPointTypeDto: BusPointTypeRequestDto): void {
+    this.http
+      .patch<BusPointTypeResponseDto>(itemHref, busPointTypeDto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(data => this.setBusPointTypeDataItem(data));
+  }
+
+  setBusPointTypeDataItem(value: BusPointTypeResponseDto): void {
+    const itemIndex = this.busPointTypeData.value.findIndex(
+      v => v.id === value.id,
+    );
+    if (itemIndex === -1) return;
+
+    this.busPointTypeData.value.splice(itemIndex, 1, {
+      id: value.id,
+      name: value.name,
+      href: value._links?.self.href,
+    });
+    this.busPointTypeData.value.sort((a, b) => a.id - b.id);
+  }
+
+  deleteOne(itemHref: string): void {
     this.http.delete(itemHref).pipe(
       tap(() => (this.loading.value = true)),
       retry(3),
