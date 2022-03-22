@@ -1,48 +1,12 @@
 <div class="container">
   <h2>Типы остановочных пунктов</h2>
   <div class="d-flex px-2 pt-4 pb-3">
-    <app-shared-button [size]="0" (click)="openAddDialog(addDialogTemplate)"
+    <app-shared-button [size]="0" (click)="onOpenAddItemDialogBtnClick()"
       >Добавить</app-shared-button
     >
-    <!-- <app-shared-button [size]="0" (click)="openModal(template)">Добавить</app-shared-button> -->
   </div>
-  <app-buspoint-type-list></app-buspoint-type-list>
-
-  <ng-template #addDialogTemplate>
-    <app-shared-dialog
-      caption="Добавление"
-      confirmBtnCaption="Добавить"
-      declineBtnCaption="Отменить"
-      (confirmBtnClick)="onConfirmAddBtnClick()"
-      (declineBtnClick)="onDeclineBtnClick()"
-    >
-      <app-buspoint-type-form></app-buspoint-type-form>
-    </app-shared-dialog>
-  </ng-template>
-
-  <!-- <ng-template #template>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Добавление</h4>
-      <button
-        type="button"
-        class="btn-close close pull-right"
-        aria-label="Close"
-        (click)="modalRef?.hide()"
-      >
-        <span aria-hidden="true" class="visually-hidden">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <app-buspoint-type-form></app-buspoint-type-form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="confirm()">
-        Сохранить
-      </button>
-      <button type="button" class="btn btn-default" (click)="decline()">
-        Отменить
-      </button>
-    </div>
-  </ng-template>
-</div> -->
+  <app-buspoint-type-list
+    (editItemHandler)="onEditItemBtnClick($event)"
+    (deleteItemHandler)="onDeleteItemBtnClick($event)"
+  ></app-buspoint-type-list>
 </div>

@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   templateUrl: './buspoint-type-dialog.component.html',
   styleUrls: ['./buspoint-type-dialog.component.scss'],
 })
-export class BuspointTypeDialogComponent implements OnInit {
+export class BusPointTypeDialogComponent implements OnInit {
   loading$: Observable<boolean>;
   busPointTypeForm: FormGroup;
   busPointType?: BusPointType;
@@ -54,19 +54,8 @@ export class BuspointTypeDialogComponent implements OnInit {
     // this.bsModalRef?.hide();
   }
 
-  // onConfirmBtnClick(): void {
-  //   // this.confirmBtnClick?.();
-  //   // this.confirmBtnClick?.emit();
-  // }
-
   onDeclineBtnClick(): void {
     this.bsModalRef?.hide();
     // this.declineBtnClick?.emit();
   }
-
-  // createBusPointType() {
-  //   this.busPointTypeStoreService.create({
-  //     name: this.name.value,
-  //   });
-  // }
 }

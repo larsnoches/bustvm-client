@@ -1,8 +1,7 @@
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 import { BusPointTypeStoreService } from '@modules/buspoint-types/services/buspoint-type-store/buspoint-type-store.service';
-import { BuspointTypeDialogComponent } from '@modules/buspoint-types/components';
 import { Observable } from 'rxjs';
 import { PageData } from '@helpers/page-data';
 
@@ -11,46 +10,27 @@ import { PageData } from '@helpers/page-data';
   templateUrl: './buspoint-type-list.component.html',
   styleUrls: ['./buspoint-type-list.component.scss'],
 })
-export class BusPointTypeListComponent implements OnChanges, OnInit {
+export class BusPointTypeListComponent {
+  @Output() editItemHandler: EventEmitter<BusPointType> =
+    new EventEmitter<BusPointType>();
+  @Output() deleteItemHandler: EventEmitter<BusPointType> =
+    new EventEmitter<BusPointType>();
   busPointTypesData$: Observable<Array<BusPointType>>;
   pageData$: Observable<PageData>;
   loading$: Observable<boolean>;
   bsModalRef?: BsModalRef;
 
-  constructor(
-    private storeService: BusPointTypeStoreService,
-    private modalService: BsModalService,
-  ) {
+  constructor(private storeService: BusPointTypeStoreService) {
     this.busPointTypesData$ = storeService.busPointTypeData.value$;
     this.pageData$ = storeService.pageData.value$;
     this.loading$ = storeService.loading.value$;
   }
 
-  ngOnInit(): void {
-    console.log('init');
-  }
-
-  ngOnChanges(_changes: SimpleChanges): void {
-    console.log('changes');
-  }
-
   editOne(busPointType: BusPointType): void {
-    console.log('edit one', busPointType);
-    const initialModalState: ModalOptions = {
-      initialState: {
-        busPointType,
-        // confirmBtnClick: () => this.bsModalRef?.hide(),
-      },
-    };
-    this.bsModalRef = this.modalService.show(
-      BuspointTypeDialogComponent,
-      initialModalState,
-    );
-    // this.storeService.deleteOne(busPointType.href);
+    this.editItemHandler.emit(busPointType);
   }
 
   deleteOne(busPointType: BusPointType): void {
-    console.log('delete one', busPointType);
-    // this.storeService.deleteOne(busPointType.href);
+    this.deleteItemHandler.emit(busPointType);
   }
 }

@@ -1,6 +1,7 @@
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Component, TemplateRef } from '@angular/core';
-// import { DialogComponent } from '@modules/shared/components';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
+import { BusPointTypeDialogComponent } from '@modules/buspoint-types/components';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-buspoint-types-page',
@@ -8,26 +9,27 @@ import { Component, TemplateRef } from '@angular/core';
   styleUrls: ['./buspoint-types-page.component.scss'],
 })
 export class BusPointTypesPageComponent {
-  modalRef?: BsModalRef;
+  bsModalRef?: BsModalRef;
 
   constructor(private modalService: BsModalService) {}
 
-  // openModal(template: TemplateRef<any>): void {
-  //   this.modalRef = this.modalService.show(template);
-  // }
-
-  openAddDialog(template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(template);
-    // this.modalRef.content
+  onOpenAddItemDialogBtnClick(): void {
+    this.bsModalRef = this.modalService.show(BusPointTypeDialogComponent);
   }
 
-  onConfirmAddBtnClick(): void {
-    // this.message = 'Confirmed!';
-    this.modalRef?.hide();
+  onEditItemBtnClick(busPointType: BusPointType): void {
+    const initialModalState: ModalOptions = {
+      initialState: {
+        busPointType,
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      BusPointTypeDialogComponent,
+      initialModalState,
+    );
   }
 
-  onDeclineBtnClick(): void {
-    // this.message = 'Declined!';
-    this.modalRef?.hide();
+  onDeleteItemBtnClick(busPointType: BusPointType): void {
+    console.log('delete', busPointType);
   }
 }

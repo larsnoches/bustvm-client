@@ -8,21 +8,21 @@
       "request": "launch",
       "preLaunchTask": "npm: start",
       "postDebugTask": "Terminate All Tasks",
-      "url": "http://localhost:4200",
-      // "timeout": 25000,
+      "url": "http://192.168.56.1:4200",
+      "timeout": 25000,
       // "webRoot": "${workspaceFolder}/dist/bustvm-client",
-      "sourceMapPathOverrides": {
-        "webpack:///./*": "${workspaceFolder}/src/*",
-        "webpack:///src/*": "${workspaceFolder}/src/*"
-      },
+      // "sourceMapPathOverrides": {
+      //   "webpack:///./*": "${workspaceFolder}/src/*",
+      //   "webpack:///src/*": "${workspaceFolder}/src/*"
+      // },
       "port": 9222,
       "sourceMaps": true,
       "runtimeExecutable": "/snap/bin/chromium",
-      "runtimeArgs": [
-          "--new-window",
-      //     "--remote-debugging-port=9222",
-          "--auto-open-devtools-for-tabs"
-      ],
+      // "runtimeArgs": [
+      //     "--new-window",
+      // //     "--remote-debugging-port=9222",
+      //     "--auto-open-devtools-for-tabs"
+      // ],
     },
     {
       "name": "ng test",
