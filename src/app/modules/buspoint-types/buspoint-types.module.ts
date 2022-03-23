@@ -1,4 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BusPointTypeConfirmComponent } from './components/buspoint-type-confirm/buspoint-type-confirm.component';
 import { BusPointTypeDialogComponent } from './components/buspoint-type-dialog/buspoint-type-dialog.component';
 import { BusPointTypeListComponent } from './components/buspoint-type-list/buspoint-type-list.component';
 import { BusPointTypeStoreService } from './services/buspoint-type-store/buspoint-type-store.service';
@@ -14,6 +15,7 @@ import { SharedModule } from '@modules/shared/shared.module';
     BusPointTypeListComponent,
     BusPointTypesPageComponent,
     BusPointTypeDialogComponent,
+    BusPointTypeConfirmComponent,
   ],
   imports: [
     CommonModule,

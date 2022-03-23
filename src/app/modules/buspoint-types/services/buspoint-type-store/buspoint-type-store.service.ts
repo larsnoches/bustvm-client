@@ -111,9 +111,9 @@ export class BusPointTypeStoreService extends ThrowableService {
     this.busPointTypeData.value.sort((a, b) => a.id - b.id);
   }
 
-  deleteOne(itemHref: string, busPointType: BusPointType): void {
+  deleteOne(busPointType: BusPointType): void {
     this.http
-      .delete(itemHref)
+      .delete(busPointType.href)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),

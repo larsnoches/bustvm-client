@@ -1,5 +1,6 @@
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
+import { BusPointTypeConfirmComponent } from '@modules/buspoint-types/components/buspoint-type-confirm/buspoint-type-confirm.component';
 import { BusPointTypeDialogComponent } from '@modules/buspoint-types/components';
 import { Component } from '@angular/core';
 
@@ -30,6 +31,14 @@ export class BusPointTypesPageComponent {
   }
 
   onDeleteItemBtnClick(busPointType: BusPointType): void {
-    console.log('delete', busPointType);
+    const initialModalState: ModalOptions = {
+      initialState: {
+        busPointType,
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      BusPointTypeConfirmComponent,
+      initialModalState,
+    );
   }
 }

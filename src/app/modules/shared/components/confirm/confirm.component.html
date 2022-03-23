@@ -10,7 +10,7 @@
   </button>
 </div>
 <div class="modal-body">
-  {{ text }}
+  <ng-content></ng-content>
 </div>
 <div
   *ngIf="confirmBtnCaption != null || declineBtnCaption != null"
@@ -20,6 +20,7 @@
     *ngIf="confirmBtnCaption != null"
     type="submit"
     class="btn btn-primary"
+    [disabled]="buttonsDisabled"
     (click)="confirmBtnClickHandler()"
   >
     {{ confirmBtnCaption }}
@@ -28,6 +29,7 @@
     *ngIf="declineBtnCaption != null"
     type="button"
     class="btn btn-default"
+    [disabled]="buttonsDisabled"
     (click)="declineBtnClickHandler()"
   >
     {{ declineBtnCaption }}
