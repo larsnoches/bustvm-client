@@ -5,9 +5,12 @@
     </ng-container>
   </caption>
   <thead class="table-dark">
-    <tr class="d-flex">
-      <th class="d-flex align-items-center col-10">Название</th>
-      <th class="d-flex align-items-center col-2"></th>
+    <tr>
+      <th width="80%" valign="center" align="left" class="align-td-middle">
+        Название
+      </th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -22,19 +25,19 @@
       </tr>
     </tbody>
     <tbody *ngIf="busPointTypes.length > 0">
-      <tr *ngFor="let bpt of busPointTypes" class="d-flex">
-        <td class="d-flex align-items-center col-10">
+      <tr *ngFor="let bpt of busPointTypes">
+        <td width="80%" valign="center" align="left" class="align-td-middle">
           {{ bpt?.name }}
         </td>
-        <td class="d-flex align-items-center col-2">
-          <div class="d-flex flex-row justify-content-between w-100">
-            <app-shared-button [size]="0" (click)="editOne(bpt)"
-              >Редактировать</app-shared-button
-            >
-            <app-shared-button [size]="0" (click)="deleteOne(bpt)"
-              >Удалить</app-shared-button
-            >
-          </div>
+        <td valign="center" align="left" class="align-td-middle pe-0">
+          <app-shared-button [size]="0" (click)="editOne(bpt)"
+            >Редактировать</app-shared-button
+          >
+        </td>
+        <td valign="center" align="left" class="align-td-middle">
+          <app-shared-button [size]="0" (click)="deleteOne(bpt)"
+            >Удалить</app-shared-button
+          >
         </td>
       </tr>
     </tbody>

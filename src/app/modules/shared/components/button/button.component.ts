@@ -12,6 +12,6 @@ enum ButtonSize {
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
-  // @Input() label = '';
+  // @Input() id?: string = '';
   @Input() size: ButtonSize = ButtonSize.medium;
 }
