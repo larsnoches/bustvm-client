@@ -1,7 +1,7 @@
 import { ButtonComponent } from './button/button.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { FloatInputComponent } from './float-input/float-input.component';
+import { FloatLabelComponent } from './float-label/float-label.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
 export const components: any[] = [
@@ -9,11 +9,11 @@ export const components: any[] = [
   SpinnerComponent,
   ConfirmComponent,
   DialogComponent,
-  FloatInputComponent,
+  FloatLabelComponent,
 ];
 
 export * from './button/button.component';
 export * from './dialog/dialog.component';
 export * from './spinner/spinner.component';
 export * from './confirm/confirm.component';
-export * from './float-input/float-input.component';
+export * from './float-label/float-label.component';

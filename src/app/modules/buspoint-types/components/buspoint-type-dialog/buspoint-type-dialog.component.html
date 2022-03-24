@@ -28,6 +28,55 @@
         formControlName="name"
         required
       />
+      <app-shared-float-label
+        [isNotValid]="name.invalid && (name.dirty || name.touched)"
+        controlName="name"
+        controlPlaceholder="Автовокзал, автостанция или остановка"
+        [hasRequiredError]="name.errors?.['required']"
+        requiredMessage="Название обязательно"
+        [hasMinLengthError]="name.errors?.['minlength']"
+        minlengthMessage="Название должно быть не менее 3 символов"
+        [hasMaxLengthError]="name.errors?.['maxlength']"
+        maxlengthMessage="Название должно быть не более 45 символов"
+        [hasPatternError]="name.errors?.['pattern']"
+        patternMessage="Недопустимые символы"
+        controlFullLabel="Название типа остановочного пункта"
+      ></app-shared-float-label>
+    </div>
+
+  </form>
+</app-shared-dialog>
+
+<!-- <app-shared-dialog
+  [caption]="busPointType != null ? 'Редактирование' : 'Добавление'"
+  [confirmBtnCaption]="busPointType != null ? 'Сохранить' : 'Добавить'"
+  declineBtnCaption="Отменить"
+  [formId]="formId"
+  [buttonsDisabled]="busPointTypeForm.valid === false"
+  (declineBtnClick)="onDeclineBtnClick()"
+>
+  <form
+    [id]="formId"
+    [formGroup]="busPointTypeForm"
+    (ngSubmit)="onSubmitBusPointType()"
+    novalidate
+  >
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'form-control': true,
+          'is-invalid': name.invalid && (name.dirty || name.touched)
+        }"
+        id="name"
+        name="name"
+        placeholder="Автовокзал, автостанция или остановка"
+        autofocus
+        autocomplete="off"
+        formControlName="name"
+        required
+      />
       <ng-container
         *ngIf="
           name.invalid && (name.dirty || name.touched);
@@ -66,4 +115,4 @@
   <ng-template #withoutErrors>
     <label for="name">Название типа остановочного пункта</label>
   </ng-template>
-</app-shared-dialog>
+</app-shared-dialog> -->

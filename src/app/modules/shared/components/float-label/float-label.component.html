@@ -1,53 +1,38 @@
-<div class="form-floating mb-3">
-  <input
-    type="text"
-    class="form-control"
-    [ngClass]="{
-      'form-control': true,
-      'is-invalid': !isValid
-    }"
-    [id]="controlName"
-    [name]="controlName"
-    [placeholder]="controlPlaceholder"
-    autofocus
-    autocomplete="off"
-    [formControlName]="controlName"
-    required
-  />
+<ng-template #floatLabelTemplate>
   <ng-container
     *ngIf="
-      !isValid;
+      isNotValid;
       then hasErrorsTemplate;
       else withoutErrors
     "
   >
   </ng-container>
-</div>
+</ng-template>
 
 <ng-template #hasErrorsTemplate>
   <ng-container *ngIf="hasRequiredError; else hasErrorsTemplateMinLength">
-    <label for="name">{{ requiredMessage }}</label>
+    <label [for]="controlName">{{ requiredMessage }}</label>
   </ng-container>
 </ng-template>
 
 <ng-template #hasErrorsTemplateMinLength>
   <ng-container *ngIf="hasMinLengthError; else hasErrorsTemplateMaxLength">
-    <label for="name">{{ minlengthMessage }}</label>
+    <label [for]="controlName">{{ minlengthMessage }}</label>
   </ng-container>
 </ng-template>
 
 <ng-template #hasErrorsTemplateMaxLength>
   <ng-container *ngIf="hasMaxLengthError; else hasErrorsTemplatePattern">
-    <label for="name">{{ maxlengthMessage }}</label>
+    <label [for]="controlName">{{ maxlengthMessage }}</label>
   </ng-container>
 </ng-template>
 
 <ng-template #hasErrorsTemplatePattern>
   <ng-container *ngIf="hasPatternError; else withoutErrors">
-    <label for="name">{{ patternMessage }}</label>
+    <label [for]="controlName">{{ patternMessage }}</label>
   </ng-container>
 </ng-template>
 
 <ng-template #withoutErrors>
-  <label for="name">{{ controlFullLabel }}</label>
+  <label [for]="controlName">{{ controlFullLabel }}</label>
 </ng-template>

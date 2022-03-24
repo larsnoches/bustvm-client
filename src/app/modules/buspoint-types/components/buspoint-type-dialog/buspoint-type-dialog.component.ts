@@ -24,7 +24,7 @@ export class BusPointTypeDialogComponent implements OnInit {
 
   constructor(
     private busPointTypeStoreService: BusPointTypeStoreService,
-    public bsModalRef: BsModalRef,
+    private bsModalRef: BsModalRef,
   ) {
     this.loading$ = busPointTypeStoreService.loading.value$;
   }
