@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ caption }}</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="declineBtnClickHandler()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <ng-content></ng-content>
+</div>
+<div
+  *ngIf="confirmBtnCaption != null || declineBtnCaption != null"
+  class="modal-footer"
+>
+  <button
+    *ngIf="confirmBtnCaption != null"
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="buttonsDisabled"
+    (click)="confirmBtnClickHandler()"
+  >
+    {{ confirmBtnCaption }}
+  </button>
+  <button
+    *ngIf="declineBtnCaption != null"
+    type="button"
+    class="btn btn-default"
+    [disabled]="buttonsDisabled"
+    (click)="declineBtnClickHandler()"
+  >
+    {{ declineBtnCaption }}
+  </button>
+</div>

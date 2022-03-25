@@ -1,0 +1,38 @@
+<ng-template #floatLabelTemplate>
+  <ng-container
+    *ngIf="
+      isNotValid;
+      then hasErrorsTemplate;
+      else withoutErrors
+    "
+  >
+  </ng-container>
+</ng-template>
+
+<ng-template #hasErrorsTemplate>
+  <ng-container *ngIf="hasRequiredError; else hasErrorsTemplateMinLength">
+    <label [for]="controlName">{{ requiredMessage }}</label>
+  </ng-container>
+</ng-template>
+
+<ng-template #hasErrorsTemplateMinLength>
+  <ng-container *ngIf="hasMinLengthError; else hasErrorsTemplateMaxLength">
+    <label [for]="controlName">{{ minlengthMessage }}</label>
+  </ng-container>
+</ng-template>
+
+<ng-template #hasErrorsTemplateMaxLength>
+  <ng-container *ngIf="hasMaxLengthError; else hasErrorsTemplatePattern">
+    <label [for]="controlName">{{ maxlengthMessage }}</label>
+  </ng-container>
+</ng-template>
+
+<ng-template #hasErrorsTemplatePattern>
+  <ng-container *ngIf="hasPatternError; else withoutErrors">
+    <label [for]="controlName">{{ patternMessage }}</label>
+  </ng-container>
+</ng-template>
+
+<ng-template #withoutErrors>
+  <label [for]="controlName">{{ controlFullLabel }}</label>
+</ng-template>

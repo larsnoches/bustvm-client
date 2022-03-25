@@ -1,0 +1,8 @@
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="busPointType == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+>Желаете удалить {{ busPointType.name }}?</app-shared-confirm>

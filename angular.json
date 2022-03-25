@@ -27,7 +27,10 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/app/assets"],
-            "styles": ["src/app/styles/styles.scss"],
+            "styles": [
+              "node_modules/ngx-spinner/animations/timer.css",
+              "src/app/styles/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {

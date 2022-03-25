@@ -13,7 +13,6 @@ export class BusStoreService extends ThrowableService {
   private readonly apiFetchUrl = `${config.apiPath}/buses`;
   private readonly busData = new BehaviorSubjectItem<Array<Bus>>([]);
 
-  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor(private http: HttpClient) {
     super();
     this.fetch();
