@@ -1,13 +1,15 @@
+import { BusStoreService } from './bus-store.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { BusesStoreService } from './buses-store.service';
-
 describe('BusesStoreService', () => {
-  let service: BusesStoreService;
+  let service: BusStoreService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(BusesStoreService);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
+    service = TestBed.inject(BusStoreService);
   });
 
   it('should be created', () => {

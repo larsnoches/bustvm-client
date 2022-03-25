@@ -7,11 +7,11 @@ enum ButtonSize {
 }
 
 @Component({
-  selector: 'app-button',
+  selector: 'app-shared-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
-  // @Input() label = '';
+  // @Input() id?: string = '';
   @Input() size: ButtonSize = ButtonSize.medium;
 }

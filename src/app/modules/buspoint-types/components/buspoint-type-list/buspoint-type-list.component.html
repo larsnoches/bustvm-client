@@ -1,0 +1,45 @@
+<table class="table">
+  <caption>
+    <ng-container *ngIf="loading$ | async">
+      <app-shared-spinner></app-shared-spinner>
+    </ng-container>
+  </caption>
+  <thead class="table-dark">
+    <tr>
+      <th width="80%" valign="center" align="left" class="align-td-middle">
+        Название
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <ng-container *ngIf="busPointTypesData$ | async as busPointTypes">
+    <tbody *ngIf="busPointTypes.length === 0">
+      <tr>
+        <td colspan="2">
+          <div class="d-flex justify-content-center">
+            <strong>Ничего нет</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="busPointTypes.length > 0">
+      <tr *ngFor="let bpt of busPointTypes">
+        <td width="80%" valign="center" align="left" class="align-td-middle">
+          {{ bpt?.name }}
+        </td>
+        <td valign="center" align="left" class="align-td-middle pe-0">
+          <app-shared-button [size]="0" (click)="editOne(bpt)"
+            >Редактировать</app-shared-button
+          >
+        </td>
+        <td valign="center" align="left" class="align-td-middle">
+          <app-shared-button [size]="0" (click)="deleteOne(bpt)"
+            >Удалить</app-shared-button
+          >
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+</table>

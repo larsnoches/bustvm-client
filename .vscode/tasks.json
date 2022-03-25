@@ -21,6 +21,12 @@
       }
     },
     {
+      "label": "Terminate All Tasks",
+      "command": "echo ${input:terminate}",
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
       "type": "npm",
       "script": "test",
       "isBackground": true,
@@ -37,6 +43,14 @@
           }
         }
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
     }
   ]
 }
