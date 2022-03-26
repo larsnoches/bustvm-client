@@ -127,4 +127,72 @@ export class BusPointStoreService extends ThrowableService {
         this.busPointData.value.sort((a, b) => a.id - b.id);
       });
   }
+
+  edit(busPoint: BusPoint): void {
+    const dto = {
+      name: busPoint.name,
+      address: busPoint.address,
+      busPointType: busPoint.busPointType.href,
+    } as BusPointRequestDto;
+    this.http
+      .patch<BusPointResponseDto>(busPoint.href, dto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(data => this.setButPointDataItem(data));
+  }
+
+  setButPointDataItem(value: BusPointResponseDto): void {
+    this.bptStoreService.busPointTypeData.value$
+      .pipe(
+        mergeMap(bpts => bpts),
+        filter(bpt => bpt.href === value._links?.busPoint?.href),
+      )
+      .subscribe(val => {
+        if (val == null) return;
+
+        const itemIndex = this.busPointData.value.findIndex(
+          v => v.id === value.id,
+        );
+        if (itemIndex === -1) return;
+
+        this.busPointData.value.splice(itemIndex, 1, {
+          id: value.id,
+          name: value.name,
+          address: value.address,
+          href: value._links?.self?.href,
+          busPointType: { ...val },
+        });
+        this.busPointData.value.sort((a, b) => a.id - b.id);
+      });
+  }
+
+  deleteOne(busPoint: BusPoint): void {
+    this.http
+      .delete<BusPointResponseDto>(busPoint.href)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(() => this.removeButPointDataItem(busPoint));
+  }
+
+  removeButPointDataItem(value: BusPoint): void {
+    const itemIndex = this.busPointData.value.findIndex(v => v.id === value.id);
+    if (itemIndex === -1) return;
+
+    this.busPointData.value.splice(itemIndex, 1);
+    this.busPointData.value.sort((a, b) => a.id - b.id);
+  }
 }
