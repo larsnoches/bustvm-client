@@ -4,6 +4,7 @@ import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BusPointTypesModule } from '@modules/buspoint-types/buspoint-types.module';
+import { BusPointsModule } from '@modules/buspoints/buspoints.module';
 import { CoreModule } from '@modules/core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -17,6 +18,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     HttpClientModule,
     BrowserAnimationsModule,
     BusPointTypesModule,
+    BusPointsModule,
     CoreModule,
     // AuthGuard,
     OAuthModule.forRoot({

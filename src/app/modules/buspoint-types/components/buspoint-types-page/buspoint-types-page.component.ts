@@ -1,7 +1,9 @@
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import {
+  BusPointTypeConfirmComponent,
+  BusPointTypeDialogComponent,
+} from '@modules/buspoint-types/components';
 import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
-import { BusPointTypeConfirmComponent } from '@modules/buspoint-types/components/buspoint-type-confirm/buspoint-type-confirm.component';
-import { BusPointTypeDialogComponent } from '@modules/buspoint-types/components';
 import { Component } from '@angular/core';
 
 @Component({

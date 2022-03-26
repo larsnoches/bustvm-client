@@ -14,10 +14,10 @@
     </tr>
   </thead>
 
-  <ng-container *ngIf="busPointTypesData$ | async as busPointTypes">
+  <ng-container *ngIf="busPointTypeData$ | async as busPointTypes">
     <tbody *ngIf="busPointTypes.length === 0">
       <tr>
-        <td colspan="2">
+        <td colspan="3">
           <div class="d-flex justify-content-center">
             <strong>Ничего нет</strong>
           </div>

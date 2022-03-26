@@ -47,11 +47,16 @@ export class BusPointStoreService extends ThrowableService {
           if (val == null) return null;
           const { _embedded, page } = val;
           if (_embedded == null) return [[], page];
-          const bps = _embedded?.busPoints?.map(dto => ({
+          const bps: Array<BusPoint> = _embedded?.busPoints?.map(dto => ({
             id: dto.id,
             name: dto.name,
             address: dto.address,
             href: dto._links?.self.href,
+            busPointType: {
+              id: -1,
+              name: '',
+              href: dto._links?.busPointType?.href,
+            },
           }));
           return [bps, page];
         }),
@@ -61,9 +66,11 @@ export class BusPointStoreService extends ThrowableService {
           const [busPoints, page] = dto;
           if (busPoints == null) return [[], page];
           const bps = busPoints.map(val => {
-            const bpt = busPointTypes.find(
-              b => b.href === val.busPointType.href,
-            );
+            if (val == null) return val;
+            const bpt = busPointTypes.find(b => {
+              if (val.busPointType == null) return false;
+              return b.href === val.busPointType?.href;
+            });
             if (bpt == null) return val;
             val.busPointType = { ...bpt };
             return val;
