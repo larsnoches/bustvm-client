@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BuspointsListComponent } from './buspoints-list.component';
+import { BusPointConfirmComponent } from './buspoint-confirm.component';
 
-describe('BuspointsListComponent', () => {
-  let component: BuspointsListComponent;
-  let fixture: ComponentFixture<BuspointsListComponent>;
+describe('BusPointConfirmComponent', () => {
+  let component: BusPointConfirmComponent;
+  let fixture: ComponentFixture<BusPointConfirmComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BuspointsListComponent],
+      declarations: [BusPointConfirmComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BuspointsListComponent);
+    fixture = TestBed.createComponent(BusPointConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
