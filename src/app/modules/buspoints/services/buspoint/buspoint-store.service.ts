@@ -69,7 +69,8 @@ export class BusPointStoreService extends ThrowableService {
             if (val == null) return val;
             const bpt = busPointTypes.find(b => {
               if (val.busPointType == null) return false;
-              return b.href === val.busPointType?.href;
+              return b.id === val.busPointType?.id;
+              // return b.href === val.busPointType?.href;
             });
             if (bpt == null) return val;
             val.busPointType = { ...bpt };
