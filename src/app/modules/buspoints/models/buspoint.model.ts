@@ -55,3 +55,14 @@ export interface BusPointsResponseDto {
   };
   page?: PageData;
 }
+
+export type BusPointsWithPage = {
+  busPoints: Array<BusPoint>;
+  page?: PageData;
+};
+
+export type BusPointsWithBusPointTypesAndPage = {
+  busPoints: Array<BusPoint>;
+  busPointTypes: Array<BusPointType>;
+  page?: PageData;
+};
