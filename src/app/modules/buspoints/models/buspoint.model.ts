@@ -6,7 +6,7 @@ export interface BusPoint {
   id: number;
   name: string;
   address: string;
-  busPointType?: BusPointType;
+  busPointType?: BusPointType; // or href
   href: string;
   departureBusTrips?: Array<BusTrip>;
   arrivalBusTrips?: Array<BusTrip>;
@@ -56,8 +56,29 @@ export interface BusPointsResponseDto {
   page?: PageData;
 }
 
+export interface BusPointTypeByBusPointResponseDto {
+  id: number;
+  name: string;
+  _links?: {
+    self: {
+      href: string;
+    };
+    busPointType: {
+      href: string;
+    };
+    busPoints: {
+      href: string;
+    };
+  };
+}
+
 export type BusPointsWithPage = {
   busPoints: Array<BusPoint>;
+  page?: PageData;
+};
+
+export type BusPointWithPage = {
+  busPoint: BusPoint;
   page?: PageData;
 };
 

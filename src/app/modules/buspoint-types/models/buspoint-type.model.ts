@@ -2,7 +2,7 @@ import {
   BusPoint,
   BusPointResponseDto,
 } from '@modules/buspoints/models/buspoint.model';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { PageData } from '@helpers/page-data';
 
 export interface BusPointType {
@@ -58,12 +58,17 @@ export interface BusPointsByTypeResponseDto {
   };
 }
 
-export type BusPointTypesWithBusPointRequests = {
+export type BusPointTypesWithPage = {
   busPointTypes?: Array<BusPointType>;
-  requests?: Array<Observable<BusPointType>>;
-  // requests?: Array<Observable<BusPointsByTypeResponseDto>>;
   page?: PageData;
 };
+
+// export type BusPointTypesWithBusPointRequests = {
+//   busPointTypes?: Array<BusPointType>;
+//   requests?: Array<Observable<BusPointType>>;
+//   // requests?: Array<Observable<BusPointsByTypeResponseDto>>;
+//   page?: PageData;
+// };
 
 export type BusPointTypesWithBusPointResponses = {
   busPointTypes?: Array<BusPointType>;
