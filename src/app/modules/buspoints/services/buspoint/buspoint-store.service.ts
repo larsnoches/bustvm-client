@@ -11,17 +11,23 @@ import {
 import { PageData, initialPageData } from '@helpers/page-data';
 import {
   catchError,
+  combineLatest,
+  combineLatestWith,
+  concat,
+  concatMap,
   // combineLatestWith,
   filter,
   forkJoin,
   from,
   // from,
   map,
+  mapTo,
   mergeMap,
   Observable,
   of,
   // of,
   retry,
+  share,
   switchMap,
   tap,
 } from 'rxjs';
@@ -31,7 +37,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ThrowableService } from '@helpers/throwable-http-service';
 import { config } from '@helpers/config';
-import { BusPointTypesResponseDto } from '@modules/buspoint-types/models/buspoint-type.model';
+import {
+  BusPointType,
+  BusPointTypesResponseDto,
+} from '@modules/buspoint-types/models/buspoint-type.model';
 // import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 
 @Injectable({
@@ -52,16 +61,7 @@ export class BusPointStoreService extends ThrowableService {
   }
 
   fetch(): void {
-    // this.bptStoreService.busPointTypeData.value$.pipe(
-    //   map(v => v),
-    // ).subscribe(data => this.setBusPointData(data));
-
-    // this.bptStoreService.loading.value$.pipe(
-    //   combi
-
-    // ).subscribe(data => this.setBusPointData(data));
-
-    this.http
+    const some1 = this.http
       .get<BusPointsResponseDto>(this.apiUrl)
       .pipe(
         tap(() => (this.loading.value = true)),
@@ -73,120 +73,48 @@ export class BusPointStoreService extends ThrowableService {
             name: dto.name,
             address: dto.address,
             href: dto._links?.self.href,
-            // busPointType: dto._links?.busPointType?.href,
             busPointType: {
               id: -1,
               name: '',
               href: dto._links?.busPointType?.href,
             },
           }));
-          // return [bps, page];
           return {
             busPoints: bps,
             page,
           };
         }),
 
-        switchMap(({ busPoints, page }) =>
-          from(busPoints).pipe(
-            mergeMap(bp =>
-              this.http
-                .get<BusPointTypeByBusPointResponseDto>(bp.busPointType.href)
-                .pipe(
-                  map(
-                    (val): BusPoint => ({
-                      ...bp,
-                      busPointType: {
-                        id: val.id,
-                        name: val.name,
-                        href: val._links?.self.href,
-                      },
-                    }),
-                  ),
-                  catchError(() => of(false)),
-                  // filter(val => !(val instanceof Boolean)),
-                  filter(val => val !== false),
-                  map(
-                    (val: BusPoint): BusPointWithPage => ({
-                      busPoint: val,
-                      page,
-                    }),
-                  ),
-                ),
-            ),
-          ),
-        ),
-        // map(v => v),
-
-        // combineLatestWith(this.bptStoreService.busPointTypeData.value$),
-
-        // map(([busPointsWithPage, busPointTypes]) => {
-        //   const { busPoints, page } = busPointsWithPage;
-        //   const bps = busPoints.map(val => {
-        //     if (val == null) return val;
-        //     const bpt = busPointTypes.find(b => {
-        //       if (val.busPointType == null) return false;
-        //       return b.id === val.busPointType?.id;
-        //       // return b.href === val.busPointType?.href;
-        //     });
-        //     if (bpt == null) return val;
-        //     val.busPointType = { ...bpt };
-        //     return val;
-        //   });
-        //   return {
-        //     busPoints: bps,
-        //     page,
-        //   };
-        // }),
-        // switchMap(({ busPoints, page }) =>
-        //   from(busPoints).pipe(
-        //     mergeMap(_bp =>
-        //       this.bptStoreService.busPointTypeData.value$.pipe(
-        //         map(
-        //           (val): BusPointsWithBusPointTypesAndPage => ({
-        //             busPointTypes: val,
-        //             busPoints,
-        //             page,
-        //           }),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // map(({ busPointTypes, busPoints, page }): BusPointsWithPage => {
-        //   const bps = busPoints.map(val => {
-        //     if (val == null) return val;
-        //     const bpt = busPointTypes.find(b => {
-        //       if (val.busPointType == null) return false;
-        //       return b.id === val.busPointType?.id;
-        //     });
-        //     if (bpt == null) return val;
-        //     val.busPointType = { ...bpt };
-        //     return val;
-        //   });
-        //   return {
-        //     busPoints: bps,
-        //     page,
-        //   };
-        // }),
-
-        // map(([dto, busPointTypes]): [Array<BusPoint>, PageData] | null => {
-        //   if (dto == null) return null;
-        //   const [busPoints, page] = dto;
-        //   if (busPoints == null) return [[], page];
-        //   const bps = busPoints.map(val => {
-        //     if (val == null) return val;
-        //     const bpt = busPointTypes.find(b => {
-        //       if (val.busPointType == null) return false;
-        //       return b.id === val.busPointType?.id;
-        //       // return b.href === val.busPointType?.href;
-        //     });
-        //     if (bpt == null) return val;
-        //     val.busPointType = { ...bpt };
-        //     return val;
-        //   });
-        //   return [bps, page];
-        // }),
+        //     // switchMap(({ busPoints, page }) =>
+        //     //   from(busPoints).pipe(
+        //     //     mergeMap(bp =>
+        //     //       this.http
+        //     //         .get<BusPointTypeByBusPointResponseDto>(bp.busPointType.href)
+        //     //         .pipe(
+        //     //           map(
+        //     //             (val): BusPoint => ({
+        //     //               ...bp,
+        //     //               busPointType: {
+        //     //                 id: val.id,
+        //     //                 name: val.name,
+        //     //                 href: val._links?.self.href,
+        //     //               },
+        //     //             }),
+        //     //           ),
+        //     //           catchError(() => of(false)),
+        //     //           // filter(val => !(val instanceof Boolean)),
+        //     //           filter(val => val !== false),
+        //     //           map(
+        //     //             (val: BusPoint): BusPointWithPage => ({
+        //     //               busPoint: val,
+        //     //               page,
+        //     //             }),
+        //     //           ),
+        //     //         ),
+        //     //     ),
+        //     //   ),
+        //     // ),
+        //     // map(v => v),
 
         retry(3),
         catchError(er => {
@@ -195,31 +123,61 @@ export class BusPointStoreService extends ThrowableService {
         }),
         tap(() => (this.loading.value = false)),
       )
-      // .subscribe(data => console.log(data));
-      .subscribe(
-        // () => {
-        //   //
-        // },
-        // () => {
-        //   //
-        // },
-        data => this.setBusPointData(data),
-      );
+      .subscribe(data => this.setBusPointData(data));
+
+    this.bptStoreService.loading.value$.subscribe(data => {
+      if (data === false) this.setBusPointsTypeData();
+      // console.log(JSON.stringify(data));
+    });
   }
 
-  setBusPointData(value: BusPointWithPage): void {
-    const { busPoint, page } = value ?? {
-      busPoint: null,
-      page: null,
-    };
-
-    if (busPoint) this.busPointData.value.push(busPoint);
+  setBusPointData(value: BusPointsWithPage): void {
+    const { busPoints, page } = value ?? { busPoints: null, page: null };
+    this.busPointData.value = busPoints;
     this.busPointData.value.sort((a, b) => a.id - b.id);
 
     if (page) {
       this.pageData.value = page;
     }
   }
+
+  setBusPointsTypeData(): void {
+    const { value } = this.bptStoreService.busPointTypeData;
+    if (value == null) return;
+    if (value.length === 0) return;
+
+    this.busPointData.value = this.busPointData.value.map(bp => {
+      const foundBpt = value.find(bpt => {
+        if (bpt.busPoints != null) {
+          const bpSubArr = bpt.busPoints as Array<BusPoint>;
+          const bp_ = bpSubArr.find(v => v.id === bp.id);
+          return bp_ != null;
+        }
+        return false;
+      });
+      if (foundBpt != null) {
+        return {
+          ...bp,
+          busPointType: foundBpt,
+        };
+      }
+      return bp;
+    });
+  }
+
+  // setBusPointData(value: BusPointWithPage): void {
+  //   const { busPoint, page } = value ?? {
+  //     busPoint: null,
+  //     page: null,
+  //   };
+
+  //   if (busPoint) this.busPointData.value.push(busPoint);
+  //   this.busPointData.value.sort((a, b) => a.id - b.id);
+
+  //   if (page) {
+  //     this.pageData.value = page;
+  //   }
+  // }
 
   // setBusPointData(value: [BusPointsWithPage, Array<BusPointType>]): void {
   // setBusPointData(value): void {

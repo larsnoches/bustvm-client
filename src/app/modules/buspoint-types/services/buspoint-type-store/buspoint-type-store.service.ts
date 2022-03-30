@@ -155,10 +155,13 @@ export class BusPointTypeStoreService extends ThrowableService {
           this.loading.value = false;
           return this.handleError(er);
         }),
-        tap(() => (this.loading.value = false)),
+        // tap(() => (this.loading.value = false)),
         share(),
       )
-      .subscribe(data => this.setBusPointTypeData(data));
+      .subscribe({
+        next: data => this.setBusPointTypeData(data),
+        complete: () => (this.loading.value = false),
+      });
     // .subscribe(
     //   d => console.log(JSON.stringify(d)),
     // );
