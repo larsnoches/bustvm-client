@@ -42,12 +42,14 @@
           {{ bp?.busPointType?.name }}
         </td>
         <td valign="center" align="left" class="align-td-middle pe-0">
-          <app-shared-button [size]="0"
-            >Редактировать</app-shared-button
+          <a
+            [routerLink]="['/buspoints', 'form', bp?.id]"
+            class="btn btn-primary btn-sm"
+            >Редактировать</a
           >
         </td>
         <td valign="center" align="left" class="align-td-middle">
-          <app-shared-button [size]="0"
+          <app-shared-button [size]="0" (click)="deleteOne(bp)"
             >Удалить</app-shared-button
           >
         </td>

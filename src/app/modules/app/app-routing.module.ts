@@ -1,9 +1,30 @@
 import * as coreComponents from '@modules/core/components';
+import {
+  BusPointFormPageComponent,
+  BusPointsPageComponent,
+} from '@modules/buspoints/components';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
-import { BusPointsPageComponent } from '@modules/buspoints/components';
 import { NgModule } from '@angular/core';
+
+const buspointRoutes: Routes = [
+  {
+    path: '',
+    component: BusPointsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'form',
+    component: BusPointFormPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'form/:id',
+    component: BusPointFormPageComponent,
+    canActivate: [AuthGuard],
+  },
+];
 
 const routes: Routes = [
   {
@@ -17,8 +38,10 @@ const routes: Routes = [
   },
   {
     path: 'buspoints',
-    component: BusPointsPageComponent,
-    canActivate: [AuthGuard],
+    // component: BusPointsPageComponent,
+    // canActivate: [AuthGuard],
+    // canActivateChild: [AuthGuard],
+    children: buspointRoutes,
   },
   {
     path: 'logout',
@@ -35,7 +58,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

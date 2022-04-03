@@ -18,7 +18,7 @@
         class="form-control"
         [ngClass]="{
           'form-control': true,
-          'is-invalid': name.invalid && (name.dirty || name.touched)
+          'is-invalid': name?.invalid && (name?.dirty || name?.touched)
         }"
         id="name"
         name="name"
@@ -28,20 +28,21 @@
         formControlName="name"
         required
       />
-      <app-shared-float-label
-        [isNotValid]="name.invalid && (name.dirty || name.touched)"
-        controlName="name"
-        controlPlaceholder="Автовокзал, автостанция или остановка"
-        [hasRequiredError]="name.errors?.['required']"
-        requiredMessage="Название обязательно"
-        [hasMinLengthError]="name.errors?.['minlength']"
-        minlengthMessage="Название должно быть не менее 3 символов"
-        [hasMaxLengthError]="name.errors?.['maxlength']"
-        maxlengthMessage="Название должно быть не более 45 символов"
-        [hasPatternError]="name.errors?.['pattern']"
-        patternMessage="Недопустимые символы"
-        controlFullLabel="Название типа остановочного пункта"
-      ></app-shared-float-label>
+      <label for="name">
+        <app-shared-float-label
+          [isNotValid]="name?.invalid && (name?.dirty || name?.touched)"
+          controlPlaceholder="Автовокзал, автостанция или остановка"
+          [hasRequiredError]="name?.errors?.['required']"
+          requiredMessage="Название обязательно"
+          [hasMinLengthError]="name?.errors?.['minlength']"
+          minlengthMessage="Название должно быть не менее 3 символов"
+          [hasMaxLengthError]="name?.errors?.['maxlength']"
+          maxlengthMessage="Название должно быть не более 45 символов"
+          [hasPatternError]="name?.errors?.['pattern']"
+          patternMessage="Недопустимые символы"
+          controlFullLabel="Название типа остановочного пункта"
+        ></app-shared-float-label>
+      </label>
     </div>
 
   </form>

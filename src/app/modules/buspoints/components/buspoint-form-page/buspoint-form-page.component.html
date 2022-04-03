@@ -1,1 +1,149 @@
-<p>buspoint-form-page works!</p>
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/buspoints']" class="btn btn-light mb-2"
+          >&lsaquo; Список остановочных пунктов</a
+        >
+        <h2 class="h2 mb-2">
+          {{ busPoint ? 'Редактирование' : 'Создание' }}
+        </h2>
+      </div>
+      <form
+        [id]="formId"
+        [formGroup]="busPointForm ?? null"
+        (ngSubmit)="onSubmitBusPoint()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': name?.invalid && (name?.dirty || name?.touched)
+            }"
+            id="name"
+            name="name"
+            placeholder="Название"
+            autofocus
+            autocomplete="off"
+            formControlName="name"
+            required
+          />
+          <label for="name">
+            <app-shared-float-label
+              [isNotValid]="name?.invalid && (name?.dirty || name?.touched)"
+              controlPlaceholder="Название"
+              [hasRequiredError]="name?.errors?.['required']"
+              requiredMessage="Название обязательно"
+              [hasMinLengthError]="name?.errors?.['minlength']"
+              minlengthMessage="Название должно быть не менее 2 символов"
+              [hasMaxLengthError]="name?.errors?.['maxlength']"
+              maxlengthMessage="Название должно быть не более 255 символов"
+              [hasPatternError]="name?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Название остановочного пункта"
+            ></app-shared-float-label>
+          </label>
+          <!-- <app-shared-float-label
+            [isNotValid]="name.invalid && (name.dirty || name.touched)"
+            controlName="name"
+            controlPlaceholder="Название"
+            [hasRequiredError]="name.errors?.['required']"
+            requiredMessage="Название обязательно"
+            [hasMinLengthError]="name.errors?.['minlength']"
+            minlengthMessage="Название должно быть не менее 2 символов"
+            [hasMaxLengthError]="name.errors?.['maxlength']"
+            maxlengthMessage="Название должно быть не более 255 символов"
+            [hasPatternError]="name.errors?.['pattern']"
+            patternMessage="Недопустимые символы"
+            controlFullLabel="Название остановочного пункта"
+          ></app-shared-float-label> -->
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                address?.invalid && (address?.dirty || address?.touched)
+            }"
+            id="address"
+            name="address"
+            placeholder="Адрес"
+            autofocus
+            autocomplete="off"
+            formControlName="address"
+            required
+          />
+          <label for="address">
+            <app-shared-float-label
+              [isNotValid]="
+                address?.invalid && (address?.dirty || address?.touched)
+              "
+              controlPlaceholder="Адрес"
+              [hasRequiredError]="address?.errors?.['required']"
+              requiredMessage="Адрес обязателен"
+              [hasMinLengthError]="address?.errors?.['minlength']"
+              minlengthMessage="Адрес должен быть не менее 2 символов"
+              [hasMaxLengthError]="address?.errors?.['maxlength']"
+              maxlengthMessage="Адрес должен быть не более 255 символов"
+              [hasPatternError]="address?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес остановочного пункта"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-floating mb-3 col-7">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid':
+                busPointType?.invalid &&
+                (busPointType?.dirty || busPointType?.touched)
+            }"
+            id="busPointType"
+            name="busPointType"
+            formControlName="busPointType"
+            required
+          >
+            <option
+              *ngFor="let bpt of busPointTypeData$ | async"
+              value="{{ bpt.id }}"
+            >
+              {{ bpt.name }}
+            </option>
+          </select>
+          <label for="busPointType">
+            <app-shared-float-label
+              [isNotValid]="
+                busPointType?.invalid &&
+                (busPointType?.dirty || busPointType?.touched)
+              "
+              controlPlaceholder="Тип остановочного пункта"
+              [hasRequiredError]="busPointType?.errors?.['required']"
+              requiredMessage="Тип остановочного пункта обязателен"
+              controlFullLabel="Тип остановочного пункта"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="busPointForm?.valid === false"
+            >
+              {{ busPoint == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
