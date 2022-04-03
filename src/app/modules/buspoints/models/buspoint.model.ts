@@ -81,3 +81,9 @@ export type BusPointWithPage = {
   busPoint: BusPoint;
   page?: PageData;
 };
+
+export type EditBusPointType = {
+  busPointDto: BusPointRequestDto;
+  busPointType: BusPointType;
+  busPointHref: string;
+};

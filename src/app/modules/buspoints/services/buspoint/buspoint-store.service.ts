@@ -6,6 +6,7 @@ import {
   BusPointWithPage,
   BusPointsResponseDto,
   BusPointsWithPage,
+  EditBusPointType,
 } from '@modules/buspoints/models/buspoint.model';
 import { PageData, initialPageData } from '@helpers/page-data';
 import {
@@ -19,6 +20,7 @@ import {
   tap,
 } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
+import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ThrowableService } from '@helpers/throwable-http-service';
@@ -122,12 +124,23 @@ export class BusPointStoreService extends ThrowableService {
     return this.busPointData.value.find(bp => bp.id === idNum);
   }
 
-  create(busPointDto: BusPointRequestDto): void {
+  create(busPointDto: BusPointRequestDto, busPointType: BusPointType): void {
+    if (busPointDto == null) return;
+    if (busPointType == null) return;
     this.http
       .post<BusPointResponseDto>(this.apiUrl, busPointDto)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
+        map(
+          (val): BusPoint => ({
+            id: val.id,
+            name: val.name,
+            address: val.address,
+            href: val._links?.self?.href,
+            busPointType,
+          }),
+        ),
         catchError(er => {
           this.loading.value = false;
           return this.handleError(er);
@@ -137,36 +150,30 @@ export class BusPointStoreService extends ThrowableService {
       .subscribe(data => this.appendBusPointDataItem(data));
   }
 
-  appendBusPointDataItem(_value: BusPointResponseDto): void {
-    // this.bptStoreService.busPointTypeData.value$
-    //   .pipe(
-    //     mergeMap(bpts => bpts),
-    //     filter(bpt => bpt.href === value._links?.busPoint?.href),
-    //   )
-    //   .subscribe(val => {
-    //     if (val == null) return;
-    //     this.busPointData.value.push({
-    //       id: value.id,
-    //       name: value.name,
-    //       address: value.address,
-    //       href: value._links?.self?.href,
-    //       busPointType: { ...val },
-    //     });
-    //     this.busPointData.value.sort((a, b) => a.id - b.id);
-    //   });
+  appendBusPointDataItem(value: BusPoint): void {
+    if (value == null) return;
+    this.busPointData.value.push(value);
+    this.busPointData.value.sort((a, b) => a.id - b.id);
   }
 
-  edit(busPoint: BusPoint): void {
-    const dto = {
-      name: busPoint.name,
-      address: busPoint.address,
-      busPointType: busPoint.busPointType.href,
-    } as BusPointRequestDto;
+  edit({ busPointDto, busPointHref, busPointType }: EditBusPointType): void {
+    if (busPointDto == null) return;
+    if (busPointHref == null) return;
+    if (busPointType == null) return;
     this.http
-      .patch<BusPointResponseDto>(busPoint.href, dto)
+      .patch<BusPointResponseDto>(busPointHref, busPointDto)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
+        map(
+          (val): BusPoint => ({
+            id: val.id,
+            name: val.name,
+            address: val.address,
+            href: val._links?.self?.href,
+            busPointType,
+          }),
+        ),
         catchError(er => {
           this.loading.value = false;
           return this.handleError(er);
@@ -176,27 +183,12 @@ export class BusPointStoreService extends ThrowableService {
       .subscribe(data => this.setButPointDataItem(data));
   }
 
-  setButPointDataItem(_value: BusPointResponseDto): void {
-    // this.bptStoreService.busPointTypeData.value$
-    //   .pipe(
-    //     mergeMap(bpts => bpts),
-    //     filter(bpt => bpt.href === value._links?.busPoint?.href),
-    //   )
-    //   .subscribe(val => {
-    //     if (val == null) return;
-    //     const itemIndex = this.busPointData.value.findIndex(
-    //       v => v.id === value.id,
-    //     );
-    //     if (itemIndex === -1) return;
-    //     this.busPointData.value.splice(itemIndex, 1, {
-    //       id: value.id,
-    //       name: value.name,
-    //       address: value.address,
-    //       href: value._links?.self?.href,
-    //       busPointType: { ...val },
-    //     });
-    //     this.busPointData.value.sort((a, b) => a.id - b.id);
-    //   });
+  setButPointDataItem(value: BusPoint): void {
+    if (value == null) return;
+    const itemIndex = this.busPointData.value.findIndex(v => v.id === value.id);
+    if (itemIndex === -1) return;
+    this.busPointData.value.splice(itemIndex, 1, value);
+    this.busPointData.value.sort((a, b) => a.id - b.id);
   }
 
   deleteOne(busPoint: BusPoint): void {
