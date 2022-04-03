@@ -63,20 +63,6 @@ export type BusPointTypesWithPage = {
   page?: PageData;
 };
 
-// export type BusPointTypesWithBusPointRequests = {
-//   busPointTypes?: Array<BusPointType>;
-//   requests?: Array<Observable<BusPointType>>;
-//   // requests?: Array<Observable<BusPointsByTypeResponseDto>>;
-//   page?: PageData;
-// };
-
-export type BusPointTypesWithBusPointResponses = {
-  busPointTypes?: Array<BusPointType>;
-  responses?: Array<BusPointType>;
-  // responses?: Array<BusPointsByTypeResponseDto>;
-  page?: PageData;
-};
-
 export type BusPointTypeWithBusPoints = {
   busPointType?: BusPointType;
   busPointsByTypeResponseDto?: BusPointsByTypeResponseDto;

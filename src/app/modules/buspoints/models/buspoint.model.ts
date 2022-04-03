@@ -81,9 +81,3 @@ export type BusPointWithPage = {
   busPoint: BusPoint;
   page?: PageData;
 };
-
-export type BusPointsWithBusPointTypesAndPage = {
-  busPoints: Array<BusPoint>;
-  busPointTypes: Array<BusPointType>;
-  page?: PageData;
-};

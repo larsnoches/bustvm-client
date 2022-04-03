@@ -4,12 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { BusPoint } from '@modules/buspoints/models/buspoint.model';
@@ -22,7 +17,7 @@ import { BusPointTypeStoreService } from '@modules/buspoint-types/services/buspo
   templateUrl: './buspoint-form-page.component.html',
   styleUrls: ['./buspoint-form-page.component.scss'],
 })
-export class BusPointFormPageComponent implements OnInit /*, AfterViewChecked*/ {
+export class BusPointFormPageComponent implements OnInit {
   // id: number;
   busPointTypeData$: Observable<Array<BusPointType>>;
   busPointForm: FormGroup;
@@ -87,51 +82,11 @@ export class BusPointFormPageComponent implements OnInit /*, AfterViewChecked*/ 
           address: this.busPoint?.address ?? '',
           busPointType: this.busPoint?.busPointType.id ?? '',
         });
-        // this.busPointForm = new FormGroup({
-        //   name: new FormControl(this.busPoint?.name ?? '', [
-        //     // eslint-disable-next-line @typescript-eslint/unbound-method
-        //     Validators.required,
-        //     Validators.minLength(2),
-        //     Validators.maxLength(255),
-        //     Validators.pattern(
-        //       '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._]+ )*[а-яА-Яa-zA-Z0-9._]+(?<![_.])$',
-        //     ),
-        //   ]),
-        //   address: new FormControl(this.busPoint?.address ?? '', [
-        //     // eslint-disable-next-line @typescript-eslint/unbound-method
-        //     Validators.required,
-        //     Validators.minLength(2),
-        //     Validators.maxLength(255),
-        //     Validators.pattern(
-        //       '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
-        //     ),
-        //   ]),
-        //   busPointType: new FormControl(this.busPoint?.busPointType.id ?? '', [
-        //     // eslint-disable-next-line @typescript-eslint/unbound-method
-        //     Validators.required,
-        //   ]),
-        // });
       });
   }
 
-  // ngAfterViewChecked(): void {
-  //   // this.changeDetectorRef.detectChanges();
-  //   // console.log('123', this.busPointForm.get('name').value);
-  //   // if (this.busPoint != null) {
-  //   //   this.busPointForm?.setValue({
-  //   //     name: this.busPoint.name,
-  //   //     address: this.busPoint.address,
-  //   //     busPointType: this.busPoint?.busPointType?.id ?? '',
-  //   //   }, {
-  //   //     onlySelf: true,
-  //   //     emitEvent: true,
-  //   //   });
-  //   // }
-  //   // this.changeDetectorRef.detectChanges();
-  // }
-
   onSubmitBusPoint(): void {
-    console.log(this.busPointForm.value);
     if (!this.busPointForm.valid) return;
+    console.log(this.busPointForm.value);
   }
 }
