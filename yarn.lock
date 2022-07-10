@@ -3205,9 +3205,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bustvm-client@workspace:.":
+"bustvs-client@workspace:.":
   version: 0.0.0-use.local
-  resolution: "bustvm-client@workspace:."
+  resolution: "bustvs-client@workspace:."
   dependencies:
     "@angular-devkit/build-angular": ~13.2.5
     "@angular-eslint/eslint-plugin": ^13.1.0
