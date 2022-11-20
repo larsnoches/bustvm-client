@@ -13,5 +13,6 @@ enum ButtonSize {
 })
 export class ButtonComponent {
   // @Input() id?: string = '';
+  // @Input() asLink?: string;
   @Input() size: ButtonSize = ButtonSize.medium;
 }

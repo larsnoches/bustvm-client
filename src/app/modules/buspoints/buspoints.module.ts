@@ -1,10 +1,35 @@
-import { BuspointsItemComponent } from './components/buspoints-item/buspoints-item/buspoints-item.component';
-import { BuspointsListComponent } from './components/buspoints-list/buspoints-list/buspoints-list.component';
+import {
+  BusPointConfirmComponent,
+  BusPointFormPageComponent,
+  BusPointListComponent,
+  BusPointsPageComponent,
+} from './components';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BusPointStoreService } from './services/buspoint/buspoint-store.service';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedModule } from '@modules/shared/shared.module';
 
 @NgModule({
-  declarations: [BuspointsListComponent, BuspointsItemComponent],
-  imports: [CommonModule],
+  declarations: [
+    BusPointsPageComponent,
+    BusPointListComponent,
+    BusPointConfirmComponent,
+    BusPointFormPageComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    RouterModule,
+    HttpClientModule,
+    ModalModule.forRoot(),
+  ],
+  providers: [BusPointStoreService],
+  exports: [BusPointsPageComponent],
 })
-export class BuspointsModule {}
+export class BusPointsModule {}

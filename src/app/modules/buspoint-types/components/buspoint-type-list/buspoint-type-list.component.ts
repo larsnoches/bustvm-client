@@ -15,13 +15,13 @@ export class BusPointTypeListComponent {
     new EventEmitter<BusPointType>();
   @Output() deleteItemHandler: EventEmitter<BusPointType> =
     new EventEmitter<BusPointType>();
-  busPointTypesData$: Observable<Array<BusPointType>>;
+  busPointTypeData$: Observable<Array<BusPointType>>;
   pageData$: Observable<PageData>;
   loading$: Observable<boolean>;
   bsModalRef?: BsModalRef;
 
   constructor(private storeService: BusPointTypeStoreService) {
-    this.busPointTypesData$ = storeService.busPointTypeData.value$;
+    this.busPointTypeData$ = storeService.busPointTypeData.value$;
     this.pageData$ = storeService.pageData.value$;
     this.loading$ = storeService.loading.value$;
   }
