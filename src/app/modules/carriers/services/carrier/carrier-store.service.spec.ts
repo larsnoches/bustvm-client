@@ -1,12 +1,12 @@
-import { CarriersStoreService } from './carriers-store.service';
+import { CarrierStoreService } from './carrier-store.service';
 import { TestBed } from '@angular/core/testing';
 
-describe('CarriersStoreService', () => {
-  let service: CarriersStoreService;
+describe('CarrierStoreService', () => {
+  let service: CarrierStoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CarriersStoreService);
+    service = TestBed.inject(CarrierStoreService);
   });
 
   it('should be created', () => {
