@@ -1,6 +1,8 @@
 import { Bus, BusesResponseDto } from '@modules/buses/models/bus.model';
 import {
   Carrier,
+  CarrierRequestDto,
+  CarrierResponseDto,
   CarrierWithPage,
   CarriersResponseDto,
   CarriersWithPage,
@@ -116,15 +118,15 @@ export class CarrierStoreService extends ThrowableService {
             ),
           ),
         ),
-        map((v: Array<CarrierWithPage>): CarriersWithPage => {
-          const carriers = v.map(c => c.carrier);
-          const [item] = v;
-          const { page } = item ?? { page: null };
-          return {
-            carriers,
-            page,
-          };
-        }),
+        // map((v: Array<CarrierWithPage>): CarriersWithPage => {
+        //   const carriers = v.map(c => c.carrier);
+        //   const [item] = v;
+        //   const { page } = item ?? { page: null };
+        //   return {
+        //     carriers,
+        //     page,
+        //   };
+        // }),
 
         retry(3),
         catchError(er => {
@@ -136,7 +138,87 @@ export class CarrierStoreService extends ThrowableService {
       .subscribe(data => this.setCarrierData(data));
   }
 
-  setCarrierData(value: CarriersWithPage) {
-    console.log(value);
+  setCarrierData(value): void {
+    console.log(value); // log
+    // const { carrier, page } = value ?? {
+    //   carrier: null,
+    //   page: null,
+    // };
+
+    // if (carrier) this.carrierData.value.push(carrier);
+    // this.carrierData.value.sort((a, b) => a.id - b.id);
+
+    // if (page) {
+    //   this.pageData.value = page;
+    // }
+  }
+
+  getOne(id: string): Carrier {
+    if (id == null) return null;
+    const idNum = Number(id);
+    return this.carrierData.value.find(cr => cr.id === idNum);
+  }
+
+  create(carrierDto: CarrierRequestDto): void {
+    // if (carrierDto == null) return;
+    //
+  }
+
+  appendCarrierDataItem(value: Carrier): void {
+    if (value == null) return;
+    this.carrierData.value.push(value);
+    this.carrierData.value.sort((a, b) => a.id - b.id);
+  }
+
+  edit(itemHref: string, carrierDto: CarrierRequestDto): void {
+    this.http
+      .patch<CarrierResponseDto>(itemHref, carrierDto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(data => this.setCarrierDataItem(data));
+  }
+
+  setCarrierDataItem(value: CarrierResponseDto): void {
+    const itemIndex = this.carrierData.value.findIndex(v => v.id === value.id);
+    if (itemIndex === -1) return;
+
+    this.carrierData.value.splice(itemIndex, 1, {
+      id: value.id,
+      name: value.name,
+      inn: value.inn,
+      address: value.address,
+      href: value._links?.self.href,
+    });
+    this.carrierData.value.sort((a, b) => a.id - b.id);
+  }
+
+  deleteOne(carrier: Carrier): void {
+    this.http
+      .delete(carrier.href)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      )
+      .subscribe(() => this.removeCarrierDataItem(carrier));
+  }
+
+  removeCarrierDataItem(value: Carrier): void {
+    const itemIndex = this.carrierData.value.findIndex(v => v.id === value.id);
+    if (itemIndex === -1) return;
+
+    this.carrierData.value.splice(itemIndex, 1);
+    this.carrierData.value.sort((a, b) => a.id - b.id);
   }
 }

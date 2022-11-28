@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarriersListComponent } from './carriers-list.component';
+import { CarrierFormPageComponent } from './carrier-form-page.component';
 
-describe('CarriersListComponent', () => {
-  let component: CarriersListComponent;
-  let fixture: ComponentFixture<CarriersListComponent>;
+describe('CarrierFormPageComponent', () => {
+  let component: CarrierFormPageComponent;
+  let fixture: ComponentFixture<CarrierFormPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CarriersListComponent],
+      declarations: [CarrierFormPageComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CarriersListComponent);
+    fixture = TestBed.createComponent(CarrierFormPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

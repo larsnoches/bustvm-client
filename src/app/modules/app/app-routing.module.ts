@@ -3,6 +3,10 @@ import {
   BusPointFormPageComponent,
   BusPointsPageComponent,
 } from '@modules/buspoints/components';
+import {
+  CarrierFormPageComponent,
+  CarriersPageComponent,
+} from '@modules/carriers/components';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
@@ -26,6 +30,24 @@ const buspointRoutes: Routes = [
   },
 ];
 
+const carrierRoutes: Routes = [
+  {
+    path: '',
+    component: CarriersPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'form',
+    component: CarrierFormPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'form/:id',
+    component: CarrierFormPageComponent,
+    canActivate: [AuthGuard],
+  },
+];
+
 const routes: Routes = [
   {
     path: '',
@@ -42,6 +64,10 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     children: buspointRoutes,
+  },
+  {
+    path: 'carriers',
+    children: carrierRoutes,
   },
   {
     path: 'logout',

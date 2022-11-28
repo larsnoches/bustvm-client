@@ -1,0 +1,16 @@
+<div class="container">
+  <h2 class="h2 mb-4">Перевозчики</h2>
+  <div class="d-flex pt-4 pb-3">
+    <div>
+      <a
+        [routerLink]="['/carriers', 'form']"
+        class="w-100 btn btn-primary btn-sm"
+      >
+        Добавить
+      </a>
+    </div>
+  </div>
+  <app-carriers-list
+    (deleteItemHandler)="onDeleteItemBtnClick($event)"
+  ></app-carriers-list>
+</div>

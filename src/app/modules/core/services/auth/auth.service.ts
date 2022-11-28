@@ -18,10 +18,10 @@ export class AuthService {
    * The OpenID-Connect configuration using the Authorization Code flow
    */
   authConfig: AuthConfig = {
-    issuer: 'http://192.168.56.104:8484/auth/realms/bustvs_realm',
+    issuer: 'http://localhost:8484/auth/realms/bustvs_realm',
     redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: `${window.location.origin}/logout`,
-    clientId: 'bustvs_client',
+    clientId: 'vending_client',
     scope: 'openid profile email',
     // scope: 'openid profile email offline_access',
     responseType: 'code',

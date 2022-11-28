@@ -1,0 +1,167 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/carriers']" class="btn btn-light mb-2"
+          >&lsaquo; Список перевозчиков</a
+        >
+        <h2 class="h2 mb-2">
+          {{ carrier ? 'Редактирование' : 'Создание' }}
+        </h2>
+      </div>
+      <form
+        [id]="formId"
+        [formGroup]="carrierForm ?? null"
+        (ngSubmit)="onSubmitCarrier()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': name?.invalid && (name?.dirty || name?.touched)
+            }"
+            id="name"
+            name="name"
+            placeholder="Название"
+            autofocus
+            autocomplete="off"
+            formControlName="name"
+            required
+          />
+          <label for="name">
+            <app-shared-float-label
+              [isNotValid]="name?.invalid && (name?.dirty || name?.touched)"
+              controlPlaceholder="Название"
+              [hasRequiredError]="name?.errors?.['required']"
+              requiredMessage="Название обязательно"
+              [hasMinLengthError]="name?.errors?.['minlength']"
+              minlengthMessage="Название должно быть не менее 2 символов"
+              [hasMaxLengthError]="name?.errors?.['maxlength']"
+              maxlengthMessage="Название должно быть не более 255 символов"
+              [hasPatternError]="name?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Название перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': inn?.invalid && (inn?.dirty || inn?.touched)
+            }"
+            id="inn"
+            name="inn"
+            placeholder="Название"
+            autofocus
+            autocomplete="off"
+            formControlName="inn"
+            required
+          />
+          <label for="inn">
+            <app-shared-float-label
+              [isNotValid]="inn?.invalid && (inn?.dirty || inn?.touched)"
+              controlPlaceholder="ИНН"
+              [hasRequiredError]="inn?.errors?.['required']"
+              requiredMessage="ИНН обязателен"
+              [hasMinLengthError]="inn?.errors?.['minlength']"
+              minlengthMessage="ИНН должен быть не менее 6 символов"
+              [hasMaxLengthError]="inn?.errors?.['maxlength']"
+              maxlengthMessage="ИНН должен быть не более 16 символов"
+              [hasPatternError]="inn?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="ИНН перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                address?.invalid && (address?.dirty || address?.touched)
+            }"
+            id="address"
+            name="address"
+            placeholder="Адрес"
+            autofocus
+            autocomplete="off"
+            formControlName="address"
+            required
+          />
+          <label for="address">
+            <app-shared-float-label
+              [isNotValid]="
+                address?.invalid && (address?.dirty || address?.touched)
+              "
+              controlPlaceholder="Адрес"
+              [hasRequiredError]="address?.errors?.['required']"
+              requiredMessage="Адрес обязателен"
+              [hasMinLengthError]="address?.errors?.['minlength']"
+              minlengthMessage="Адрес должен быть не менее 2 символов"
+              [hasMaxLengthError]="address?.errors?.['maxlength']"
+              maxlengthMessage="Адрес должен быть не более 255 символов"
+              [hasPatternError]="address?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+<!-- 
+        <div class="form-floating mb-3 col-7">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid':
+                busPointTypeId?.invalid &&
+                (busPointTypeId?.dirty || busPointTypeId?.touched)
+            }"
+            id="busPointTypeId"
+            name="busPointTypeId"
+            formControlName="busPointTypeId"
+            required
+          >
+            <option
+              *ngFor="let bpt of busPointTypeData$ | async"
+              value="{{ bpt.id }}"
+            >
+              {{ bpt.name }}
+            </option>
+          </select>
+          <label for="busPointTypeId">
+            <app-shared-float-label
+              [isNotValid]="
+                busPointTypeId?.invalid &&
+                (busPointTypeId?.dirty || busPointTypeId?.touched)
+              "
+              controlPlaceholder="Тип остановочного пункта"
+              [hasRequiredError]="busPointTypeId?.errors?.['required']"
+              requiredMessage="Тип остановочного пункта обязателен"
+              controlFullLabel="Тип остановочного пункта"
+            ></app-shared-float-label>
+          </label>
+        </div> -->
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="carrierForm?.valid === false"
+            >
+              {{ carrier == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
