@@ -89,7 +89,7 @@ export class BusPointFormPageComponent implements OnInit {
     if (!this.busPointForm.valid) return;
 
     const bptId: string = this.busPointForm?.value?.busPointTypeId;
-    if (bptId == null) throw new Error('No bus point id');
+    if (bptId == null) throw new Error('No bus point type id');
 
     const bpt = this.busPointTypeService.busPointTypeData.value.find(
       v => v.id === Number(bptId),

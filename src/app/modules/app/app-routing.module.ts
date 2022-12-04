@@ -11,6 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
 import { NgModule } from '@angular/core';
+import { RoleGuard } from '@modules/core/guards/role/role.guard';
 
 const buspointRoutes: Routes = [
   {
@@ -34,7 +35,7 @@ const carrierRoutes: Routes = [
   {
     path: '',
     component: CarriersPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'form',

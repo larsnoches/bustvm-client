@@ -46,7 +46,7 @@ export class CarrierFormPageComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(16),
-        Validators.pattern('[0-9]'),
+        Validators.pattern('^[0-9]+$'),
       ]),
       address: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -56,10 +56,6 @@ export class CarrierFormPageComponent implements OnInit {
         Validators.pattern(
           '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
         ),
-      ]),
-      busPointTypeId: new FormControl('', [
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        Validators.required,
       ]),
     });
   }
@@ -94,9 +90,6 @@ export class CarrierFormPageComponent implements OnInit {
   onSubmitCarrier(): void {
     if (!this.carrierForm.valid) return;
 
-    const crId: string = this.carrierForm?.value?.busPointTypeId;
-    if (crId == null) throw new Error('No carrier id');
-
     const carrierDto = {
       ...this.carrierForm?.value,
       // busPointType: `${this.busPointTypeService.apiUrl}/${bptId}`,
@@ -108,6 +101,6 @@ export class CarrierFormPageComponent implements OnInit {
       this.carrierService.create(carrierDto);
     }
 
-    this.router.navigate(['buspoints']);
+    this.router.navigate(['carriers']);
   }
 }

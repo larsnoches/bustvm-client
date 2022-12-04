@@ -16,6 +16,7 @@ import {
   mergeMap,
   of,
   retry,
+  share,
   switchMap,
   tap,
 } from 'rxjs';
@@ -99,9 +100,14 @@ export class BusPointStoreService extends ThrowableService {
           this.loading.value = false;
           return this.handleError(er);
         }),
-        tap(() => (this.loading.value = false)),
+        // tap(() => (this.loading.value = false)),
+        share(),
       )
-      .subscribe(data => this.setBusPointData(data));
+      // .subscribe(data => this.setBusPointData(data));
+      .subscribe({
+        next: data => this.setBusPointData(data),
+        complete: () => (this.loading.value = false),
+      });
   }
 
   setBusPointData(value: BusPointWithPage): void {

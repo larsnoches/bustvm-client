@@ -18,17 +18,22 @@ export class AuthService {
    * The OpenID-Connect configuration using the Authorization Code flow
    */
   authConfig: AuthConfig = {
-    issuer: 'http://localhost:8484/auth/realms/bustvs_realm',
+    issuer: 'http://127.0.0.1:8181',
+    // issuer: 'http://localhost:8484/auth/realms/bustvs_realm',
     redirectUri: `${window.location.origin}/callback`,
+    // redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: `${window.location.origin}/logout`,
     clientId: 'vending_client',
-    scope: 'openid profile email',
+    dummyClientSecret: '12345',
+    scope: 'openid profile',
     // scope: 'openid profile email offline_access',
     responseType: 'code',
     sessionChecksEnabled: true,
 
     showDebugInformation: true,
     requireHttps: false,
+
+    oidc: true,
   };
 
   private isAuthenticatedSubject = new BehaviorSubjectItem(false);
@@ -61,17 +66,21 @@ export class AuthService {
   }
 
   /**
-   * Extract the roles from the realm_access claim within the Keycloak generated access token (JWT)
+   * Extract the roles from the claim within the generated access token (JWT)
    */
   public getClaims(): string[] {
-    const accessToken: string = this.oauthService.getAccessToken();
-    const tokens: string[] = accessToken.split('.');
-    const claims = JSON.parse(atob(tokens[1]));
-    return claims.realm_access.roles;
+    try {
+      const accessToken: string = this.oauthService.getAccessToken();
+      const tokens: string[] = accessToken.split('.');
+      const claims = JSON.parse(atob(tokens[1]));
+      return claims.roles;
+    } catch (er) {
+      return [];
+    }
   }
 
   /**
-   * Extracts the OpenID Connect clientId from the Keycloak generated access token (JWT)
+   * Extracts the OpenID Connect clientId from the generated access token (JWT)
    */
   public getClientId(): string {
     const claims = this.getJwtAsObject();
@@ -79,11 +88,15 @@ export class AuthService {
   }
 
   /**
-   * Extracts the JWT Issuer from the Keycloak generated access token
+   * Extracts the JWT Issuer from the generated access token
    */
   public getIssuer(): string {
     const claims = this.getJwtAsObject();
     return claims['iss'];
+  }
+
+  public getAccessToken(): string {
+    return this.oauthService.getAccessToken();
   }
 
   /**
@@ -94,7 +107,7 @@ export class AuthService {
   }
 
   /**
-   * Will execute a logout operation by re-directing to Keycloaks logout endpoint and successively to
+   * Will execute a logout operation by re-directing to logout endpoint and successively to
    * to a configured logout path (Configured above in authConfig#postLogoutRedirectUri)
    */
   public logout(): void {
@@ -109,10 +122,10 @@ export class AuthService {
       if (ev instanceof OAuthErrorEvent) {
         console.error(ev);
       } else if (ev instanceof OAuthSuccessEvent) {
-        // if (ev.type === 'token_received') {
-        //   this.router.navigateByUrl('/buspoint-types');
-        // }
-        // console.info(ev);
+        if (ev.type === 'token_received') {
+          this.router.navigateByUrl('/buspoint-types');
+        }
+        console.info(ev);
       } else {
         console.warn(ev);
       }
@@ -127,6 +140,11 @@ export class AuthService {
     return this.oauthService.hasValidIdToken();
   }
 
+  public hasManagerRole(): boolean {
+    console.log(this.getClaims());
+    return this.getClaims().some(s => s.toLowerCase() === 'role_manager');
+  }
+
   /**
    * Configures the Angular OpenID Connect client
    */
@@ -137,7 +155,7 @@ export class AuthService {
     this.oauthService
       .loadDiscoveryDocumentAndTryLogin()
       .then(() => {
-        this.oauthService.loadUserProfile();
+        this.loadUserProfile();
       })
       .catch(er => console.log(er));
   }
@@ -157,6 +175,6 @@ export class AuthService {
   }
 
   private loadUserProfile(): void {
-    this.oauthService.loadUserProfile();
+    // this.oauthService.loadUserProfile();
   }
 }

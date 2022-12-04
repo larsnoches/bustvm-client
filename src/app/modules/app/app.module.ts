@@ -10,6 +10,7 @@ import { CoreModule } from '@modules/core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { RoleGuard } from '@modules/core/guards/role/role.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,12 +26,16 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     // AuthGuard,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['http://localhost:8080/api'],
+        allowedUrls: [
+          'http://127.0.0.1:8080/api',
+          // 'http://127.0.0.1:8181/userinfo',
+          // 'http://127.0.0.1:8181',
+        ],
         sendAccessToken: true,
       },
     }),
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, RoleGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
