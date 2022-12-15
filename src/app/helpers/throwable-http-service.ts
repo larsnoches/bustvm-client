@@ -5,14 +5,16 @@ export class ThrowableService {
   handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       return throwError(
-        () => new Error(`Client error. ${JSON.stringify(error.error)}`),
+        () => new Error('Произошла ошибка на стороне клиента.'),
       );
     }
-    return throwError(
-      () =>
-        new Error(
-          `Server error ${error.status}. ${JSON.stringify(error.error)}`,
-        ),
-    );
+    return throwError(() => {
+      if (error.status === 403) {
+        return Error('Ошибка в процессе аутентификации.');
+      }
+      return new Error(
+        `Произошла ошибка на стороне сервера (${error.status}).`,
+      );
+    });
   }
 }

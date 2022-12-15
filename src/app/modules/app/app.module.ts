@@ -9,8 +9,10 @@ import { CarriersModule } from '@modules/carriers/carriers.module';
 import { CoreModule } from '@modules/core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { OAuthModule } from 'angular-oauth2-oidc';
+// import { OAuthModule } from 'angular-oauth2-oidc';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
+import { UsersModule } from '@modules/users/users.module';
+import { authInterceptorProvider } from '@modules/core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,20 +24,21 @@ import { RoleGuard } from '@modules/core/guards/role/role.guard';
     BusPointTypesModule,
     BusPointsModule,
     CarriersModule,
+    UsersModule,
     CoreModule,
     // AuthGuard,
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: [
-          'http://127.0.0.1:8080/api',
-          // 'http://127.0.0.1:8181/userinfo',
-          // 'http://127.0.0.1:8181',
-        ],
-        sendAccessToken: true,
-      },
-    }),
+    // OAuthModule.forRoot({
+    //   resourceServer: {
+    //     allowedUrls: [
+    //       'http://127.0.0.1:8080/api',
+    //       'http://127.0.0.1:8181/userinfo',
+    //       'http://127.0.0.1:8181/api',
+    //     ],
+    //     sendAccessToken: true,
+    //   },
+    // }),
   ],
-  providers: [AuthGuard, RoleGuard],
+  providers: [AuthGuard, RoleGuard, authInterceptorProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

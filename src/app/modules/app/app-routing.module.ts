@@ -12,6 +12,25 @@ import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
+import { UsersPageComponent } from '@modules/users/components';
+
+const userRoutes: Routes = [
+  {
+    path: '',
+    component: UsersPageComponent,
+    canActivate: [AuthGuard],
+  },
+  // {
+  //   path: 'form',
+  //   component: BusPointFormPageComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'form/:id',
+  //   component: BusPointFormPageComponent,
+  //   canActivate: [AuthGuard],
+  // },
+];
 
 const buspointRoutes: Routes = [
   {
@@ -71,13 +90,25 @@ const routes: Routes = [
     children: carrierRoutes,
   },
   {
+    path: 'users',
+    children: userRoutes,
+  },
+  {
+    path: 'login',
+    component: coreComponents.LoginPageComponent,
+  },
+  {
     path: 'logout',
     component: coreComponents.LogoutPageComponent,
   },
   {
-    path: 'callback',
-    component: coreComponents.RedirectPageComponent,
+    path: 'register',
+    component: coreComponents.RegisterPageComponent,
   },
+  // {
+  //   path: 'callback',
+  //   component: coreComponents.RedirectPageComponent,
+  // },
   {
     path: '**',
     component: coreComponents.NotFoundPageComponent,

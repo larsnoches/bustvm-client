@@ -1,180 +1,178 @@
+import * as moment from 'moment';
 import {
-  AuthConfig,
-  NullValidationHandler,
-  OAuthErrorEvent,
-  OAuthService,
-  OAuthSuccessEvent,
-} from 'angular-oauth2-oidc';
+  AuthenticationRequestDto,
+  AuthenticationResponseDto,
+  RegistrationRequestDto,
+} from '@modules/core/models/auth.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, retry, tap } from 'rxjs';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ThrowableService } from '@helpers/throwable-http-service';
+import { config } from '@helpers/config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  /**
-   * The OpenID-Connect configuration using the Authorization Code flow
-   */
-  authConfig: AuthConfig = {
-    issuer: 'http://127.0.0.1:8181',
-    // issuer: 'http://localhost:8484/auth/realms/bustvs_realm',
-    redirectUri: `${window.location.origin}/callback`,
-    // redirectUri: `${window.location.origin}/callback`,
-    postLogoutRedirectUri: `${window.location.origin}/logout`,
-    clientId: 'vending_client',
-    dummyClientSecret: '12345',
-    scope: 'openid profile',
-    // scope: 'openid profile email offline_access',
-    responseType: 'code',
-    sessionChecksEnabled: true,
-
-    showDebugInformation: true,
-    requireHttps: false,
-
-    oidc: true,
-  };
-
-  private isAuthenticatedSubject = new BehaviorSubjectItem(false);
+export class AuthService extends ThrowableService {
+  loading = new BehaviorSubjectItem(false);
+  isAuthenticatedSubject = new BehaviorSubjectItem(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public isAuthenticated$ = this.isAuthenticatedSubject.value$;
+  public apiUrl = `${config.apiPath}/auth`;
 
-  constructor(private oauthService: OAuthService, private router: Router) {
-    this.configure();
-    // For SSO logout
-    // this.oauthService.events
-    //   .pipe(filter(e => e.type === 'session_changed'))
-    //   .subscribe(_e => {
-    //     console.log(_e);
-    //     // this.logout();
-    //   });
-    this.oauthService.events.subscribe(_ => {
-      this.isAuthenticatedSubject.value =
-        this.oauthService.hasValidAccessToken();
-    });
-
-    this.oauthService.events
-      .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_e => this.loadUserProfile());
-
-    this.oauthService.events
-      .pipe(
-        filter(e => ['session_terminated', 'session_error'].includes(e.type)),
-      )
-      .subscribe(_e => this.navigateToLoginPage());
+  constructor(private http: HttpClient, private router: Router) {
+    super();
   }
 
-  /**
-   * Extract the roles from the claim within the generated access token (JWT)
-   */
-  public getClaims(): string[] {
+  login(
+    authenticationRequestDto: AuthenticationRequestDto,
+  ): Observable<AuthenticationResponseDto> {
+    const loginUrl = `${this.apiUrl}/authenticate`;
+    return this.http
+      .post<AuthenticationResponseDto>(loginUrl, authenticationRequestDto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      );
+    // .subscribe(data => {
+    //   console.log(data);
+    //   this.saveToken(data);
+    //   this.router.navigate(['/']);
+    // });
+  }
+
+  register(
+    registrationRequestDto: RegistrationRequestDto,
+  ): Observable<AuthenticationResponseDto> {
+    const registerUrl = `${this.apiUrl}/register`;
+    return this.http
+      .post<AuthenticationResponseDto>(registerUrl, registrationRequestDto)
+      .pipe(
+        tap(() => (this.loading.value = true)),
+        retry(3),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
+      );
+  }
+
+  logout(): void {
     try {
-      const accessToken: string = this.oauthService.getAccessToken();
-      const tokens: string[] = accessToken.split('.');
-      const claims = JSON.parse(atob(tokens[1]));
-      return claims.roles;
+      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('refreshToken');
+      this.router.navigateByUrl('/');
     } catch (er) {
-      return [];
+      console.error('Error due logout');
     }
   }
 
-  /**
-   * Extracts the OpenID Connect clientId from the generated access token (JWT)
-   */
-  public getClientId(): string {
-    const claims = this.getJwtAsObject();
-    return claims['azp'];
+  refreshToken(token: string): Observable<AuthenticationResponseDto> {
+    const refreshTokenUrl = `${this.apiUrl}/token/refresh`;
+    // const token = this.getRefreshToken();
+    return (
+      this.http
+        // eslint-disable-next-line prettier/prettier
+        .get<AuthenticationResponseDto>(refreshTokenUrl, {
+          // eslint-disable-next-line @typescript-eslint/indent, prettier/prettier
+          headers: new HttpHeaders({ Authorization: `Bearer ${token}` }), // eslint-disable-next-line @typescript-eslint/indent
+        })
+    );
+    // .pipe(
+    //   tap(() => (this.loading.value = true)),
+    //   retry(3),
+    //   catchError(er => {
+    //     this.loading.value = false;
+    //     return this.handleError(er);
+    //   }),
+    //   tap(() => (this.loading.value = false)),
+    // )
+    // .subscribe(data => {
+    //   this.saveToken(data);
+    // });
   }
 
-  /**
-   * Extracts the JWT Issuer from the generated access token
-   */
-  public getIssuer(): string {
-    const claims = this.getJwtAsObject();
-    return claims['iss'];
+  saveToken(authenticationResponseDto: AuthenticationResponseDto): void {
+    console.log(authenticationResponseDto);
+    try {
+      const { accessToken, refreshToken } = authenticationResponseDto;
+      window.localStorage.setItem('accessToken', accessToken);
+      window.localStorage.setItem('refreshToken', refreshToken);
+
+      const tokenData: string[] = accessToken.split('.');
+      const claims = JSON.parse(atob(tokenData[1])) as {
+        exp: number;
+      };
+      const expiresAt = moment().add(claims.exp, 'second');
+      window.localStorage.setItem(
+        'expiresAt',
+        JSON.stringify(expiresAt.valueOf()),
+      );
+    } catch (er) {
+      console.error('Error due saving tokens');
+    }
   }
 
-  public getAccessToken(): string {
-    return this.oauthService.getAccessToken();
+  hasValidToken(): boolean {
+    return (
+      this.getAccessToken() != null && moment().isBefore(this.getExpiration())
+    );
   }
 
-  /**
-   * Will kick-off the OpenID Connect Authorization Code flow (Based on the configured authConfig#issuer)
-   */
-  public login(): void {
-    this.oauthService.initLoginFlow();
+  hasManagerRole(): boolean {
+    try {
+      const accessToken = this.getAccessToken();
+      const tokenData: string[] = accessToken.split('.');
+      const claims = JSON.parse(atob(tokenData[1])) as {
+        authorities: Array<{
+          authority: string;
+        }>;
+      };
+      return claims.authorities.some(
+        s => s.authority.toLowerCase() === 'role_manager',
+      );
+    } catch (er) {
+      console.error('Error when check manager role');
+    }
+    return false;
   }
 
-  /**
-   * Will execute a logout operation by re-directing to logout endpoint and successively to
-   * to a configured logout path (Configured above in authConfig#postLogoutRedirectUri)
-   */
-  public logout(): void {
-    this.oauthService.logOut();
+  getExpiration(): moment.Moment {
+    try {
+      const expiration = window.localStorage.getItem('expiresAt');
+      const expiresAt = JSON.parse(expiration);
+      return moment(expiresAt);
+    } catch (er) {
+      console.error('Error when get expiration');
+    }
+    return null;
   }
 
-  /**
-   * Will hook into the OAuth 'token_recieved' event and perform a re-direct to the profile page.
-   */
-  public redirectOnCallback(): void {
-    this.oauthService.events.subscribe(ev => {
-      if (ev instanceof OAuthErrorEvent) {
-        console.error(ev);
-      } else if (ev instanceof OAuthSuccessEvent) {
-        if (ev.type === 'token_received') {
-          this.router.navigateByUrl('/buspoint-types');
-        }
-        console.info(ev);
-      } else {
-        console.warn(ev);
-      }
-    });
+  getAccessToken(): string {
+    try {
+      const token = window.localStorage.getItem('accessToken');
+      return token;
+    } catch (er) {
+      console.error('Error due load accessToken');
+    }
+    return null;
   }
 
-  /**
-   * Determines if the current user has a valid id token
-   * Returns true if an IdToken exists within the session storage, false otherwise
-   */
-  public hasValidIdToken(): boolean {
-    return this.oauthService.hasValidIdToken();
-  }
-
-  public hasManagerRole(): boolean {
-    console.log(this.getClaims());
-    return this.getClaims().some(s => s.toLowerCase() === 'role_manager');
-  }
-
-  /**
-   * Configures the Angular OpenID Connect client
-   */
-  private configure(): void {
-    this.oauthService.configure(this.authConfig);
-    this.oauthService.setupAutomaticSilentRefresh();
-    this.oauthService.tokenValidationHandler = new NullValidationHandler();
-    this.oauthService
-      .loadDiscoveryDocumentAndTryLogin()
-      .then(() => {
-        this.loadUserProfile();
-      })
-      .catch(er => console.log(er));
-  }
-
-  /**
-   * Helper method to extract the claims from the body component of the signed access token
-   */
-  private getJwtAsObject(): object {
-    const accessToken: string = this.oauthService.getAccessToken();
-    const tokens: string[] = accessToken.split('.');
-    return JSON.parse(atob(tokens[1]));
-  }
-
-  private navigateToLoginPage(): void {
-    // TODO: Remember current URL
-    this.router.navigateByUrl('/');
-  }
-
-  private loadUserProfile(): void {
-    // this.oauthService.loadUserProfile();
+  getRefreshToken(): string {
+    try {
+      const token = window.localStorage.getItem('refreshToken');
+      return token;
+    } catch (er) {
+      console.error('Error due load refreshToken');
+    }
+    return null;
   }
 }
