@@ -1,19 +1,16 @@
-export interface User {
-  id: number;
-  username: string;
-  password?: string;
+export interface UpdateUserRequestDto {
+  email: string;
+  lastname: string;
+  firstname: string;
+  middlename: string;
   enabled: boolean;
-  authorities?: Array<Authority>;
+  isManager: boolean;
 }
 
-export interface Authority {
-  id: number;
-  name: string;
+export interface CreateUserRequestDto extends UpdateUserRequestDto {
+  password: string;
 }
 
-export interface UserRequestDto {
-  username: string;
-  password?: string;
-  enabled: boolean;
-  authorities?: Array<Authority>;
+export interface GetUserResponseDto extends UpdateUserRequestDto {
+  id: number;
 }
