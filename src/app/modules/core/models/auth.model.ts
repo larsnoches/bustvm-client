@@ -18,3 +18,8 @@ export interface RegistrationResponseDto {
   email: string;
   userRole: string;
 }
+
+export interface ChangePasswordRequestDto {
+  email: string;
+  password: string;
+}
