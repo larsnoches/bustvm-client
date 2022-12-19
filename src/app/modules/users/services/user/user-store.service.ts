@@ -6,6 +6,7 @@ import {
 import { Observable, catchError, retry, tap } from 'rxjs';
 import { PageData, Pageable, initialPageData } from '@helpers/page-data';
 import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
+import { ChangePasswordRequestDto } from '@modules/core/models/auth.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ThrowableService } from '@helpers/throwable-http-service';
@@ -73,60 +74,60 @@ export class UserStoreService extends ThrowableService {
       );
   }
 
-  createUser(dto: CreateUserRequestDto): void {
+  createUser(dto: CreateUserRequestDto): Observable<GetUserResponseDto> {
     const createUrl = `${this.apiUrl}/create`;
-    this.http
-      .post<GetUserResponseDto>(createUrl, dto)
-      .pipe(
-        tap(() => (this.loading.value = true)),
-        retry(3),
-        catchError(er => {
-          this.loading.value = false;
-          return this.handleError(er);
-        }),
-        tap(() => (this.loading.value = false)),
-      )
-      .subscribe({
-        // next: data => this.appendUserToList(data),
-        complete: () => (this.loading.value = false),
-      });
+    return this.http.post<GetUserResponseDto>(createUrl, dto).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
+    // .subscribe({
+    //   // next: data => this.appendUserToList(data),
+    //   complete: () => (this.loading.value = false),
+    // });
   }
 
-  updateUserById(userId: number, dto: UpdateUserRequestDto): void {
+  updateUserById(
+    userId: number,
+    dto: UpdateUserRequestDto,
+  ): Observable<GetUserResponseDto> {
     const updateUrl = `${this.apiUrl}/${userId}/update`;
-    this.http
-      .put<GetUserResponseDto>(updateUrl, dto)
-      .pipe(
-        tap(() => (this.loading.value = true)),
-        retry(3),
-        catchError(er => {
-          this.loading.value = false;
-          return this.handleError(er);
-        }),
-        tap(() => (this.loading.value = false)),
-      )
-      .subscribe({
-        next: data => this.updateUserInTheList(data),
-        complete: () => (this.loading.value = false),
-      });
+    return this.http.put<GetUserResponseDto>(updateUrl, dto).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
+    // .subscribe({
+    //   next: data => this.updateUserInTheList(data),
+    //   complete: () => (this.loading.value = false),
+    // });
   }
 
-  changeUserPassword(userId: number, dto: UpdateUserRequestDto): void {
+  changeUserPassword(
+    userId: number,
+    dto: ChangePasswordRequestDto,
+  ): Observable<GetUserResponseDto> {
     const changepasswordUrl = `${this.apiUrl}/${userId}/changepassword`;
-    this.http
-      .put<GetUserResponseDto>(changepasswordUrl, dto)
-      .pipe(
-        tap(() => (this.loading.value = true)),
-        retry(3),
-        catchError(er => {
-          this.loading.value = false;
-          return this.handleError(er);
-        }),
-        tap(() => (this.loading.value = false)),
-      )
-      .subscribe({
-        complete: () => (this.loading.value = false),
-      });
+    return this.http.put<GetUserResponseDto>(changepasswordUrl, dto).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
+    // .subscribe({
+    //   complete: () => (this.loading.value = false),
+    // });
   }
 
   removeUser(userId: number): void {

@@ -9,6 +9,7 @@ import {
 } from '@modules/carriers/components';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  UserChangePasswordComponent,
   UserFormPageComponent,
   UsersPageComponent,
 } from '@modules/users/components';
@@ -35,8 +36,18 @@ const userRoutes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
   },
   {
+    path: 'form/changepassword/:id',
+    component: UserChangePasswordComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
     path: 'form/self/:email',
     component: UserFormPageComponent,
+    canActivate: [AuthGuard, EmailGuard],
+  },
+  {
+    path: 'form/self/changepassword/:email',
+    component: UserChangePasswordComponent,
     canActivate: [AuthGuard, EmailGuard],
   },
 ];

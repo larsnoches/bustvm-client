@@ -19,6 +19,7 @@ import { config } from '@helpers/config';
 export class UserFormPageComponent implements OnInit {
   userForm: FormGroup;
   user?: GetUserResponseDto;
+  error: string | null = null;
 
   formId = 'userForm';
 
@@ -117,15 +118,29 @@ export class UserFormPageComponent implements OnInit {
     };
 
     if (this.user != null) {
-      this.userService.updateUserById(this.user?.id, userDto);
-    } else {
-      this.userService.createUser({
-        ...userDto,
-        password: config.defaultPassword,
+      this.userService.updateUserById(this.user?.id, userDto).subscribe({
+        complete: () => {
+          this.router.navigate(['/']);
+        },
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
+    } else {
+      this.userService
+        .createUser({
+          ...userDto,
+          password: config.defaultPassword,
+        })
+        .subscribe({
+          complete: () => {
+            this.router.navigate(['/users']);
+          },
+          error: (er: Error) => {
+            this.error = er.message;
+          },
+        });
     }
-
-    this.router.navigate(['users']);
   }
 
   private handleGetUserResponse = (data: GetUserResponseDto): void => {

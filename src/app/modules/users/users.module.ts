@@ -12,6 +12,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@modules/shared/shared.module';
 import { UserStoreService } from './services/user/user-store.service';
+import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UserStoreService } from './services/user/user-store.service';
     UserFormPageComponent,
     UserListComponent,
     UsersPageComponent,
+    UserChangePasswordComponent,
   ],
   imports: [
     CommonModule,
