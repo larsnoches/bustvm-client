@@ -24,9 +24,14 @@ export class UserStoreService extends ThrowableService {
     super();
   }
 
-  getUsers(): void {
+  getUsers(pageNumber?: number | null): void {
+    const params = {
+      page: pageNumber ?? 0,
+      size: this.pageData.value.size,
+      sort: 'id,email',
+    };
     this.http
-      .get<Pageable<GetUserResponseDto>>(this.apiUrl)
+      .get<Pageable<GetUserResponseDto>>(this.apiUrl, { params })
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
@@ -43,22 +48,20 @@ export class UserStoreService extends ThrowableService {
   }
 
   getUserById(userId: number): Observable<GetUserResponseDto> {
-    return this.http
-      .get<Pageable<GetUserResponseDto>>(`${this.apiUrl}/${userId}`)
-      .pipe(
-        tap(() => (this.loading.value = true)),
-        retry(3),
-        catchError(er => {
-          this.loading.value = false;
-          return this.handleError(er);
-        }),
-        tap(() => (this.loading.value = false)),
-      );
+    return this.http.get<GetUserResponseDto>(`${this.apiUrl}/${userId}`).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
   }
 
   getUserByEmail(userEmail: string): Observable<GetUserResponseDto> {
     return this.http
-      .get<Pageable<GetUserResponseDto>>(`${this.apiUrl}/get/${userEmail}`)
+      .get<GetUserResponseDto>(`${this.apiUrl}/get/${userEmail}`)
       .pipe(
         tap(() => (this.loading.value = true)),
         retry(3),
@@ -84,7 +87,7 @@ export class UserStoreService extends ThrowableService {
         tap(() => (this.loading.value = false)),
       )
       .subscribe({
-        next: data => this.appendUserToList(data),
+        // next: data => this.appendUserToList(data),
         complete: () => (this.loading.value = false),
       });
   }
@@ -153,7 +156,14 @@ export class UserStoreService extends ThrowableService {
   }
 
   private updateUserListAndPageData(value: Pageable<GetUserResponseDto>): void {
+    if (
+      this.pageData.value.last ||
+      this.pageData.value.number === value.number
+    ) {
+      this.userListData.value.length = 0;
+    }
     if (value.content != null) this.userListData.value.push(...value.content);
+
     this.userListData.value.sort((a, b) => a.id - b.id);
 
     this.pageData.value = {

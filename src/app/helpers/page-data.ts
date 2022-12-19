@@ -1,3 +1,5 @@
+import { config } from './config';
+
 export interface PageData {
   last: boolean;
   totalPages: number;
@@ -11,7 +13,7 @@ export const initialPageData = (): PageData => ({
   last: false,
   totalPages: 0,
   totalElements: 0,
-  size: 0,
+  size: config.pageSize,
   number: 0,
   empty: false,
 });

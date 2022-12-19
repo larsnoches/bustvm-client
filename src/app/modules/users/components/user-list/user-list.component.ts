@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { GetUserResponseDto } from '@modules/users/models/user.model';
+import { Observable } from 'rxjs';
+import { PageData } from '@helpers/page-data';
 import { UserStoreService } from '@modules/users/services/user/user-store.service';
 
 @Component({
@@ -7,20 +11,23 @@ import { UserStoreService } from '@modules/users/services/user/user-store.servic
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent {
-  // @Output() deleteItemHandler: EventEmitter<BusPoint> =
-  //   new EventEmitter<BusPoint>();
-  // busPointData$: Observable<Array<BusPoint>>;
-  // pageData$: Observable<PageData>;
-  // loading$: Observable<boolean>;
-  // bsModalRef?: BsModalRef;
+  @Output() deleteItemHandler: EventEmitter<GetUserResponseDto> =
+    new EventEmitter<GetUserResponseDto>();
+  userListData$: Observable<Array<GetUserResponseDto>>;
+  pageData$: Observable<PageData>;
+  loading$: Observable<boolean>;
+  bsModalRef?: BsModalRef;
 
   constructor(private userService: UserStoreService) {
-    // this.busPointData$ = busPointService.busPointData.value$;
-    // this.pageData$ = busPointService.pageData.value$;
-    // this.loading$ = busPointService.loading.value$;
+    this.userListData$ = userService.userListData.value$;
+    this.pageData$ = userService.pageData.value$;
+    this.loading$ = userService.loading.value$;
+
+    userService.getUsers();
   }
 
-  // deleteOne(busPoint: BusPoint): void {
-  //   this.deleteItemHandler.emit(busPoint);
-  // }
+  deleteOne(user: GetUserResponseDto): void {
+    console.log(user);
+    this.deleteItemHandler.emit(user);
+  }
 }

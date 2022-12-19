@@ -3,7 +3,7 @@ export interface UpdateUserRequestDto {
   lastname: string;
   firstname: string;
   middlename: string;
-  enabled: boolean;
+  isEnabled: boolean;
   isManager: boolean;
 }
 

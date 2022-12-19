@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { EmailGuard } from './guards/email/email.guard';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from './guards/role/role.guard';
 import { RouterModule } from '@angular/router';
@@ -22,6 +23,7 @@ import { authInterceptorProvider } from './interceptors/auth.interceptor';
   providers: [
     AuthGuard,
     RoleGuard,
+    EmailGuard,
     AuthService,
     ValidationService,
     authInterceptorProvider,

@@ -1,1 +1,200 @@
-<p>user-form-page works!</p>
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a
+          *ngIf="currentUserHasManagerRole"
+          [routerLink]="['/users']"
+          class="btn btn-light mb-2"
+          >&lsaquo; Список пользователей</a
+        >
+        <h2
+          *ngIf="currentUserHasManagerRole; else isNotManagerForTitle"
+          class="h2 mb-2"
+        >
+          {{ user ? 'Редактирование' : 'Создание' }}
+        </h2>
+        <ng-template #isNotManagerForTitle>
+          <h2 class="h2 mb-2">
+            {{ user ? 'Редактирование' : 'Ошибка' }}
+          </h2>
+        </ng-template>
+      </div>
+      <form
+        [id]="formId"
+        [formGroup]="userForm ?? null"
+        (ngSubmit)="onSubmitUser()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
+            id="email"
+            name="email"
+            placeholder="Адрес электронной почты"
+            autofocus
+            autocomplete="off"
+            formControlName="email"
+            required
+          />
+          <label for="email">
+            <app-shared-float-label
+              [isNotValid]="email?.invalid && (email?.dirty || email?.touched)"
+              controlPlaceholder="Адрес электронной почты"
+              [hasRequiredError]="email?.errors?.['required']"
+              requiredMessage="Адрес электронной почты обязателен"
+              [hasMinLengthError]="email?.errors?.['minlength']"
+              minlengthMessage="Адрес электронной почты должен быть не менее 6 символов"
+              [hasMaxLengthError]="email?.errors?.['maxlength']"
+              maxlengthMessage="Адрес электронной почты должен быть не более 255 символов"
+              [hasPatternError]="email?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес электронной почты"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                lastname?.invalid && (lastname?.dirty || lastname?.touched)
+            }"
+            id="lastname"
+            name="lastname"
+            placeholder="Фамилия"
+            autofocus
+            autocomplete="off"
+            formControlName="lastname"
+          />
+          <label for="lastname">
+            <app-shared-float-label
+              [isNotValid]="
+                lastname?.invalid && (lastname?.dirty || lastname?.touched)
+              "
+              controlPlaceholder="Фамилия"
+              [hasMaxLengthError]="lastname?.errors?.['maxlength']"
+              maxlengthMessage="Фамилия должна быть не более 255 символов"
+              [hasPatternError]="lastname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Фамилия"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                firstname?.invalid && (firstname?.dirty || firstname?.touched)
+            }"
+            id="firstname"
+            name="firstname"
+            placeholder="Имя"
+            autofocus
+            autocomplete="off"
+            formControlName="firstname"
+          />
+          <label for="firstname">
+            <app-shared-float-label
+              [isNotValid]="
+                firstname?.invalid && (firstname?.dirty || firstname?.touched)
+              "
+              controlPlaceholder="Имя"
+              [hasMaxLengthError]="firstname?.errors?.['maxlength']"
+              maxlengthMessage="Имя должно быть не более 255 символов"
+              [hasPatternError]="firstname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Имя"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                middlename?.invalid &&
+                (middlename?.dirty || middlename?.touched)
+            }"
+            id="middlename"
+            name="middlename"
+            placeholder="Отчество"
+            autofocus
+            autocomplete="off"
+            formControlName="middlename"
+          />
+          <label for="middlename">
+            <app-shared-float-label
+              [isNotValid]="
+                middlename?.invalid &&
+                (middlename?.dirty || middlename?.touched)
+              "
+              controlPlaceholder="Отчество"
+              [hasMaxLengthError]="middlename?.errors?.['maxlength']"
+              maxlengthMessage="Отчество должно быть не более 255 символов"
+              [hasPatternError]="middlename?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Отчество"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-check mb-3 col-7">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="isEnabled"
+            name="isEnabled"
+            formControlName="isEnabled"
+          />
+          <label class="form-check-label" for="isEnabled">Активен</label>
+        </div>
+        <div class="form-check mb-3 col-7">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="isManager"
+            name="isManager"
+            formControlName="isManager"
+          />
+          <label class="form-check-label" for="isManager">Администратор</label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="userForm?.valid === false"
+              *ngIf="currentUserHasManagerRole; else isNotManagerForButton"
+            >
+              {{ user == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+            <ng-template #isNotManagerForButton>
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="userForm?.valid === false"
+              >
+                {{ user == null ? '...' : 'Сохранить' }}
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

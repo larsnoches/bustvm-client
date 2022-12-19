@@ -7,6 +7,7 @@ import { BusPointTypesModule } from '@modules/buspoint-types/buspoint-types.modu
 import { BusPointsModule } from '@modules/buspoints/buspoints.module';
 import { CarriersModule } from '@modules/carriers/carriers.module';
 import { CoreModule } from '@modules/core/core.module';
+import { EmailGuard } from '@modules/core/guards/email/email.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 // import { OAuthModule } from 'angular-oauth2-oidc';
@@ -38,7 +39,7 @@ import { authInterceptorProvider } from '@modules/core/interceptors/auth.interce
     //   },
     // }),
   ],
-  providers: [AuthGuard, RoleGuard, authInterceptorProvider],
+  providers: [AuthGuard, RoleGuard, EmailGuard, authInterceptorProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

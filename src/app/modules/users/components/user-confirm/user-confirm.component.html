@@ -1,1 +1,8 @@
-<p>user-confirm works!</p>
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="user?.id == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+>Желаете удалить {{ user?.email ?? 'пользователя' }}?</app-shared-confirm>

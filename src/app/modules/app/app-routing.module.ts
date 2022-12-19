@@ -8,28 +8,37 @@ import {
   CarriersPageComponent,
 } from '@modules/carriers/components';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  UserFormPageComponent,
+  UsersPageComponent,
+} from '@modules/users/components';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
+import { EmailGuard } from '@modules/core/guards/email/email.guard';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
-import { UsersPageComponent } from '@modules/users/components';
 
 const userRoutes: Routes = [
   {
     path: '',
     component: UsersPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
-  // {
-  //   path: 'form',
-  //   component: BusPointFormPageComponent,
-  //   canActivate: [AuthGuard],
-  // },
-  // {
-  //   path: 'form/:id',
-  //   component: BusPointFormPageComponent,
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: 'form',
+    component: UserFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/:id',
+    component: UserFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/self/:email',
+    component: UserFormPageComponent,
+    canActivate: [AuthGuard, EmailGuard],
+  },
 ];
 
 const buspointRoutes: Routes = [

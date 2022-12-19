@@ -145,6 +145,25 @@ export class AuthService extends ThrowableService {
     return false;
   }
 
+  hasSameEmail(targetEmail: string): boolean {
+    const email = this.getEmail();
+    return email === targetEmail;
+  }
+
+  getEmail(): string {
+    try {
+      const accessToken = this.getAccessToken();
+      const tokenData: string[] = accessToken.split('.');
+      const claims = JSON.parse(atob(tokenData[1])) as {
+        sub: string;
+      };
+      return claims?.sub;
+    } catch (er) {
+      console.error('Error when getting email');
+    }
+    return null;
+  }
+
   getExpiration(): moment.Moment {
     try {
       const expiration = window.localStorage.getItem('expiresAt');
