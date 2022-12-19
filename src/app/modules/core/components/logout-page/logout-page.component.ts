@@ -1,3 +1,4 @@
+import { AuthService } from '@modules/core/services/auth/auth.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -5,4 +6,8 @@ import { Component } from '@angular/core';
   templateUrl: './logout-page.component.html',
   styleUrls: ['./logout-page.component.scss'],
 })
-export class LogoutPageComponent {}
+export class LogoutPageComponent {
+  constructor(private authService: AuthService) {
+    // this.authService.logout();
+  }
+}
