@@ -95,7 +95,7 @@ export class UserChangePasswordComponent implements OnInit {
       .changeUserPassword(this.user?.id, changePasswordRequestDto)
       .subscribe({
         complete: () => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/users', 'form', this.user?.id]);
         },
         error: (er: Error) => {
           this.error = er.message;
