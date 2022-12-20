@@ -89,29 +89,25 @@
             [ngClass]="{
               'form-select': true,
               'is-invalid':
-                busPointTypeId?.invalid &&
-                (busPointTypeId?.dirty || busPointTypeId?.touched)
+                busPointType?.invalid &&
+                (busPointType?.dirty || busPointType?.touched)
             }"
-            id="busPointTypeId"
-            name="busPointTypeId"
-            formControlName="busPointTypeId"
+            id="busPointType"
+            name="busPointType"
+            formControlName="busPointType"
             required
           >
-            <option
-              *ngFor="let bpt of busPointTypeData$ | async"
-              value="{{ bpt.id }}"
-            >
-              {{ bpt.name }}
-            </option>
+            <option value="BUS_STATION">Автовокзал</option>
+            <option value="BUS_STOP">Остановка</option>
           </select>
-          <label for="busPointTypeId">
+          <label for="busPointType">
             <app-shared-float-label
               [isNotValid]="
-                busPointTypeId?.invalid &&
-                (busPointTypeId?.dirty || busPointTypeId?.touched)
+                busPointType?.invalid &&
+                (busPointType?.dirty || busPointType?.touched)
               "
               controlPlaceholder="Тип остановочного пункта"
-              [hasRequiredError]="busPointTypeId?.errors?.['required']"
+              [hasRequiredError]="busPointType?.errors?.['required']"
               requiredMessage="Тип остановочного пункта обязателен"
               controlFullLabel="Тип остановочного пункта"
             ></app-shared-float-label>

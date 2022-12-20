@@ -1,7 +1,7 @@
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { BusPoint } from '@modules/buspoints/models/buspoint.model';
 import { BusPointConfirmComponent } from '../buspoint-confirm/buspoint-confirm.component';
 import { Component } from '@angular/core';
+import { GetBusPointResponseDto } from '@modules/buspoints/models/buspoint.model';
 
 @Component({
   selector: 'app-buspoints-page',
@@ -13,7 +13,7 @@ export class BusPointsPageComponent {
 
   constructor(private modalService: BsModalService) {}
 
-  onDeleteItemBtnClick(busPoint: BusPoint): void {
+  onDeleteItemBtnClick(busPoint: GetBusPointResponseDto): void {
     const initialModalState: ModalOptions = {
       initialState: {
         busPoint,

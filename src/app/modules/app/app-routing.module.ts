@@ -14,7 +14,6 @@ import {
   UsersPageComponent,
 } from '@modules/users/components';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
-import { BusPointTypesPageComponent } from '@modules/buspoint-types/components';
 import { EmailGuard } from '@modules/core/guards/email/email.guard';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
@@ -56,17 +55,17 @@ const buspointRoutes: Routes = [
   {
     path: '',
     component: BusPointsPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'form',
     component: BusPointFormPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'form/:id',
     component: BusPointFormPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 
@@ -94,15 +93,7 @@ const routes: Routes = [
     component: coreComponents.HomePageComponent,
   },
   {
-    path: 'buspoint-types',
-    component: BusPointTypesPageComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'buspoints',
-    // component: BusPointsPageComponent,
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
     children: buspointRoutes,
   },
   {

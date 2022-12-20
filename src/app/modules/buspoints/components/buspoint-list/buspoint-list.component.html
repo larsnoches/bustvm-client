@@ -20,7 +20,7 @@
     </tr>
   </thead>
 
-  <ng-container *ngIf="busPointData$ | async as busPoints">
+  <ng-container *ngIf="busPointListData$ | async as busPoints">
     <tbody *ngIf="busPoints.length === 0">
       <tr>
         <td colspan="5">
@@ -39,7 +39,7 @@
           {{ bp?.address }}
         </td>
         <td width="20%" valign="center" align="left" class="align-td-middle">
-          {{ bp?.busPointType?.name }}
+          {{ bp?.busPointType === 'BUS_STATION' ? 'Автовокзал' : 'Остановка' }}
         </td>
         <td valign="center" align="left" class="align-td-middle pe-0">
           <a
