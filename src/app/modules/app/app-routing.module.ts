@@ -78,12 +78,12 @@ const carrierRoutes: Routes = [
   {
     path: 'form',
     component: CarrierFormPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'form/:id',
     component: CarrierFormPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 

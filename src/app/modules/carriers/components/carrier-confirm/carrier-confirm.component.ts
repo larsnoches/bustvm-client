@@ -1,7 +1,7 @@
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Carrier } from '@modules/carriers/models/carrier.model';
 import { CarrierStoreService } from '@modules/carriers/services/carrier/carrier-store.service';
 import { Component } from '@angular/core';
+import { GetCarrierResponseDto } from '@modules/carriers/models/carrier.model';
 
 @Component({
   selector: 'app-carrier-confirm',
@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./carrier-confirm.component.scss'],
 })
 export class CarrierConfirmComponent {
-  carrier?: Carrier;
+  carrier?: GetCarrierResponseDto;
 
   constructor(
     private carrierStoreService: CarrierStoreService,
@@ -21,7 +21,7 @@ export class CarrierConfirmComponent {
       this.bsModalRef?.hide();
       return;
     }
-    this.carrierStoreService.deleteOne(this.carrier);
+    this.carrierStoreService.removeItem(this.carrier.id);
     this.bsModalRef?.hide();
   }
 

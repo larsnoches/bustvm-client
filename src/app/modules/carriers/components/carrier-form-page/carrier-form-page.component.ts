@@ -6,9 +6,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Carrier } from '@modules/carriers/models/carrier.model';
 import { CarrierStoreService } from '@modules/carriers/services/carrier/carrier-store.service';
-import { switchMap } from 'rxjs';
+import { GetCarrierResponseDto } from '@modules/carriers/models/carrier.model';
 
 @Component({
   selector: 'app-carrier-form-page',
@@ -16,9 +15,9 @@ import { switchMap } from 'rxjs';
   styleUrls: ['./carrier-form-page.component.scss'],
 })
 export class CarrierFormPageComponent implements OnInit {
-  // busPointTypeData$: Observable<Array<BusPointType>>;
   carrierForm: FormGroup;
-  carrier?: Carrier;
+  carrier?: GetCarrierResponseDto;
+  error: string | null = null;
 
   formId = 'carrierForm';
 
@@ -26,11 +25,8 @@ export class CarrierFormPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private carrierService: CarrierStoreService,
-    // private busPointTypeService: BusPointTypeStoreService,
     private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
-    // this.busPointTypeData$ = busPointTypeService.busPointTypeData.value$;
-
     this.carrierForm = new FormGroup({
       name: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -51,7 +47,7 @@ export class CarrierFormPageComponent implements OnInit {
       address: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
-        Validators.minLength(2),
+        Validators.minLength(7),
         Validators.maxLength(255),
         Validators.pattern(
           '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
@@ -73,18 +69,25 @@ export class CarrierFormPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(switchMap(val => val.getAll('id')))
-      .subscribe(val => {
-        const id = val;
-        this.carrier = this.carrierService.getOne(id);
-        this.carrierForm.setValue({
-          name: this.carrier?.name ?? '',
-          inn: this.carrier?.inn ?? '',
-          address: this.carrier?.address ?? '',
-          // busPointTypeId: this.busPoint?.busPointType.id ?? '',
-        });
+    const carrierId = this.route.snapshot.paramMap.get('id');
+    if (carrierId != null) {
+      const carrierIdInt = Number.parseInt(carrierId, 10);
+      this.carrierService.getItemById(carrierIdInt).subscribe({
+        next: this.handleGetItemResponse,
       });
+    }
+    // this.route.paramMap
+    //   .pipe(switchMap(val => val.getAll('id')))
+    //   .subscribe(val => {
+    //     const id = val;
+    //     this.carrier = this.carrierService.getOne(id);
+    //     this.carrierForm.setValue({
+    //       name: this.carrier?.name ?? '',
+    //       inn: this.carrier?.inn ?? '',
+    //       address: this.carrier?.address ?? '',
+    //       // busPointTypeId: this.busPoint?.busPointType.id ?? '',
+    //     });
+    //   });
   }
 
   onSubmitCarrier(): void {
@@ -92,15 +95,37 @@ export class CarrierFormPageComponent implements OnInit {
 
     const carrierDto = {
       ...this.carrierForm?.value,
-      // busPointType: `${this.busPointTypeService.apiUrl}/${bptId}`,
     };
 
     if (this.carrier != null) {
-      this.carrierService.edit(this.carrier.href, carrierDto);
+      this.carrierService
+        .updateItemById(this.carrier?.id, carrierDto)
+        .subscribe({
+          complete: () => {
+            this.router.navigate(['/carriers']);
+          },
+          error: (er: Error) => {
+            this.error = er.message;
+          },
+        });
     } else {
-      this.carrierService.create(carrierDto);
+      this.carrierService.createItem(carrierDto).subscribe({
+        complete: () => {
+          this.router.navigate(['/carriers']);
+        },
+        error: (er: Error) => {
+          this.error = er.message;
+        },
+      });
     }
-
-    this.router.navigate(['carriers']);
   }
+
+  private handleGetItemResponse = (data: GetCarrierResponseDto): void => {
+    this.carrier = data;
+    this.carrierForm.setValue({
+      name: this.carrier?.name ?? '',
+      inn: this.carrier?.inn ?? '',
+      address: this.carrier?.address ?? '',
+    });
+  };
 }

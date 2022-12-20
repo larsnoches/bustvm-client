@@ -20,7 +20,7 @@
     </tr>
   </thead>
 
-  <ng-container *ngIf="carrierData$ | async as carriers">
+  <ng-container *ngIf="carrierListData$ | async as carriers">
     <tbody *ngIf="carriers.length === 0">
       <tr>
         <td colspan="5">
