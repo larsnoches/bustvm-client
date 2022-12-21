@@ -1,0 +1,210 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/carriers', carrier?.id, 'buses']" class="btn btn-light mb-2"
+          >&lsaquo; Список автобусов перевозчика</a
+        >
+        <h2 class="h2 mb-2">
+          {{ bus ? 'Редактирование' : 'Создание' }}
+        </h2>
+        <h5 *ngIf="carrier?.name != null" class="h5 mb-4 pb-3">Автобуса для {{ carrier?.name }}</h5>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="busForm ?? null"
+        (ngSubmit)="onSubmitBus()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': makeModel?.invalid && (makeModel?.dirty || makeModel?.touched)
+            }"
+            id="makeModel"
+            name="makeModel"
+            placeholder="Марка и модель"
+            autofocus
+            autocomplete="off"
+            formControlName="makeModel"
+            required
+          />
+          <label for="makeModel">
+            <app-shared-float-label
+              [isNotValid]="makeModel?.invalid && (makeModel?.dirty || makeModel?.touched)"
+              controlPlaceholder="Марка и модель"
+              [hasRequiredError]="makeModel?.errors?.['required']"
+              requiredMessage="Марка и модель обязательны"
+              [hasMinLengthError]="makeModel?.errors?.['minlength']"
+              minlengthMessage="Строка с маркой и моделью должна быть не менее 2 символов"
+              [hasMaxLengthError]="makeModel?.errors?.['maxlength']"
+              maxlengthMessage="Строка с маркой и моделью должна быть не более 255 символов"
+              [hasPatternError]="makeModel?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Марка и модель автобуса"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': manufacturerCountry?.invalid && (manufacturerCountry?.dirty || manufacturerCountry?.touched)
+            }"
+            id="manufacturerCountry"
+            name="manufacturerCountry"
+            placeholder="Страна-изготовитель"
+            autofocus
+            autocomplete="off"
+            formControlName="manufacturerCountry"
+            required
+          />
+          <label for="manufacturerCountry">
+            <app-shared-float-label
+              [isNotValid]="manufacturerCountry?.invalid && (manufacturerCountry?.dirty || manufacturerCountry?.touched)"
+              controlPlaceholder="Страна-изготовитель"
+              [hasRequiredError]="manufacturerCountry?.errors?.['required']"
+              requiredMessage="Страна-изготовитель обязательна"
+              [hasMinLengthError]="manufacturerCountry?.errors?.['minlength']"
+              minlengthMessage="Строка со страной-изготовителем должна быть не менее 2 символов"
+              [hasMaxLengthError]="manufacturerCountry?.errors?.['maxlength']"
+              maxlengthMessage="Строка со страной-изготовителем должна быть не более 255 символов"
+              [hasPatternError]="manufacturerCountry?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Страна-изготовитель автобуса"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': yearOfManufacture?.invalid && (yearOfManufacture?.dirty || yearOfManufacture?.touched)
+            }"
+            id="yearOfManufacture"
+            name="yearOfManufacture"
+            placeholder="Год выпуска"
+            autofocus
+            autocomplete="off"
+            formControlName="yearOfManufacture"
+            required
+          />
+          <label for="yearOfManufacture">
+            <app-shared-float-label
+              [isNotValid]="yearOfManufacture?.invalid && (yearOfManufacture?.dirty || yearOfManufacture?.touched)"
+              controlPlaceholder="Год выпуска"
+              [hasRequiredError]="yearOfManufacture?.errors?.['required']"
+              requiredMessage="Год выпуска обязателен"
+              [hasMinLengthError]="yearOfManufacture?.errors?.['min']"
+              minlengthMessage="Год выпуска должен быть больше"
+              [hasMaxLengthError]="yearOfManufacture?.errors?.['maxlength']"
+              maxlengthMessage="Год выпуска должен быть из 4 символов"
+              [hasPatternError]="yearOfManufacture?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Год выпуска автобуса"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': seatCount?.invalid && (seatCount?.dirty || seatCount?.touched)
+            }"
+            id="seatCount"
+            name="seatCount"
+            placeholder="Количество мест"
+            autofocus
+            autocomplete="off"
+            formControlName="seatCount"
+            required
+          />
+          <label for="seatCount">
+            <app-shared-float-label
+              [isNotValid]="seatCount?.invalid && (seatCount?.dirty || seatCount?.touched)"
+              controlPlaceholder="Количество мест"
+              [hasRequiredError]="seatCount?.errors?.['required']"
+              requiredMessage="Количество мест обязательно"
+              [hasMinLengthError]="seatCount?.errors?.['min']"
+              minlengthMessage="Количество мест должно быть больше"
+              [hasMaxLengthError]="seatCount?.errors?.['max']"
+              maxlengthMessage="Количество мест должно быть меньше"
+              [hasPatternError]="seatCount?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Количество мест автобуса"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': regNumber?.invalid && (regNumber?.dirty || regNumber?.touched)
+            }"
+            id="regNumber"
+            name="regNumber"
+            placeholder="Государственный номер"
+            autofocus
+            autocomplete="off"
+            formControlName="regNumber"
+            required
+          />
+          <label for="regNumber">
+            <app-shared-float-label
+              [isNotValid]="regNumber?.invalid && (regNumber?.dirty || regNumber?.touched)"
+              controlPlaceholder="Государственный номер"
+              [hasRequiredError]="regNumber?.errors?.['required']"
+              requiredMessage="Государственный номер обязателен"
+              [hasMinLengthError]="regNumber?.errors?.['minlength']"
+              minlengthMessage="Государственный номер должен быть не менее 4 символов"
+              [hasMaxLengthError]="regNumber?.errors?.['maxlength']"
+              maxlengthMessage="Государственный номер должен быть не более 16 символов"
+              [hasPatternError]="regNumber?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Государственный номер автобуса"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="busForm?.valid === false"
+            >
+              {{ bus == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

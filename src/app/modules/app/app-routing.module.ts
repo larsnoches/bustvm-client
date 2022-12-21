@@ -1,5 +1,9 @@
 import * as coreComponents from '@modules/core/components';
 import {
+  BusFormPageComponent,
+  BusesPageComponent,
+} from '@modules/buses/components';
+import {
   BusPointFormPageComponent,
   BusPointsPageComponent,
 } from '@modules/buspoints/components';
@@ -69,6 +73,24 @@ const buspointRoutes: Routes = [
   },
 ];
 
+const busRoutes: Routes = [
+  {
+    path: '',
+    component: BusesPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form',
+    component: BusFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/:id',
+    component: BusFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+];
+
 const carrierRoutes: Routes = [
   {
     path: '',
@@ -85,6 +107,10 @@ const carrierRoutes: Routes = [
     component: CarrierFormPageComponent,
     canActivate: [AuthGuard, RoleGuard],
   },
+  {
+    path: ':carrierId/buses',
+    children: busRoutes,
+  },
 ];
 
 const routes: Routes = [
@@ -100,6 +126,10 @@ const routes: Routes = [
     path: 'carriers',
     children: carrierRoutes,
   },
+  // {
+  //   path: 'buses',
+  //   children: busRoutes,
+  // },
   {
     path: 'users',
     children: userRoutes,

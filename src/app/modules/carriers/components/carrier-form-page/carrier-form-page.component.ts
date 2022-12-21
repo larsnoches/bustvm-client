@@ -33,9 +33,9 @@ export class CarrierFormPageComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(255),
-        Validators.pattern(
-          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._]+ )*[а-яА-Яa-zA-Z0-9._]+(?<![_.])$',
-        ),
+        // Validators.pattern(
+        //   '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
+        // ),
       ]),
       inn: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -49,9 +49,9 @@ export class CarrierFormPageComponent implements OnInit {
         Validators.required,
         Validators.minLength(7),
         Validators.maxLength(255),
-        Validators.pattern(
-          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
-        ),
+        // Validators.pattern(
+        //   '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
+        // ),
       ]),
     });
   }
@@ -76,18 +76,6 @@ export class CarrierFormPageComponent implements OnInit {
         next: this.handleGetItemResponse,
       });
     }
-    // this.route.paramMap
-    //   .pipe(switchMap(val => val.getAll('id')))
-    //   .subscribe(val => {
-    //     const id = val;
-    //     this.carrier = this.carrierService.getOne(id);
-    //     this.carrierForm.setValue({
-    //       name: this.carrier?.name ?? '',
-    //       inn: this.carrier?.inn ?? '',
-    //       address: this.carrier?.address ?? '',
-    //       // busPointTypeId: this.busPoint?.busPointType.id ?? '',
-    //     });
-    //   });
   }
 
   onSubmitCarrier(): void {

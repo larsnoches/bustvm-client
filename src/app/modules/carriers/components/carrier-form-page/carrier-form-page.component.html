@@ -10,6 +10,17 @@
         </h2>
       </div>
 
+      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3">
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'buses']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Автобусы
+          </a>
+        </div>
+      </div>
+
       <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
         <div class="d-flex flex-row align-content-center align-items-center">
             <div class="d-flex flex-column">
@@ -73,7 +84,7 @@
             }"
             id="inn"
             name="inn"
-            placeholder="Название"
+            placeholder="ИНН"
             autofocus
             autocomplete="off"
             formControlName="inn"

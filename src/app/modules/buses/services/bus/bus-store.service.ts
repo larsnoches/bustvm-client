@@ -12,13 +12,15 @@ import { config } from '@helpers/config';
   providedIn: 'root',
 })
 export class BusStoreService extends StoreService<Req, Resp> {
+  busApiUrl = `${config.apiPath}/buses`;
+
   constructor(protected injector: Injector) {
     super(injector);
-    super.apiUrl = `${config.apiPath}/buses`;
+    super.apiUrl = this.busApiUrl;
   }
 
   getListByCarrierId(carrierId: number, pageNumber?: number | null): void {
-    const listUtl = `${super.apiUrl}/carrier/${carrierId}`;
+    const listUtl = `${this.busApiUrl}/carrier/${carrierId}`;
     const params = {
       page: pageNumber ?? 0,
       size: this.pageData.value.size,

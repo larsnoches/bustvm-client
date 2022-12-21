@@ -4,6 +4,7 @@ import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BusPointsModule } from '@modules/buspoints/buspoints.module';
+import { BusesModule } from '@modules/buses/buses.module';
 import { CarriersModule } from '@modules/carriers/carriers.module';
 import { CoreModule } from '@modules/core/core.module';
 import { EmailGuard } from '@modules/core/guards/email/email.guard';
@@ -22,6 +23,7 @@ import { authInterceptorProvider } from '@modules/core/interceptors/auth.interce
     BrowserAnimationsModule,
     BusPointsModule,
     CarriersModule,
+    BusesModule,
     UsersModule,
     CoreModule,
     // AuthGuard,
