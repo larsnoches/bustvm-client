@@ -110,7 +110,7 @@ export class StoreService<
       });
   }
 
-  private updateListAndPageData(value: Pageable<ResponseDto>): void {
+  protected updateListAndPageData(value: Pageable<ResponseDto>): void {
     if (
       this.pageData.value.last ||
       this.pageData.value.number === value.number

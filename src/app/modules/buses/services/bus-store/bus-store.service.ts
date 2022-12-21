@@ -1,34 +1,44 @@
-import { catchError, retry } from 'rxjs';
-import { BehaviorSubjectItem } from '@helpers/behavior-subject-item';
-import { Bus } from '@modules/buses/models/bus.model';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ThrowableService } from '@helpers/throwable-http-service';
+import { Injectable, Injector } from '@angular/core';
+import {
+  BasicBusRequestDto as Req,
+  GetBusResponseDto as Resp,
+} from '@modules/buses/models/bus.model';
+import { catchError, retry, tap } from 'rxjs';
+import { Pageable } from '@helpers/page-data';
+import { StoreService } from '@helpers/store.service';
 import { config } from '@helpers/config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BusStoreService extends ThrowableService {
-  private readonly apiFetchUrl = `${config.apiPath}/buses`;
-  private readonly busData = new BehaviorSubjectItem<Array<Bus>>([]);
-
-  constructor(private http: HttpClient) {
-    super();
-    this.fetch();
+export class BusStoreService extends StoreService<Req, Resp> {
+  constructor(protected injector: Injector) {
+    super(injector);
+    super.apiUrl = `${config.apiPath}/buses`;
   }
 
-  fetch() {
+  getListByCarrierId(carrierId: number, pageNumber?: number | null): void {
+    const listUtl = `${super.apiUrl}/carrier/${carrierId}`;
+    const params = {
+      page: pageNumber ?? 0,
+      size: this.pageData.value.size,
+      sort: 'id',
+    };
+
     this.http
-      .get<Array<Bus>>(this.apiFetchUrl)
+      .get<Pageable<Resp>>(listUtl, { params })
       .pipe(
+        tap(() => (this.loading.value = true)),
         retry(3),
-        catchError(er => this.handleError(er)),
+        catchError(er => {
+          this.loading.value = false;
+          return this.handleError(er);
+        }),
+        tap(() => (this.loading.value = false)),
       )
-      .subscribe(data => this.setBusData(data));
-  }
-
-  setBusData(value: Array<Bus>) {
-    this.busData.value = value;
+      .subscribe({
+        next: data => super.updateListAndPageData(data),
+        complete: () => (this.loading.value = false),
+      });
   }
 }
