@@ -10,13 +10,21 @@
         </h2>
       </div>
 
-      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3">
+      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3 gap-2">
         <div>
           <a
             [routerLink]="['/carriers', carrier?.id, 'buses']"
             class="w-100 btn btn-primary btn-sm"
           >
             Автобусы
+          </a>
+        </div>
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'fares']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Тарифы
           </a>
         </div>
       </div>

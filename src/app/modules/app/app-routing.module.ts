@@ -11,6 +11,10 @@ import {
   CarrierFormPageComponent,
   CarriersPageComponent,
 } from '@modules/carriers/components';
+import {
+  FareFormPageComponent,
+  FaresPageComponent,
+} from '@modules/fares/components';
 import { RouterModule, Routes } from '@angular/router';
 import {
   UserChangePasswordComponent,
@@ -91,6 +95,24 @@ const busRoutes: Routes = [
   },
 ];
 
+const fareRoutes: Routes = [
+  {
+    path: '',
+    component: FaresPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form',
+    component: FareFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/:id',
+    component: FareFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+];
+
 const carrierRoutes: Routes = [
   {
     path: '',
@@ -110,6 +132,10 @@ const carrierRoutes: Routes = [
   {
     path: ':carrierId/buses',
     children: busRoutes,
+  },
+  {
+    path: ':carrierId/fares',
+    children: fareRoutes,
   },
 ];
 

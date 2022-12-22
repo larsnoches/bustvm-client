@@ -8,6 +8,7 @@ import { BusesModule } from '@modules/buses/buses.module';
 import { CarriersModule } from '@modules/carriers/carriers.module';
 import { CoreModule } from '@modules/core/core.module';
 import { EmailGuard } from '@modules/core/guards/email/email.guard';
+import { FaresModule } from '@modules/fares/fares.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
@@ -24,6 +25,7 @@ import { authInterceptorProvider } from '@modules/core/interceptors/auth.interce
     BusPointsModule,
     CarriersModule,
     BusesModule,
+    FaresModule,
     UsersModule,
     CoreModule,
     // AuthGuard,

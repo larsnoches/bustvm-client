@@ -1,0 +1,8 @@
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="fare == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+>Желаете удалить {{ fare.name }}?</app-shared-confirm>

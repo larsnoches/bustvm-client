@@ -1,0 +1,53 @@
+<table class="table">
+  <caption>
+    <ng-container *ngIf="loading$ | async">
+      <app-shared-spinner></app-shared-spinner>
+    </ng-container>
+  </caption>
+  <thead class="table-dark">
+    <tr>
+      <th width="40%" valign="center" align="left" class="align-td-middle">
+        Название
+      </th>
+      <th width="30%" valign="center" align="left" class="align-td-middle">
+        Цена
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <ng-container *ngIf="fareListData$ | async as fares">
+    <tbody *ngIf="fares.length === 0">
+      <tr>
+        <td colspan="5">
+          <div class="d-flex justify-content-center">
+            <strong>Ничего нет</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="fares.length > 0">
+      <tr *ngFor="let fa of fares">
+        <td width="40%" valign="center" align="left" class="align-td-middle">
+          {{ fa?.name }}
+        </td>
+        <td width="30%" valign="center" align="left" class="align-td-middle">
+          {{ fa?.price }}
+        </td>
+        <td valign="center" align="left" class="align-td-middle pe-0">
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'fares', 'form', fa?.id]"
+            class="btn btn-primary btn-sm"
+            >Редактировать</a
+          >
+        </td>
+        <td valign="center" align="left" class="align-td-middle">
+          <app-shared-button [size]="0" (click)="deleteOne(fa)"
+            >Удалить</app-shared-button
+          >
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+</table>

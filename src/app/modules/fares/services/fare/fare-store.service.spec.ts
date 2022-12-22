@@ -1,12 +1,12 @@
-import { FaresStoreService } from './fares-store.service';
+import { FareStoreService } from './fare-store.service';
 import { TestBed } from '@angular/core/testing';
 
 describe('FaresStoreService', () => {
-  let service: FaresStoreService;
+  let service: FareStoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FaresStoreService);
+    service = TestBed.inject(FareStoreService);
   });
 
   it('should be created', () => {
