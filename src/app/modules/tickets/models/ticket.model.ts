@@ -1,4 +1,4 @@
-import { BusTrip } from '@modules/bustrips/models/bustrip/bustrip.model';
+import { BusTrip } from '@modules/bustrips/models/bustrip.model';
 
 export interface Ticket {
   id: number;

@@ -21,11 +21,12 @@ export class BusStoreService extends StoreService<Req, Resp> {
 
   getListByCarrierId(carrierId: number, pageNumber?: number | null): void {
     const listUtl = `${this.busApiUrl}/carrier/${carrierId}`;
-    const params = {
+    let params = {
       page: pageNumber ?? 0,
       size: this.pageData.value.size,
       sort: 'id',
     };
+    if (pageNumber == null) params = null;
 
     this.http
       .get<Pageable<Resp>>(listUtl, { params })

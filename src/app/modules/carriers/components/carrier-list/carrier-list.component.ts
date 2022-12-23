@@ -23,7 +23,7 @@ export class CarrierListComponent {
     this.pageData$ = carrierService.pageData.value$;
     this.loading$ = carrierService.loading.value$;
 
-    this.carrierService.getList();
+    this.carrierService.getList(0);
   }
 
   deleteOne(carrier: GetCarrierResponseDto): void {

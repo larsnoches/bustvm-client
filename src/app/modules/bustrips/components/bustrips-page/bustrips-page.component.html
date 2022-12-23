@@ -1,0 +1,19 @@
+<div class="container">
+  <a [routerLink]="['/carriers', 'form', carrier?.id]" class="btn btn-light mb-2"
+    >&lsaquo; Перевозчик</a>
+  <h2 class="h2 mb-2">Маршруты</h2>
+  <h5 *ngIf="carrier?.name != null" class="h5 mb-4">{{ carrier?.name }}</h5>
+  <div class="d-flex pt-4 pb-3">
+    <div>
+      <a
+        [routerLink]="['/carriers', carrier?.id, 'bustrips', 'form']"
+        class="w-100 btn btn-primary btn-sm"
+      >
+        Добавить
+      </a>
+    </div>
+  </div>
+  <app-bustrip-list
+    (deleteItemHandler)="onDeleteItemBtnClick($event)"
+  ></app-bustrip-list>
+</div>

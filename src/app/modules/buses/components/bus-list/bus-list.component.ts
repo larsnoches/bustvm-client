@@ -36,7 +36,7 @@ export class BusListComponent implements OnInit {
     const carrierId = this.route.snapshot.paramMap.get('carrierId');
     if (carrierId != null) {
       const carrierIdInt = Number.parseInt(carrierId, 10);
-      this.busService.getListByCarrierId(carrierIdInt);
+      this.busService.getListByCarrierId(carrierIdInt, 0);
       this.carrier = this.carrierService.listData.value.find(
         val => val.id === carrierIdInt,
       );

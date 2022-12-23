@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import {
-  BasicFareRequestDto as Req,
-  GetFareResponseDto as Resp,
-} from '@modules/fares/models/fare.model';
+  BasicBusTripRequestDto as Req,
+  GetBusTripResponseDto as Resp,
+} from '@modules/bustrips/models/bustrip.model';
 import { catchError, retry, tap } from 'rxjs';
 import { Pageable } from '@helpers/page-data';
 import { StoreService } from '@helpers/store.service';
@@ -11,22 +11,21 @@ import { config } from '@helpers/config';
 @Injectable({
   providedIn: 'root',
 })
-export class FareStoreService extends StoreService<Req, Resp> {
-  fareApiUrl = `${config.apiPath}/fares`;
+export class BusTripStoreService extends StoreService<Req, Resp> {
+  bustripApiUrl = `${config.apiPath}/busTrips`;
 
   constructor(protected injector: Injector) {
     super(injector);
-    super.apiUrl = this.fareApiUrl;
+    super.apiUrl = this.bustripApiUrl;
   }
 
   getListByCarrierId(carrierId: number, pageNumber?: number | null): void {
-    const listUtl = `${this.fareApiUrl}/carrier/${carrierId}`;
-    let params = {
+    const listUtl = `${this.bustripApiUrl}/carrier/${carrierId}`;
+    const params = {
       page: pageNumber ?? 0,
       size: this.pageData.value.size,
       sort: 'id',
     };
-    if (pageNumber == null) params = null;
 
     this.http
       .get<Pageable<Resp>>(listUtl, { params })

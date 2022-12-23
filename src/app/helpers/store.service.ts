@@ -28,11 +28,12 @@ export class StoreService<
   }
 
   getList(pageNumber?: number | null): void {
-    const params = {
+    let params = {
       page: pageNumber ?? 0,
       size: this.pageData.value.size,
       sort: 'id',
     };
+    if (pageNumber == null) params = null;
 
     this.http
       .get<Pageable<ResponseDto>>(this.apiUrl, { params })

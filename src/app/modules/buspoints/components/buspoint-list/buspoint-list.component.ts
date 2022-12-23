@@ -23,7 +23,7 @@ export class BusPointListComponent {
     this.pageData$ = busPointService.pageData.value$;
     this.loading$ = busPointService.loading.value$;
 
-    this.busPointService.getList();
+    this.busPointService.getList(0);
   }
 
   deleteOne(busPoint: GetBusPointResponseDto): void {

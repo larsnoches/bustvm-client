@@ -36,7 +36,7 @@ export class FareListComponent implements OnInit {
     const carrierId = this.route.snapshot.paramMap.get('carrierId');
     if (carrierId != null) {
       const carrierIdInt = Number.parseInt(carrierId, 10);
-      this.fareService.getListByCarrierId(carrierIdInt);
+      this.fareService.getListByCarrierId(carrierIdInt, 0);
       this.carrier = this.carrierService.listData.value.find(
         val => val.id === carrierIdInt,
       );
