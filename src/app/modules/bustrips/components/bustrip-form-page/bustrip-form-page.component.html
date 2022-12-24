@@ -43,9 +43,10 @@
             formControlName="departureBusPoint"
             required
           >
+            <option value=""></option>
             <option
               *ngFor="let bp of busPointListData | async"
-              value="{{ bp.id }}"
+              [ngValue]="bp.id"
             >
               {{ bp.name }}
             </option>
@@ -98,12 +99,13 @@
             formControlName="arrivalBusPoint"
             required
           >
-          <option
-            *ngFor="let bp of busPointListData | async"
-            value="{{ bp.id }}"
-          >
-            {{ bp.name }}
-          </option>
+            <option value=""></option>
+            <option
+              *ngFor="let bp of busPointListData | async"
+              [ngValue]="bp.id"
+            >
+              {{ bp.name }}
+            </option>
           </select>
           <label for="arrivalBusPoint">
             <app-shared-float-label
@@ -304,9 +306,10 @@
             formControlName="bus"
             required
           >
+            <option value=""></option>
             <option
               *ngFor="let b of busListData | async"
-              value="{{ b.id }}"
+              [ngValue]="b.id"
             >
               {{ b.makeModel }}, госномер {{ b.regNumber }}
             </option>
@@ -359,9 +362,10 @@
             formControlName="fare"
             required
           >
+            <option value=""></option>
             <option
               *ngFor="let f of fareListData | async"
-              value="{{ f.id }}"
+              [ngValue]="f.id"
             >
               {{ f.name }}, {{ f.price }}
             </option>

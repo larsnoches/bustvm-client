@@ -16,6 +16,10 @@ export interface BasicBusTripRequestDto {
   carrier: number;
 }
 
+export interface CreateBusTripResponseDto extends BasicBusTripRequestDto {
+  id: number;
+}
+
 export interface GetBusTripResponseDto {
   id: number;
   departureBusPoint: GetBusPointResponseDto;

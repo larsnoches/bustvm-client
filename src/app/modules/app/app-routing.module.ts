@@ -8,6 +8,10 @@ import {
   BusPointsPageComponent,
 } from '@modules/buspoints/components';
 import {
+  BusTripFormPageComponent,
+  BusTripsPageComponent,
+} from '@modules/bustrips/components';
+import {
   CarrierFormPageComponent,
   CarriersPageComponent,
 } from '@modules/carriers/components';
@@ -113,6 +117,24 @@ const fareRoutes: Routes = [
   },
 ];
 
+const bustripsRoutes: Routes = [
+  {
+    path: '',
+    component: BusTripsPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form',
+    component: BusTripFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/:id',
+    component: BusTripFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+];
+
 const carrierRoutes: Routes = [
   {
     path: '',
@@ -136,6 +158,10 @@ const carrierRoutes: Routes = [
   {
     path: ':carrierId/fares',
     children: fareRoutes,
+  },
+  {
+    path: ':carrierId/bustrips',
+    children: bustripsRoutes,
   },
 ];
 
