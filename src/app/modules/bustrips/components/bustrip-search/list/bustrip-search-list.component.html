@@ -1,0 +1,60 @@
+<div>
+  <div class="row">
+    <ng-container *ngIf="loading$ | async">
+      <app-shared-spinner></app-shared-spinner>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="busTripListData$ | async as busTrips">
+    <div *ngIf="busTrips.length === 0">
+      <div class="card text-center bg-light">
+        <div class="card-body text-muted">
+          Уточните параметры поиска
+        </div>
+      </div>
+    </div>
+    <div *ngIf="busTrips.length > 0">
+      <div class="card" *ngFor="let btr of busTrips">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-sm-2">
+              <div class="row">
+                <div class="col">
+                  {{ btr.departureDate }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  {{ btr.departureTime }}
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  Из <strong>{{ btr.departureBusPoint.name }}</strong>
+                  в <strong>{{ btr.arrivalBusPoint.name }}</strong>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <em>Маршрут №{{ btr.busRouteNumber }}. 
+                    Автобус {{ btr.bus.makeModel }}.
+                    Перевозчик {{ btr.carrier.name }}.
+                  </em>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <mark>{{ btr.fare.price * btr.distance }} руб.</mark>
+            </div>
+            <div class="col-sm-2">
+              <app-shared-button 
+                [size]="0" 
+                (click)="orderOne(btr)">Заказать</app-shared-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

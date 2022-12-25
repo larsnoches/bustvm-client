@@ -2,6 +2,9 @@ import {
   BusTripConfirmComponent,
   BusTripFormPageComponent,
   BusTripListComponent,
+  BusTripSearchFormComponent,
+  BusTripSearchListComponent,
+  BusTripSearchPageComponent,
   BusTripsPageComponent,
 } from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +21,9 @@ import { SharedModule } from '@modules/shared/shared.module';
     BusTripFormPageComponent,
     BusTripListComponent,
     BusTripsPageComponent,
+    BusTripSearchListComponent,
+    BusTripSearchPageComponent,
+    BusTripSearchFormComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +35,6 @@ import { SharedModule } from '@modules/shared/shared.module';
     ModalModule.forRoot(),
   ],
   providers: [BusTripStoreService],
-  exports: [BusTripsPageComponent],
+  exports: [BusTripsPageComponent, BusTripSearchPageComponent],
 })
 export class BusTripsModule {}

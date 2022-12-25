@@ -34,7 +34,7 @@ export class BusPointFormPageComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(255),
         Validators.pattern(
-          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._]+ )*[а-яА-Яa-zA-Z0-9._]+(?<![_.])$',
+          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
         ),
       ]),
       address: new FormControl('', [

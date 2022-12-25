@@ -2,6 +2,7 @@ import * as coreComponents from './components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
+import { BusTripsModule } from '@modules/bustrips/bustrips.module';
 import { CommonModule } from '@angular/common';
 import { EmailGuard } from './guards/email/email.guard';
 import { NgModule } from '@angular/core';
@@ -18,6 +19,7 @@ import { authInterceptorProvider } from './interceptors/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    BusTripsModule,
   ],
   exports: [...coreComponents.components],
   providers: [
