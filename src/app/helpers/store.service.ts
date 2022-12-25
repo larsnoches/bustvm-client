@@ -112,6 +112,13 @@ export class StoreService<
   }
 
   protected updateListAndPageData(value: Pageable<ResponseDto>): void {
+    this.updateListAndPageDataWithSorting(value, true);
+  }
+
+  protected updateListAndPageDataWithSorting(
+    value: Pageable<ResponseDto>,
+    sorting: boolean,
+  ): void {
     if (
       this.pageData.value.last ||
       this.pageData.value.number === value.number
@@ -122,7 +129,7 @@ export class StoreService<
       this.listData.value.push(...value.content);
     }
 
-    this.listData.value.sort((a, b) => a.id - b.id);
+    if (sorting) this.listData.value.sort((a, b) => a.id - b.id);
 
     this.pageData.value = {
       last: value.last,

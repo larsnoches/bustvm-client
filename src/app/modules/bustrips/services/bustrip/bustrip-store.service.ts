@@ -55,7 +55,8 @@ export class BusTripStoreService extends StoreService<Req, Resp> {
       departureDate,
       page: pageNumber ?? 0,
       size: this.pageData.value.size,
-      sort: 'id',
+      sort: 'departureDateTime',
+      // sort: 'id',
     };
 
     this.http
@@ -71,7 +72,7 @@ export class BusTripStoreService extends StoreService<Req, Resp> {
         share(),
       )
       .subscribe({
-        next: data => super.updateListAndPageData(data),
+        next: data => super.updateListAndPageDataWithSorting(data, false),
         complete: () => (this.loading.value = false),
       });
   }
