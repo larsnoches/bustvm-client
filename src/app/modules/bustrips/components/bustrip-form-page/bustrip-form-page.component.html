@@ -268,29 +268,53 @@
             class="form-control"
             [ngClass]="{
               'form-control': true,
-              'is-invalid': averageBusSpeed?.invalid && (averageBusSpeed?.dirty || averageBusSpeed?.touched)
+              'is-invalid': arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)
             }"
-            id="averageBusSpeed"
-            name="averageBusSpeed"
-            placeholder="Средняя скорость на маршруте"
+            id="arrivalDate"
+            name="arrivalDate"
+            placeholder="Дата прибытия"
             autofocus
             autocomplete="off"
-            formControlName="averageBusSpeed"
+            formControlName="arrivalDate"
             required
           />
-          <label for="averageBusSpeed">
+          <label for="arrivalDate">
             <app-shared-float-label
-              [isNotValid]="averageBusSpeed?.invalid && (averageBusSpeed?.dirty || averageBusSpeed?.touched)"
-              controlPlaceholder="Средняя скорость на маршруте"
-              [hasRequiredError]="averageBusSpeed?.errors?.['required']"
-              requiredMessage="Средняя скорость на маршруте обязательна"
-              [hasMinLengthError]="averageBusSpeed?.errors?.['min']"
-              minlengthMessage="Средняя скорость на маршруте должна быть больше"
-              [hasMaxLengthError]="averageBusSpeed?.errors?.['max']"
-              maxlengthMessage="Средняя скорость на маршруте должна быть меньше 130"
-              [hasPatternError]="averageBusSpeed?.errors?.['pattern']"
-              patternMessage="Недопустимые символы"
-              controlFullLabel="Средняя скорость на маршруте"
+              [isNotValid]="arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)"
+              controlPlaceholder="Дата прибытия"
+              [hasRequiredError]="arrivalDate?.errors?.['required']"
+              requiredMessage="Дата прибытия обязательна"
+              [hasPatternError]="arrivalDate?.errors?.['pattern']"
+              patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
+              controlFullLabel="Дата прибытия"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)
+            }"
+            id="arrivalTime"
+            name="arrivalTime"
+            placeholder="Время прибытия"
+            autofocus
+            autocomplete="off"
+            formControlName="arrivalTime"
+            required
+          />
+          <label for="arrivalTime">
+            <app-shared-float-label
+              [isNotValid]="arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)"
+              controlPlaceholder="Время прибытия"
+              [hasRequiredError]="arrivalTime?.errors?.['required']"
+              requiredMessage="Время прибытия обязательно"
+              [hasPatternError]="arrivalTime?.errors?.['pattern']"
+              patternMessage="Несоответствующие формату ЧЧ:ММ символы"
+              controlFullLabel="Время прибытия"
             ></app-shared-float-label>
           </label>
         </div>

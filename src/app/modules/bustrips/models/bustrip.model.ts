@@ -10,7 +10,8 @@ export interface BasicBusTripRequestDto {
   busRouteNumber: string;
   departureDate: string;
   departureTime: string;
-  averageBusSpeed: number;
+  arrivalDate: string;
+  arrivalTime: string;
   bus: number;
   fare: number;
   carrier: number;
@@ -28,7 +29,8 @@ export interface GetBusTripResponseDto {
   busRouteNumber: string;
   departureDate: string;
   departureTime: string;
-  averageBusSpeed: number;
+  arrivalDate: string;
+  arrivalTime: string;
   bus: GetBusResponseDto;
   fare: GetFareResponseDto;
   carrier: GetCarrierResponseDto;

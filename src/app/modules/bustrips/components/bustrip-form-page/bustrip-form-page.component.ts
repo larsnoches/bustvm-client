@@ -74,13 +74,7 @@ export class BusTripFormPageComponent implements OnInit {
       departureDate: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
-        // Validators.pattern(
-        //   // eslint-disable-next-line prettier/prettier, no-useless-escape
-        //   '^(0?[1-9]|[12][0-9]|3[01])[/-.](0?[1-9]|1[012])[/-.]d{4}$',
-        // ),
         Validators.pattern(
-          // eslint-disable-next-line prettier/prettier, no-useless-escape
-          // '^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).d{4}$',
           '^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).[0-9]{4}$',
         ),
       ]),
@@ -92,16 +86,31 @@ export class BusTripFormPageComponent implements OnInit {
           '^([0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$',
         ),
       ]),
-      averageBusSpeed: new FormControl('', [
+      arrivalDate: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
-        Validators.min(5),
-        Validators.max(130),
         Validators.pattern(
-          // eslint-disable-next-line prettier/prettier, no-useless-escape
-          '^[0-9]+$',
+          '^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).[0-9]{4}$',
         ),
       ]),
+      arrivalTime: new FormControl('', [
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        Validators.required,
+        Validators.pattern(
+          // eslint-disable-next-line prettier/prettier, no-useless-escape
+          '^([0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$',
+        ),
+      ]),
+      // averageBusSpeed: new FormControl('', [
+      //   // eslint-disable-next-line @typescript-eslint/unbound-method
+      //   Validators.required,
+      //   Validators.min(5),
+      //   Validators.max(130),
+      //   Validators.pattern(
+      //     // eslint-disable-next-line prettier/prettier, no-useless-escape
+      //     '^[0-9]+$',
+      //   ),
+      // ]),
       bus: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
@@ -110,10 +119,6 @@ export class BusTripFormPageComponent implements OnInit {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
       ]),
-      // carrier: new FormControl('', [
-      //   // eslint-disable-next-line @typescript-eslint/unbound-method
-      //   Validators.required,
-      // ]),
     });
   }
 
@@ -141,8 +146,12 @@ export class BusTripFormPageComponent implements OnInit {
     return this.busTripForm?.get('departureTime') ?? null;
   }
 
-  get averageBusSpeed(): AbstractControl {
-    return this.busTripForm?.get('averageBusSpeed') ?? null;
+  get arrivalDate(): AbstractControl {
+    return this.busTripForm?.get('arrivalDate') ?? null;
+  }
+
+  get arrivalTime(): AbstractControl {
+    return this.busTripForm?.get('arrivalTime') ?? null;
   }
 
   get bus(): AbstractControl {
@@ -223,7 +232,8 @@ export class BusTripFormPageComponent implements OnInit {
       busRouteNumber: this.busTrip?.busRouteNumber ?? '',
       departureDate: this.busTrip?.departureDate ?? '',
       departureTime: this.busTrip?.departureTime ?? '',
-      averageBusSpeed: this.busTrip?.averageBusSpeed ?? '',
+      arrivalDate: this.busTrip?.arrivalDate ?? '',
+      arrivalTime: this.busTrip?.arrivalTime ?? '',
       bus: this.busTrip?.bus?.id ?? '',
       fare: this.busTrip?.fare?.id ?? '',
     });
