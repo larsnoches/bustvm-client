@@ -13,6 +13,7 @@ import { FaresModule } from '@modules/fares/fares.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
+import { SeatsModule } from '@modules/seats/seats.module';
 import { UsersModule } from '@modules/users/users.module';
 import { authInterceptorProvider } from '@modules/core/interceptors/auth.interceptor';
 
@@ -28,6 +29,7 @@ import { authInterceptorProvider } from '@modules/core/interceptors/auth.interce
     BusesModule,
     FaresModule,
     BusTripsModule,
+    SeatsModule,
     UsersModule,
     CoreModule,
     // AuthGuard,

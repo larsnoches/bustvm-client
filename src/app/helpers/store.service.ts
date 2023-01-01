@@ -139,6 +139,7 @@ export class StoreService<
       number: value.number,
       empty: value.empty,
     };
+    console.log(this.pageData.value);
   }
 
   private removeDataItem(itemId: number): void {

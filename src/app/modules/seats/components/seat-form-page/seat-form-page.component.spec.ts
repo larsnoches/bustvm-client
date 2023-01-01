@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeatStatesListComponent } from './seat-states-list.component';
+import { SeatFormPageComponent } from './seat-form-page.component';
 
-describe('SeatStatesListComponent', () => {
-  let component: SeatStatesListComponent;
-  let fixture: ComponentFixture<SeatStatesListComponent>;
+describe('SeatFormPageComponent', () => {
+  let component: SeatFormPageComponent;
+  let fixture: ComponentFixture<SeatFormPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SeatStatesListComponent],
+      declarations: [SeatFormPageComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeatStatesListComponent);
+    fixture = TestBed.createComponent(SeatFormPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

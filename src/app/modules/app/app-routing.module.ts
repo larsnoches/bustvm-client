@@ -21,6 +21,10 @@ import {
 } from '@modules/fares/components';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  SeatFormPageComponent,
+  SeatsPageComponent,
+} from '@modules/seats/components';
+import {
   UserChangePasswordComponent,
   UserFormPageComponent,
   UsersPageComponent,
@@ -117,7 +121,25 @@ const fareRoutes: Routes = [
   },
 ];
 
-const bustripsRoutes: Routes = [
+const seatRoutes: Routes = [
+  {
+    path: '',
+    component: SeatsPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form',
+    component: SeatFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'form/:id',
+    component: SeatFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+];
+
+const bustripRoutes: Routes = [
   {
     path: '',
     component: BusTripsPageComponent,
@@ -132,6 +154,10 @@ const bustripsRoutes: Routes = [
     path: 'form/:id',
     component: BusTripFormPageComponent,
     canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: ':busTripId/seats',
+    children: seatRoutes,
   },
 ];
 
@@ -161,7 +187,7 @@ const carrierRoutes: Routes = [
   },
   {
     path: ':carrierId/bustrips',
-    children: bustripsRoutes,
+    children: bustripRoutes,
   },
 ];
 

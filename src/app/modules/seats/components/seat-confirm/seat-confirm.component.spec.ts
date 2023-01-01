@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeatsItemComponent } from './seats-item.component';
+import { SeatConfirmComponent } from './seat-confirm.component';
 
-describe('SeatsItemComponent', () => {
-  let component: SeatsItemComponent;
-  let fixture: ComponentFixture<SeatsItemComponent>;
+describe('SeatConfirmComponent', () => {
+  let component: SeatConfirmComponent;
+  let fixture: ComponentFixture<SeatConfirmComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SeatsItemComponent],
+      declarations: [SeatConfirmComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeatsItemComponent);
+    fixture = TestBed.createComponent(SeatConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -11,6 +11,17 @@
         <h5 *ngIf="carrier?.name != null" class="h5 mb-4 pb-3">Маршрута для {{ carrier?.name }}</h5>
       </div>
 
+      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3 gap-2">
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id ?? 0, 'bustrips', busTrip?.id ?? 0, 'seats']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Места
+          </a>
+        </div>
+      </div>
+
       <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
         <div class="d-flex flex-row align-content-center align-items-center">
             <div class="d-flex flex-column">
@@ -206,117 +217,123 @@
             ></app-shared-float-label>
           </label>
         </div>
-        <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)
-            }"
-            id="departureDate"
-            name="departureDate"
-            placeholder="Дата отправления"
-            autofocus
-            autocomplete="off"
-            formControlName="departureDate"
-            required
-          />
-          <label for="departureDate">
-            <app-shared-float-label
-              [isNotValid]="departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)"
-              controlPlaceholder="Дата отправления"
-              [hasRequiredError]="departureDate?.errors?.['required']"
-              requiredMessage="Дата отправления обязательна"
-              [hasPatternError]="departureDate?.errors?.['pattern']"
-              patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
-              controlFullLabel="Дата отправления"
-            ></app-shared-float-label>
-          </label>
+
+        <div class="row g-2">
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)
+              }"
+              id="departureDate"
+              name="departureDate"
+              placeholder="Дата отправления"
+              autofocus
+              autocomplete="off"
+              formControlName="departureDate"
+              required
+            />
+            <label for="departureDate">
+              <app-shared-float-label
+                [isNotValid]="departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)"
+                controlPlaceholder="Дата отправления"
+                [hasRequiredError]="departureDate?.errors?.['required']"
+                requiredMessage="Дата отправления обязательна"
+                [hasPatternError]="departureDate?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
+                controlFullLabel="Дата отправления"
+              ></app-shared-float-label>
+            </label>
+          </div>
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)
+              }"
+              id="departureTime"
+              name="departureTime"
+              placeholder="Время отправления"
+              autofocus
+              autocomplete="off"
+              formControlName="departureTime"
+              required
+            />
+            <label for="departureTime">
+              <app-shared-float-label
+                [isNotValid]="departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)"
+                controlPlaceholder="Время отправления"
+                [hasRequiredError]="departureTime?.errors?.['required']"
+                requiredMessage="Время отправления обязательно"
+                [hasPatternError]="departureTime?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ЧЧ:ММ символы"
+                controlFullLabel="Время отправления"
+              ></app-shared-float-label>
+            </label>
+          </div>
         </div>
-        <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)
-            }"
-            id="departureTime"
-            name="departureTime"
-            placeholder="Время отправления"
-            autofocus
-            autocomplete="off"
-            formControlName="departureTime"
-            required
-          />
-          <label for="departureTime">
-            <app-shared-float-label
-              [isNotValid]="departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)"
-              controlPlaceholder="Время отправления"
-              [hasRequiredError]="departureTime?.errors?.['required']"
-              requiredMessage="Время отправления обязательно"
-              [hasPatternError]="departureTime?.errors?.['pattern']"
-              patternMessage="Несоответствующие формату ЧЧ:ММ символы"
-              controlFullLabel="Время отправления"
-            ></app-shared-float-label>
-          </label>
-        </div>
-        <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)
-            }"
-            id="arrivalDate"
-            name="arrivalDate"
-            placeholder="Дата прибытия"
-            autofocus
-            autocomplete="off"
-            formControlName="arrivalDate"
-            required
-          />
-          <label for="arrivalDate">
-            <app-shared-float-label
-              [isNotValid]="arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)"
-              controlPlaceholder="Дата прибытия"
-              [hasRequiredError]="arrivalDate?.errors?.['required']"
-              requiredMessage="Дата прибытия обязательна"
-              [hasPatternError]="arrivalDate?.errors?.['pattern']"
-              patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
-              controlFullLabel="Дата прибытия"
-            ></app-shared-float-label>
-          </label>
-        </div>
-        <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)
-            }"
-            id="arrivalTime"
-            name="arrivalTime"
-            placeholder="Время прибытия"
-            autofocus
-            autocomplete="off"
-            formControlName="arrivalTime"
-            required
-          />
-          <label for="arrivalTime">
-            <app-shared-float-label
-              [isNotValid]="arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)"
-              controlPlaceholder="Время прибытия"
-              [hasRequiredError]="arrivalTime?.errors?.['required']"
-              requiredMessage="Время прибытия обязательно"
-              [hasPatternError]="arrivalTime?.errors?.['pattern']"
-              patternMessage="Несоответствующие формату ЧЧ:ММ символы"
-              controlFullLabel="Время прибытия"
-            ></app-shared-float-label>
-          </label>
+
+        <div class="row g-2">
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)
+              }"
+              id="arrivalDate"
+              name="arrivalDate"
+              placeholder="Дата прибытия"
+              autofocus
+              autocomplete="off"
+              formControlName="arrivalDate"
+              required
+            />
+            <label for="arrivalDate">
+              <app-shared-float-label
+                [isNotValid]="arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)"
+                controlPlaceholder="Дата прибытия"
+                [hasRequiredError]="arrivalDate?.errors?.['required']"
+                requiredMessage="Дата прибытия обязательна"
+                [hasPatternError]="arrivalDate?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
+                controlFullLabel="Дата прибытия"
+              ></app-shared-float-label>
+            </label>
+          </div>
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)
+              }"
+              id="arrivalTime"
+              name="arrivalTime"
+              placeholder="Время прибытия"
+              autofocus
+              autocomplete="off"
+              formControlName="arrivalTime"
+              required
+            />
+            <label for="arrivalTime">
+              <app-shared-float-label
+                [isNotValid]="arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)"
+                controlPlaceholder="Время прибытия"
+                [hasRequiredError]="arrivalTime?.errors?.['required']"
+                requiredMessage="Время прибытия обязательно"
+                [hasPatternError]="arrivalTime?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ЧЧ:ММ символы"
+                controlFullLabel="Время прибытия"
+              ></app-shared-float-label>
+            </label>
+          </div>
         </div>
 
         <div class="form-floating mb-3 col-12">
