@@ -13,4 +13,17 @@
   <app-carrier-list
     (deleteItemHandler)="onDeleteItemBtnClick($event)"
   ></app-carrier-list>
+  <ng-container *ngIf="pageData$ | async as pd">
+    <div *ngIf="pd.last === false" class="col">
+      <div class="row">
+        <div class="w-100">
+          <a 
+            (click)="loadNext()"
+            class="w-100 btn btn-primary btn-sm"
+          >Загрузить еще
+        </a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

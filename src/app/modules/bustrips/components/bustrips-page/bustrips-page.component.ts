@@ -2,9 +2,12 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BusTripConfirmComponent } from '../bustrip-confirm/bustrip-confirm.component';
+import { BusTripStoreService } from '@modules/bustrips/services/bustrip/bustrip-store.service';
 import { CarrierStoreService } from '@modules/carriers/services/carrier/carrier-store.service';
 import { GetBusTripResponseDto } from '@modules/bustrips/models/bustrip.model';
 import { GetCarrierResponseDto } from '@modules/carriers/models/carrier.model';
+import { Observable } from 'rxjs';
+import { PageData } from '@helpers/page-data';
 
 @Component({
   selector: 'app-bustrips-page',
@@ -14,12 +17,16 @@ import { GetCarrierResponseDto } from '@modules/carriers/models/carrier.model';
 export class BusTripsPageComponent implements OnInit {
   bsModalRef?: BsModalRef;
   carrier?: GetCarrierResponseDto;
+  pageData$: Observable<PageData>;
 
   constructor(
     private route: ActivatedRoute,
     private modalService: BsModalService,
     private carrierService: CarrierStoreService,
-  ) {}
+    private busTripService: BusTripStoreService,
+  ) {
+    this.pageData$ = busTripService.pageData.value$;
+  }
 
   ngOnInit(): void {
     const carrierIdString = this.route.snapshot.paramMap.get('carrierId');
@@ -45,5 +52,10 @@ export class BusTripsPageComponent implements OnInit {
       BusTripConfirmComponent,
       initialModalState,
     );
+  }
+
+  loadNext(): void {
+    const pageNumber = this.busTripService.pageData.value.number + 1;
+    this.busTripService.getListByCarrierId(this.carrier?.id, pageNumber);
   }
 }
