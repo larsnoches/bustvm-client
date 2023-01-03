@@ -16,6 +16,11 @@
         >Начало</a
       >
     </li>
+    <li *ngIf="isLoggedIn" class="nav-item">
+      <a class="nav-link" routerLink="/tickets" routerLinkActive="active"
+        >Билеты</a
+      >
+    </li>
     <li *ngIf="isLoggedIn && currentUserHasManagerRole" class="nav-item">
       <a class="nav-link" routerLink="/users" routerLinkActive="active"
         >Пользователи</a

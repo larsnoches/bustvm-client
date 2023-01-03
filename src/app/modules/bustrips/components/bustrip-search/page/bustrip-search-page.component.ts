@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GetBusTripResponseDto } from '@modules/bustrips/models/bustrip.model';
 
 @Component({
   selector: 'app-bustrip-search-page',
@@ -8,8 +7,7 @@ import { GetBusTripResponseDto } from '@modules/bustrips/models/bustrip.model';
 })
 export class BusTripSearchPageComponent {
   // constructor() {}
-
-  onOrderItemBtnClick(busTrip: GetBusTripResponseDto): void {
-    console.log(busTrip);
-  }
+  // onOrderItemBtnClick(busTrip: GetBusTripResponseDto): void {
+  //   console.log(busTrip);
+  // }
 }

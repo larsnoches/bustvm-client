@@ -8,6 +8,7 @@ import { EmailGuard } from './guards/email/email.guard';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from './guards/role/role.guard';
 import { RouterModule } from '@angular/router';
+import { SecurePipe } from './pipes/secure.pipe';
 import { SharedModule } from '@modules/shared/shared.module';
 import { ValidationService } from './services/validation/validation.service';
 import { authInterceptorProvider } from './interceptors/auth.interceptor';
@@ -29,6 +30,7 @@ import { authInterceptorProvider } from './interceptors/auth.interceptor';
     AuthService,
     ValidationService,
     authInterceptorProvider,
+    SecurePipe,
   ],
 })
 export class CoreModule {}

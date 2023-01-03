@@ -45,12 +45,12 @@
               </div>
             </div>
             <div class="col-md-2">
-              <mark>{{ btr.fare.price * btr.distance | number : '1.2-2' }} руб.</mark>
+              <mark>{{ btr.fare.price * btr.distance | currency: 'RUB':'symbol-narrow' }}</mark>
             </div>
-            <div class="col-sm-2">
-              <app-shared-button 
-                [size]="0" 
-                (click)="orderOne(btr)">Заказать</app-shared-button>
+            <div class="col-md-auto">
+              <a [routerLink]="['/tickets', btr?.id, 'order']" class="btn btn-outline-primary"
+                >Заказать</a
+              >
             </div>
           </div>
         </div>

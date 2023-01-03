@@ -142,6 +142,15 @@ export class StoreService<
     console.log(this.pageData.value);
   }
 
+  protected updateListData(value: Array<ResponseDto>, sorting: boolean): void {
+    this.listData.value.length = 0;
+    if (value != null) {
+      this.listData.value.push(...value);
+    }
+
+    if (sorting) this.listData.value.sort((a, b) => a.id - b.id);
+  }
+
   private removeDataItem(itemId: number): void {
     const itemIndex = this.listData.value.findIndex(v => v.id === itemId);
     if (itemIndex === -1) return;

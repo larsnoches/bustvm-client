@@ -25,6 +25,12 @@ import {
   SeatsPageComponent,
 } from '@modules/seats/components';
 import {
+  TicketFormPageComponent,
+  TicketViewPageComponent,
+  TicketViewPayedPageComponent,
+  TicketsPageComponent,
+} from '@modules/tickets/components';
+import {
   UserChangePasswordComponent,
   UserFormPageComponent,
   UsersPageComponent,
@@ -64,6 +70,33 @@ const userRoutes: Routes = [
     path: 'form/self/changepassword/:email',
     component: UserChangePasswordComponent,
     canActivate: [AuthGuard, EmailGuard],
+  },
+];
+
+const ticketRoutes: Routes = [
+  {
+    path: '',
+    component: TicketsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ':busTripId/order',
+    component: TicketFormPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'viewPayed',
+    component: TicketViewPayedPageComponent,
+  },
+  {
+    path: 'view/:id',
+    component: TicketViewPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'form/:id',
+    component: TicketFormPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 
@@ -204,10 +237,10 @@ const routes: Routes = [
     path: 'carriers',
     children: carrierRoutes,
   },
-  // {
-  //   path: 'buses',
-  //   children: busRoutes,
-  // },
+  {
+    path: 'tickets',
+    children: ticketRoutes,
+  },
   {
     path: 'users',
     children: userRoutes,

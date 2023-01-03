@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
 import { SeatsModule } from '@modules/seats/seats.module';
+// import { SecurePipe } from '@modules/core/pipes/secure.pipe';
+import { TicketsModule } from '@modules/tickets/tickets.module';
 import { UsersModule } from '@modules/users/users.module';
 import { authInterceptorProvider } from '@modules/core/interceptors/auth.interceptor';
 
@@ -30,11 +32,18 @@ import { authInterceptorProvider } from '@modules/core/interceptors/auth.interce
     FaresModule,
     BusTripsModule,
     SeatsModule,
+    TicketsModule,
     UsersModule,
     CoreModule,
     // AuthGuard,
   ],
-  providers: [AuthGuard, RoleGuard, EmailGuard, authInterceptorProvider],
+  providers: [
+    AuthGuard,
+    RoleGuard,
+    EmailGuard,
+    authInterceptorProvider,
+    // SecurePipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
