@@ -102,10 +102,14 @@ export class UserFormPageComponent implements OnInit {
       return;
     }
 
-    const userEmail = this.route.snapshot.paramMap.get('email');
+    // const userEmail = this.route.snapshot.paramMap.get('email');
+    const userEmail = this.authService.getEmail();
     if (userEmail != null) {
       this.userService.getUserByEmail(userEmail).subscribe({
         next: this.handleGetUserResponse,
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
     }
   }
@@ -120,6 +124,10 @@ export class UserFormPageComponent implements OnInit {
     if (this.user != null) {
       this.userService.updateUserById(this.user?.id, userDto).subscribe({
         complete: () => {
+          if (this.currentUserHasManagerRole) {
+            this.router.navigate(['/users']);
+            return;
+          }
           this.router.navigate(['/']);
         },
         error: (er: Error) => {

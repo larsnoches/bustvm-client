@@ -166,7 +166,16 @@
           <div class="mb-3 col-3">
             <div class="row row-cols-4 g-4">
               <div *ngFor="let s of seatListData | async" class="col">
-                <input 
+                <input
+                  *ngIf="s.seatIsOccupied === true"
+                  type="radio" 
+                  class="btn-check disabled"
+                  id="seat{{ s.id }}" 
+                  autocomplete="off"
+                  disabled
+                />
+                <input
+                  *ngIf="s.seatIsOccupied === false"
                   type="radio" 
                   class="btn-check" 
                   name="seatName" 
@@ -179,7 +188,7 @@
                   class="btn btn-outline-primary" 
                   for="seat{{ s.id }}"
                 >
-                  {{ s.name }}
+                  Место {{ s.name }}
                 </label>
               </div>
             </div>

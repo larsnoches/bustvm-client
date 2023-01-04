@@ -24,15 +24,15 @@
       <div *ngIf="user != null" class="d-flex pt-4 pb-3">
         <div>
           <a
-            *ngIf="currentUserHasManagerRole"
+            *ngIf="currentUserHasManagerRole; else isNotManagerForChangePwd"
             [routerLink]="['/users', 'form', 'changepassword', user?.id]"
             class="w-100 btn btn-primary btn-sm"
           >
             Сменить пароль
           </a>
-          <ng-template>
+          <ng-template #isNotManagerForChangePwd>
             <a
-              [routerLink]="['/users', 'form', 'self', 'changepassword', user?.email]"
+              [routerLink]="['/users', 'self', 'changepassword']"
               class="w-100 btn btn-primary btn-sm"
             >
               Сменить свой пароль

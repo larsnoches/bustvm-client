@@ -36,7 +36,7 @@ import {
   UsersPageComponent,
 } from '@modules/users/components';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
-import { EmailGuard } from '@modules/core/guards/email/email.guard';
+// import { EmailGuard } from '@modules/core/guards/email/email.guard';
 import { NgModule } from '@angular/core';
 import { RoleGuard } from '@modules/core/guards/role/role.guard';
 
@@ -62,15 +62,25 @@ const userRoutes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
   },
   {
-    path: 'form/self/:email',
+    path: 'self',
     component: UserFormPageComponent,
-    canActivate: [AuthGuard, EmailGuard],
+    canActivate: [AuthGuard],
   },
   {
-    path: 'form/self/changepassword/:email',
+    path: 'self/changepassword',
     component: UserChangePasswordComponent,
-    canActivate: [AuthGuard, EmailGuard],
+    canActivate: [AuthGuard],
   },
+  // {
+  //   path: 'form/self/:email',
+  //   component: UserFormPageComponent,
+  //   canActivate: [AuthGuard, EmailGuard],
+  // },
+  // {
+  //   path: 'form/self/changepassword/:email',
+  //   component: UserChangePasswordComponent,
+  //   canActivate: [AuthGuard, EmailGuard],
+  // },
 ];
 
 const ticketRoutes: Routes = [

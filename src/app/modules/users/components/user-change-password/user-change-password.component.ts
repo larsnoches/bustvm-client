@@ -71,14 +71,21 @@ export class UserChangePasswordComponent implements OnInit {
       const userIdInt = Number.parseInt(userId, 10);
       this.userService.getUserById(userIdInt).subscribe({
         next: data => (this.user = data),
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
       return;
     }
 
-    const userEmail = this.route.snapshot.paramMap.get('email');
+    // const userEmail = this.route.snapshot.paramMap.get('email');
+    const userEmail = this.authService.getEmail();
     if (userEmail != null) {
       this.userService.getUserByEmail(userEmail).subscribe({
         next: data => (this.user = data),
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
     }
   }
@@ -95,7 +102,11 @@ export class UserChangePasswordComponent implements OnInit {
       .changeUserPassword(this.user?.id, changePasswordRequestDto)
       .subscribe({
         complete: () => {
-          this.router.navigate(['/users', 'form', this.user?.id]);
+          if (this.currentUserHasManagerRole) {
+            this.router.navigate(['/users', 'form', this.user?.id]);
+            return;
+          }
+          this.router.navigate(['/users', 'self']);
         },
         error: (er: Error) => {
           this.error = er.message;

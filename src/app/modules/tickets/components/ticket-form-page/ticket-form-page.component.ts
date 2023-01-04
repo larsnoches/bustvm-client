@@ -135,6 +135,9 @@ export class TicketFormPageComponent implements OnInit {
       const ticketIdInt = Number.parseInt(ticketId, 10);
       this.ticketService.getItemById(ticketIdInt).subscribe({
         next: this.handleGetItemResponse,
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
     } else {
       const busTripIdString = this.route.snapshot.paramMap.get('busTripId');
@@ -142,6 +145,9 @@ export class TicketFormPageComponent implements OnInit {
       const busTripId = Number.parseInt(busTripIdString, 10);
       this.busTripService.getItemById(busTripId).subscribe({
         next: this.handleGetBusTripResponse,
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
     }
   }
