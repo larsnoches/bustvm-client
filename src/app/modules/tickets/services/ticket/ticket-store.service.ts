@@ -100,7 +100,7 @@ export class TicketStoreService extends StoreService<T, U> {
     const params = {
       qrcode,
     };
-    const getTicketUrl = `${this.apiUrl}/payedTicket`;
+    const getTicketUrl = `${this.apiUrl}/payed-ticket`;
     return this.http
       .get<GetPayedTicketResponseDto>(getTicketUrl, { params })
       .pipe(
@@ -112,5 +112,37 @@ export class TicketStoreService extends StoreService<T, U> {
         }),
         tap(() => (this.loading.value = false)),
       );
+  }
+
+  ticketReturn(ticketId: number): Observable<any> {
+    const getTicketUrl = `${this.apiUrl}/${ticketId}/update-status/returned`;
+    return this.http.get(getTicketUrl).pipe(
+      tap(() => (this.loading.value = true)),
+      // retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
+  }
+
+  ticketChangeToWaitingToReturn(
+    ticketId: number,
+    email: string,
+  ): Observable<any> {
+    const params = {
+      email,
+    };
+    const getTicketUrl = `${this.apiUrl}/${ticketId}/update-status/waiting-to-return`;
+    return this.http.get(getTicketUrl, { params }).pipe(
+      tap(() => (this.loading.value = true)),
+      // retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
   }
 }

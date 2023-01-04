@@ -1,1 +1,186 @@
-<p>ticket-view-page works!</p>
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/tickets']" class="btn btn-light mb-2"
+          >&lsaquo; Список билетов</a
+        >
+        <h2 class="h2 mb-2">
+          Билет на автобус
+        </h2>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3">
+          <strong>Билет №</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.id }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Маршрут №</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.busRouteNumber }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Дата</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.issueDateTime | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>ФИО</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.passengerLastname }}
+          {{ ticket?.passengerFirstname }}
+          {{ ticket?.passengerMiddlename }}
+        </div>
+      </div>
+
+      <div *ngIf="ticket?.email != null" class="row">
+        <div class="col-3">
+          <strong>Адрес электронной почты</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.email }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3">
+          <strong>Место</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.seatName }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Перевозчик</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.carrierName }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Пункт отправления</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.departureBuspointName }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Пункт прибытия</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.arrivalBuspointName }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Дата и время отправления</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.departureDateTime | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Дата и время прибытия</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.arrivalDateTime | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Стоимость</strong>
+        </div>
+        <div class="col-9">
+          {{ ticket?.price | currency: 'RUB':'symbol-narrow' }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <strong>Статус</strong>
+        </div>
+        <div class="col-9">
+          {{ ticketStatusText(ticket?.status) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <img [src]="qrCodeImageSrc" />
+        </div>
+      </div>
+
+      <form
+        *ngIf="ticket != null && currentUserHasManagerRole && 
+        (ticket.status === 'WAITING_TO_RETURN' || ticket.status === 'PAYED')"
+        [id]="formId"
+        [formGroup]="ticketViewForm ?? null"
+        (ngSubmit)="onSubmitTicketReturn()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="ticketViewForm?.valid === false"
+            >
+              Вернуть билет
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form
+        *ngIf="ticket != null &&  !currentUserHasManagerRole && 
+        isLoggedIn && ticket.status === 'PAYED'"
+        [id]="formId"
+        [formGroup]="ticketViewForm ?? null"
+        (ngSubmit)="onSubmitTicketChangeToWaitingToReturn()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="ticketViewForm?.valid === false"
+            >
+              Оформить возврат билета
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

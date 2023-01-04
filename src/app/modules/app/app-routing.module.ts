@@ -82,10 +82,10 @@ const ticketRoutes: Routes = [
   {
     path: ':busTripId/order',
     component: TicketFormPageComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
-    path: 'viewPayed',
+    path: 'view-payed',
     component: TicketViewPayedPageComponent,
   },
   {
@@ -93,11 +93,11 @@ const ticketRoutes: Routes = [
     component: TicketViewPageComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'form/:id',
-    component: TicketFormPageComponent,
-    canActivate: [AuthGuard, RoleGuard],
-  },
+  // {
+  //   path: 'form/:id',
+  //   component: TicketFormPageComponent,
+  //   canActivate: [AuthGuard, RoleGuard],
+  // },
 ];
 
 const buspointRoutes: Routes = [

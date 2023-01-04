@@ -8,9 +8,8 @@ describe('TicketViewPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TicketViewPageComponent ]
-    })
-    .compileComponents();
+      declarations: [TicketViewPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

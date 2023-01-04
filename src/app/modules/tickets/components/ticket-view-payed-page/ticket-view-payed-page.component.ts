@@ -32,6 +32,9 @@ export class TicketViewPayedPageComponent implements OnInit {
     if (qrcode != null) {
       this.ticketService.getPayedTicket(qrcode).subscribe({
         next: this.handleGetTicketResponse,
+        error: (er: Error) => {
+          this.error = er.message;
+        },
       });
     }
   }
@@ -48,11 +51,5 @@ export class TicketViewPayedPageComponent implements OnInit {
     const ticketId = this.ticket?.id;
     const qrCode = this.ticket?.qrCode;
     this.qrCodeImageSrc = `${ticketsUrl}/${ticketId}/qrcode?value=${qrCode}`;
-
-    // this.ticketService
-    //   .getQrCode(this.ticket?.id, this.ticket?.qrCode)
-    //   .subscribe({
-    //     next: img => (this.qrCodeImage = img),
-    //   });
   };
 }

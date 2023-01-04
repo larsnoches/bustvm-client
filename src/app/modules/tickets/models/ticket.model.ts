@@ -22,7 +22,7 @@ export interface GetTicketResponseDto {
   departureBuspointName: string;
   arrivalBuspointName: string;
   departureDateTime: string;
-  arrivalDatetime: string;
+  arrivalDateTime: string;
   price: number;
   status: string;
   busTrip: GetBusTripResponseDto;
