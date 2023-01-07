@@ -143,7 +143,7 @@ export class TicketFormPageComponent implements OnInit {
       const busTripIdString = this.route.snapshot.paramMap.get('busTripId');
       if (busTripIdString == null) return;
       const busTripId = Number.parseInt(busTripIdString, 10);
-      this.busTripService.getItemById(busTripId).subscribe({
+      this.busTripService.getBusTripById(busTripId).subscribe({
         next: this.handleGetBusTripResponse,
         error: (er: Error) => {
           this.error = er.message;

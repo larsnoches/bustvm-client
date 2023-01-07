@@ -170,7 +170,7 @@ export class BusTripFormPageComponent implements OnInit {
     const busTripId = this.route.snapshot.paramMap.get('id');
     if (busTripId != null) {
       const busTripIdInt = Number.parseInt(busTripId, 10);
-      this.busTripService.getItemById(busTripIdInt).subscribe({
+      this.busTripService.getBusTripById(busTripIdInt).subscribe({
         next: this.handleGetItemResponse,
       });
     } else {

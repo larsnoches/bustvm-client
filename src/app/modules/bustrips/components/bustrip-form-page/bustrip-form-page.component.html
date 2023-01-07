@@ -6,12 +6,12 @@
           >&lsaquo; Список маршрутов перевозчика</a
         >
         <h2 class="h2 mb-2">
-          {{ fare ? 'Редактирование' : 'Создание' }}
+          {{ busTrip ? 'Редактирование' : 'Создание' }}
         </h2>
         <h5 *ngIf="carrier?.name != null" class="h5 mb-4 pb-3">Маршрута для {{ carrier?.name }}</h5>
       </div>
 
-      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3 gap-2">
+      <div *ngIf="carrier != null && busTrip != null" class="d-flex pt-4 pb-3 gap-2">
         <div>
           <a
             [routerLink]="['/carriers', carrier?.id ?? 0, 'bustrips', busTrip?.id ?? 0, 'seats']"
@@ -72,32 +72,6 @@
             ></app-shared-float-label>
           </label>
         </div>
-        <!-- <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': departureBusPoint?.invalid && (departureBusPoint?.dirty || departureBusPoint?.touched)
-            }"
-            id="departureBusPoint"
-            name="departureBusPoint"
-            placeholder="Пункт отправления"
-            autofocus
-            autocomplete="off"
-            formControlName="departureBusPoint"
-            required
-          />
-          <label for="departureBusPoint">
-            <app-shared-float-label
-              [isNotValid]="departureBusPoint?.invalid && (departureBusPoint?.dirty || departureBusPoint?.touched)"
-              controlPlaceholder="Пункт отправления"
-              [hasRequiredError]="departureBusPoint?.errors?.['required']"
-              requiredMessage="Пункт отправления обязателен"
-              controlFullLabel="Пункт отправления"
-            ></app-shared-float-label>
-          </label>
-        </div> -->
 
         <div class="form-floating mb-3 col-12">
           <select
@@ -128,32 +102,6 @@
             ></app-shared-float-label>
           </label>
         </div>
-        <!-- <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': arrivalBusPoint?.invalid && (arrivalBusPoint?.dirty || arrivalBusPoint?.touched)
-            }"
-            id="arrivalBusPoint"
-            name="arrivalBusPoint"
-            placeholder="Пункт прибытия"
-            autofocus
-            autocomplete="off"
-            formControlName="arrivalBusPoint"
-            required
-          />
-          <label for="arrivalBusPoint">
-            <app-shared-float-label
-              [isNotValid]="arrivalBusPoint?.invalid && (arrivalBusPoint?.dirty || arrivalBusPoint?.touched)"
-              controlPlaceholder="Пункт прибытия"
-              [hasRequiredError]="arrivalBusPoint?.errors?.['required']"
-              requiredMessage="Пункт прибытия обязателен"
-              controlFullLabel="Пункт прибытия"
-            ></app-shared-float-label>
-          </label>
-        </div> -->
 
         <div class="form-floating mb-3 col-12">
           <input
@@ -365,32 +313,6 @@
             ></app-shared-float-label>
           </label>
         </div>
-        <!-- <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': bus?.invalid && (bus?.dirty || bus?.touched)
-            }"
-            id="bus"
-            name="bus"
-            placeholder="Автобус"
-            autofocus
-            autocomplete="off"
-            formControlName="bus"
-            required
-          />
-          <label for="bus">
-            <app-shared-float-label
-              [isNotValid]="bus?.invalid && (bus?.dirty || bus?.touched)"
-              controlPlaceholder="Автобус"
-              [hasRequiredError]="bus?.errors?.['required']"
-              requiredMessage="Автобус обязателен"
-              controlFullLabel="Автобус"
-            ></app-shared-float-label>
-          </label>
-        </div> -->
 
         <div class="form-floating mb-3 col-12">
           <select
@@ -421,32 +343,6 @@
             ></app-shared-float-label>
           </label>
         </div>
-        <!-- <div class="form-floating mb-3 col-12">
-          <input
-            type="text"
-            class="form-control"
-            [ngClass]="{
-              'form-control': true,
-              'is-invalid': fare?.invalid && (fare?.dirty || fare?.touched)
-            }"
-            id="fare"
-            name="fare"
-            placeholder="Тариф"
-            autofocus
-            autocomplete="off"
-            formControlName="fare"
-            required
-          />
-          <label for="fare">
-            <app-shared-float-label
-              [isNotValid]="fare?.invalid && (fare?.dirty || fare?.touched)"
-              controlPlaceholder="Тариф"
-              [hasRequiredError]="fare?.errors?.['required']"
-              requiredMessage="Тариф обязателен"
-              controlFullLabel="Тариф"
-            ></app-shared-float-label>
-          </label>
-        </div> -->
 
         <div class="row">
           <div class="w-100">
@@ -455,7 +351,7 @@
               class="btn btn-primary w-100"
               [disabled]="busTripForm?.valid === false"
             >
-              {{ fare == null ? 'Добавить' : 'Сохранить' }}
+              {{ busTrip == null ? 'Добавить' : 'Сохранить' }}
             </button>
           </div>
         </div>

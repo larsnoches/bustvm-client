@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
+import { Observable, catchError, retry, share, tap } from 'rxjs';
 import {
   BasicBusTripRequestDto as Req,
   GetBusTripResponseDto as Resp,
 } from '@modules/bustrips/models/bustrip.model';
-import { catchError, retry, share, tap } from 'rxjs';
 import { Pageable } from '@helpers/page-data';
 import { StoreService } from '@helpers/store.service';
 import { config } from '@helpers/config';
@@ -17,6 +17,19 @@ export class BusTripStoreService extends StoreService<Req, Resp> {
   constructor(protected injector: Injector) {
     super(injector);
     super.apiUrl = this.bustripApiUrl;
+  }
+
+  getBusTripById(itemId: number): Observable<Resp> {
+    const getBusTripUrl = `${this.apiUrl}/one/${itemId}`;
+    return this.http.get<Resp>(getBusTripUrl).pipe(
+      tap(() => (this.loading.value = true)),
+      retry(3),
+      catchError(er => {
+        this.loading.value = false;
+        return this.handleError(er);
+      }),
+      tap(() => (this.loading.value = false)),
+    );
   }
 
   getListByCarrierId(carrierId: number, pageNumber?: number | null): void {
