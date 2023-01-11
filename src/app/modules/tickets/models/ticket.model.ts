@@ -19,8 +19,8 @@ export interface GetTicketResponseDto {
   qrCode: string;
   seatName: string;
   carrierName: string;
-  departureBuspointName: string;
-  arrivalBuspointName: string;
+  departureBusPointName: string;
+  arrivalBusPointName: string;
   departureDateTime: string;
   arrivalDateTime: string;
   price: number;
@@ -43,8 +43,8 @@ export interface GetPayedTicketResponseDto {
   qrCode: string;
   seatName: string;
   carrierName: string;
-  departureBuspointName: string;
-  arrivalBuspointName: string;
+  departureBusPointName: string;
+  arrivalBusPointName: string;
   departureDateTime: string;
   arrivalDateTime: string;
   price: number;
