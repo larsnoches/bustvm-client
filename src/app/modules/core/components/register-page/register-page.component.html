@@ -1,0 +1,140 @@
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="col-8">
+      <div class="col mb-4">
+        <h2 class="h2 mb-2">Регистрация в системе</h2>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="registerForm ?? null"
+        (ngSubmit)="onSubmitRegister()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
+            id="email"
+            name="email"
+            placeholder="Адрес электронной почты"
+            autofocus
+            autocomplete="off"
+            formControlName="email"
+            required
+          />
+          <label for="email">
+            <app-shared-float-label
+              [isNotValid]="email?.invalid && (email?.dirty || email?.touched)"
+              controlPlaceholder="Адрес электронной почты"
+              [hasRequiredError]="email?.errors?.['required']"
+              requiredMessage="Адрес электронной почты обязателен"
+              [hasMinLengthError]="email?.errors?.['minlength']"
+              minlengthMessage="Адрес электронной почты должен быть не менее 6 символов"
+              [hasMaxLengthError]="email?.errors?.['maxlength']"
+              maxlengthMessage="Адрес электронной почты должен быть не более 255 символов"
+              [hasPatternError]="email?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес электронной почты"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': password?.invalid && (password?.dirty || password?.touched)
+            }"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Пароль"
+            autofocus
+            autocomplete="off"
+            formControlName="password"
+            required
+          />
+          <label for="password">
+            <app-shared-float-label
+              [isNotValid]="password?.invalid && (password?.dirty || password?.touched)"
+              controlPlaceholder="Пароль"
+              [hasRequiredError]="password?.errors?.['required']"
+              requiredMessage="Пароль обязателен"
+              [hasMinLengthError]="password?.errors?.['minlength']"
+              minlengthMessage="Пароль должен быть не менее 4 символов"
+              [hasMaxLengthError]="password?.errors?.['maxlength']"
+              maxlengthMessage="Пароль должен быть не более 68 символов"
+              [hasPatternError]="password?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Пароль"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': password2?.invalid && (password2?.dirty || password2?.touched)
+            }"
+            id="password2"
+            name="password2"
+            type="password"
+            placeholder="Пароль еще раз"
+            autofocus
+            autocomplete="off"
+            formControlName="password2"
+            required
+          />
+          <label for="password2">
+            <app-shared-float-label
+              [isNotValid]="password2?.invalid && (password2?.dirty || password2?.touched)"
+              controlPlaceholder="Пароль еще раз"
+              [hasRequiredError]="password2?.errors?.['required']"
+              requiredMessage="Подтверждение пароля обязательно"
+              [hasMinLengthError]="password2?.errors?.['minlength']"
+              minlengthMessage="Повторный пароль должен быть не менее 4 символов"
+              [hasMaxLengthError]="password2?.errors?.['maxlength']"
+              maxlengthMessage="Повторный пароль должен быть не более 68 символов"
+              [hasPatternError]="password2?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Повторный пароль"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="registerForm?.valid === false"
+              >Зарегистрироваться</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

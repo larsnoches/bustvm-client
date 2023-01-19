@@ -8,7 +8,7 @@
       "request": "launch",
       "preLaunchTask": "npm: start",
       "postDebugTask": "Terminate All Tasks",
-      "url": "http://192.168.56.1:4200",
+      "url": "http://localhost:4200",
       "timeout": 25000,
       // "webRoot": "${workspaceFolder}/dist/bustvs-client",
       // "sourceMapPathOverrides": {

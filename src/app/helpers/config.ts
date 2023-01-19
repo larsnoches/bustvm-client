@@ -1,3 +1,5 @@
 export const config = {
-  apiPath: 'http://192.168.56.1:8080/api',
+  apiPath: 'http://127.0.0.1:8080/api/v1',
+  defaultPassword: 'changeme',
+  pageSize: 5,
 };

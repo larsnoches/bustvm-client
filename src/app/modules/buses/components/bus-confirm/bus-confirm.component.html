@@ -1,0 +1,8 @@
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="bus == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+>Желаете удалить {{ bus.makeModel }}?</app-shared-confirm>

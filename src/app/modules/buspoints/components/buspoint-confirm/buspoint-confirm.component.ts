@@ -1,7 +1,7 @@
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { BusPoint } from '@modules/buspoints/models/buspoint.model';
 import { BusPointStoreService } from '@modules/buspoints/services/buspoint/buspoint-store.service';
 import { Component } from '@angular/core';
+import { GetBusPointResponseDto } from '@modules/buspoints/models/buspoint.model';
 
 @Component({
   selector: 'app-buspoint-confirm',
@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./buspoint-confirm.component.scss'],
 })
 export class BusPointConfirmComponent {
-  busPoint?: BusPoint;
+  busPoint?: GetBusPointResponseDto;
 
   constructor(
     private busPointStoreService: BusPointStoreService,
@@ -21,7 +21,7 @@ export class BusPointConfirmComponent {
       this.bsModalRef?.hide();
       return;
     }
-    this.busPointStoreService.deleteOne(this.busPoint);
+    this.busPointStoreService.removeItem(this.busPoint.id);
     this.bsModalRef?.hide();
   }
 

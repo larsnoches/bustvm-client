@@ -1,0 +1,212 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/']" class="btn btn-light mb-2"
+          >&lsaquo; Список маршрутов</a
+        >
+        <h2 class="h2 mb-2">
+          {{ ticket ? 'Редактирование' : 'Покупка билета' }}
+        </h2>
+        <h5 *ngIf="busTrip != null" class="h5 mb-4 pb-3">
+          По маршруту {{ busTrip?.departureBusPoint.name }} - {{ busTrip?.arrivalBusPoint.name }}
+        </h5>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="ticketForm ?? null"
+        (ngSubmit)="onSubmitTicket()"
+        class="pt-2"
+        novalidate
+      >
+        <div *ngIf="isLoggedIn === false" class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': passengerLastname?.invalid && (passengerLastname?.dirty || passengerLastname?.touched)
+            }"
+            id="passengerLastname"
+            name="passengerLastname"
+            placeholder="Фамилия пассажира"
+            autofocus
+            autocomplete="off"
+            formControlName="passengerLastname"
+            required
+          />
+          <label for="passengerLastname">
+            <app-shared-float-label
+              [isNotValid]="passengerLastname?.invalid && (passengerLastname?.dirty || passengerLastname?.touched)"
+              controlPlaceholder="Фамилия"
+              [hasRequiredError]="passengerLastname?.errors?.['required']"
+              requiredMessage="Фамилия обязательна"
+              [hasMinLengthError]="passengerLastname?.errors?.['minLength']"
+              minlengthMessage="Фамилия должна быть больше 2 символов"
+              [hasMinLengthError]="passengerLastname?.errors?.['maxLength']"
+              maxlengthMessage="Фамилия должна быть не больше 255 символов"
+              [hasPatternError]="passengerLastname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Фамилия пассажира"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div *ngIf="isLoggedIn === false" class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': passengerFirstname?.invalid && (passengerFirstname?.dirty || passengerFirstname?.touched)
+            }"
+            id="passengerFirstname"
+            name="passengerFirstname"
+            placeholder="Имя пассажира"
+            autofocus
+            autocomplete="off"
+            formControlName="passengerFirstname"
+            required
+          />
+          <label for="passengerFirstname">
+            <app-shared-float-label
+              [isNotValid]="passengerFirstname?.invalid && (passengerFirstname?.dirty || passengerFirstname?.touched)"
+              controlPlaceholder="Имя"
+              [hasRequiredError]="passengerFirstname?.errors?.['required']"
+              requiredMessage="Имя обязательно"
+              [hasMinLengthError]="passengerFirstname?.errors?.['minLength']"
+              minlengthMessage="Имя должно быть больше 2 символов"
+              [hasMinLengthError]="passengerFirstname?.errors?.['maxLength']"
+              maxlengthMessage="Имя должно быть не больше 255 символов"
+              [hasPatternError]="passengerFirstname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Имя пассажира"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div *ngIf="isLoggedIn === false" class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': passengerMiddlename?.invalid && (passengerMiddlename?.dirty || passengerMiddlename?.touched)
+            }"
+            id="passengerMiddlename"
+            name="passengerMiddlename"
+            placeholder="Отчество пассажира"
+            autofocus
+            autocomplete="off"
+            formControlName="passengerMiddlename"
+            required
+          />
+          <label for="passengerMiddlename">
+            <app-shared-float-label
+              [isNotValid]="passengerMiddlename?.invalid && (passengerMiddlename?.dirty || passengerMiddlename?.touched)"
+              controlPlaceholder="Отчество"
+              [hasRequiredError]="passengerMiddlename?.errors?.['required']"
+              requiredMessage="Отчество обязательно"
+              [hasMinLengthError]="passengerMiddlename?.errors?.['minLength']"
+              minlengthMessage="Отчество должно быть больше 2 символов"
+              [hasMinLengthError]="passengerMiddlename?.errors?.['maxLength']"
+              maxlengthMessage="Отчество должно быть не больше 255 символов"
+              [hasPatternError]="passengerMiddlename?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Отчество пассажира"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div *ngIf="isLoggedIn === false" class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
+            id="email"
+            name="email"
+            placeholder="Адрес электронной почты пассажира"
+            autofocus
+            autocomplete="off"
+            formControlName="email"
+            required
+          />
+          <label for="email">
+            <app-shared-float-label
+              [isNotValid]="email?.invalid && (email?.dirty || email?.touched)"
+              controlPlaceholder="Адрес электронной почты"
+              [hasRequiredError]="email?.errors?.['required']"
+              requiredMessage="Адрес электронной почты обязателен"
+              [hasMinLengthError]="email?.errors?.['minLength']"
+              minlengthMessage="Адрес электронной почты должен быть больше 2 символов"
+              [hasMinLengthError]="email?.errors?.['maxLength']"
+              maxlengthMessage="Адрес электронной почты должен быть не больше 255 символов"
+              [hasPatternError]="email?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес электронной почты пассажира"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="mb-3 col-3">
+            <div class="row row-cols-4 g-4">
+              <div *ngFor="let s of seatListData | async" class="col">
+                <input
+                  *ngIf="s.seatIsOccupied === true"
+                  type="radio" 
+                  class="btn-check disabled"
+                  id="seat{{ s.id }}" 
+                  autocomplete="off"
+                  disabled
+                />
+                <input
+                  *ngIf="s.seatIsOccupied === false"
+                  type="radio" 
+                  class="btn-check" 
+                  name="seatName" 
+                  id="seat{{ s.id }}" 
+                  autocomplete="off" 
+                  formControlName="seatName"
+                  [value]="s.name"
+                />
+                <label 
+                  class="btn btn-outline-primary" 
+                  for="seat{{ s.id }}"
+                >
+                  Место {{ s.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="ticketForm?.valid === false"
+            >
+              {{ ticket == null ? 'Купить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,235 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a
+          *ngIf="currentUserHasManagerRole"
+          [routerLink]="['/users']"
+          class="btn btn-light mb-2"
+          >&lsaquo; Список пользователей</a
+        >
+        <h2
+          *ngIf="currentUserHasManagerRole; else isNotManagerForTitle"
+          class="h2 mb-2"
+        >
+          {{ user ? 'Редактирование' : 'Создание' }}
+        </h2>
+        <ng-template #isNotManagerForTitle>
+          <h2 class="h2 mb-2">
+            {{ user ? 'Редактирование' : 'Ошибка' }}
+          </h2>
+        </ng-template>
+      </div>
+
+      <div *ngIf="user != null" class="d-flex pt-4 pb-3">
+        <div>
+          <a
+            *ngIf="currentUserHasManagerRole; else isNotManagerForChangePwd"
+            [routerLink]="['/users', 'form', 'changepassword', user?.id]"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Сменить пароль
+          </a>
+          <ng-template #isNotManagerForChangePwd>
+            <a
+              [routerLink]="['/users', 'self', 'changepassword']"
+              class="w-100 btn btn-primary btn-sm"
+            >
+              Сменить свой пароль
+            </a>
+          </ng-template>
+        </div>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="userForm ?? null"
+        (ngSubmit)="onSubmitUser()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
+            id="email"
+            name="email"
+            placeholder="Адрес электронной почты"
+            autofocus
+            autocomplete="off"
+            formControlName="email"
+            required
+          />
+          <label for="email">
+            <app-shared-float-label
+              [isNotValid]="email?.invalid && (email?.dirty || email?.touched)"
+              controlPlaceholder="Адрес электронной почты"
+              [hasRequiredError]="email?.errors?.['required']"
+              requiredMessage="Адрес электронной почты обязателен"
+              [hasMinLengthError]="email?.errors?.['minlength']"
+              minlengthMessage="Адрес электронной почты должен быть не менее 6 символов"
+              [hasMaxLengthError]="email?.errors?.['maxlength']"
+              maxlengthMessage="Адрес электронной почты должен быть не более 255 символов"
+              [hasPatternError]="email?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес электронной почты"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                lastname?.invalid && (lastname?.dirty || lastname?.touched)
+            }"
+            id="lastname"
+            name="lastname"
+            placeholder="Фамилия"
+            autofocus
+            autocomplete="off"
+            formControlName="lastname"
+          />
+          <label for="lastname">
+            <app-shared-float-label
+              [isNotValid]="
+                lastname?.invalid && (lastname?.dirty || lastname?.touched)
+              "
+              controlPlaceholder="Фамилия"
+              [hasMaxLengthError]="lastname?.errors?.['maxlength']"
+              maxlengthMessage="Фамилия должна быть не более 255 символов"
+              [hasPatternError]="lastname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Фамилия"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                firstname?.invalid && (firstname?.dirty || firstname?.touched)
+            }"
+            id="firstname"
+            name="firstname"
+            placeholder="Имя"
+            autofocus
+            autocomplete="off"
+            formControlName="firstname"
+          />
+          <label for="firstname">
+            <app-shared-float-label
+              [isNotValid]="
+                firstname?.invalid && (firstname?.dirty || firstname?.touched)
+              "
+              controlPlaceholder="Имя"
+              [hasMaxLengthError]="firstname?.errors?.['maxlength']"
+              maxlengthMessage="Имя должно быть не более 255 символов"
+              [hasPatternError]="firstname?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Имя"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                middlename?.invalid &&
+                (middlename?.dirty || middlename?.touched)
+            }"
+            id="middlename"
+            name="middlename"
+            placeholder="Отчество"
+            autofocus
+            autocomplete="off"
+            formControlName="middlename"
+          />
+          <label for="middlename">
+            <app-shared-float-label
+              [isNotValid]="
+                middlename?.invalid &&
+                (middlename?.dirty || middlename?.touched)
+              "
+              controlPlaceholder="Отчество"
+              [hasMaxLengthError]="middlename?.errors?.['maxlength']"
+              maxlengthMessage="Отчество должно быть не более 255 символов"
+              [hasPatternError]="middlename?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Отчество"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div *ngIf="currentUserHasManagerRole" class="form-check mb-3 col-7">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="isEnabled"
+            name="isEnabled"
+            formControlName="isEnabled"
+          />
+          <label class="form-check-label" for="isEnabled">Активен</label>
+        </div>
+        <div *ngIf="currentUserHasManagerRole" class="form-check mb-3 col-7">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="isManager"
+            name="isManager"
+            formControlName="isManager"
+          />
+          <label class="form-check-label" for="isManager">Администратор</label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="userForm?.valid === false"
+              *ngIf="currentUserHasManagerRole; else isNotManagerForButton"
+            >
+              {{ user == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+            <ng-template #isNotManagerForButton>
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="userForm?.valid === false"
+              >
+                {{ user == null ? '...' : 'Сохранить' }}
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

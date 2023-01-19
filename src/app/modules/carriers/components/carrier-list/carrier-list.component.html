@@ -1,0 +1,59 @@
+<table class="table">
+  <caption>
+    <ng-container *ngIf="loading$ | async">
+      <app-shared-spinner></app-shared-spinner>
+    </ng-container>
+  </caption>
+  <thead class="table-dark">
+    <tr>
+      <th width="20%" valign="center" align="left" class="align-td-middle">
+        Название
+      </th>
+      <th width="20%" valign="center" align="left" class="align-td-middle">
+        ИНН
+      </th>
+      <th width="40%" valign="center" align="left" class="align-td-middle">
+        Адрес
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <ng-container *ngIf="carrierListData$ | async as carriers">
+    <tbody *ngIf="carriers.length === 0">
+      <tr>
+        <td colspan="5">
+          <div class="d-flex justify-content-center">
+            <strong>Ничего нет</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="carriers.length > 0">
+      <tr *ngFor="let cr of carriers">
+        <td width="30%" valign="center" align="left" class="align-td-middle">
+          {{ cr?.name }}
+        </td>
+        <td width="20%" valign="center" align="left" class="align-td-middle">
+          {{ cr?.inn }}
+        </td>
+        <td width="30%" valign="center" align="left" class="align-td-middle">
+          {{ cr?.address }}
+        </td>
+        <td valign="center" align="left" class="align-td-middle pe-0">
+          <a
+            [routerLink]="['/carriers', 'form', cr?.id]"
+            class="btn btn-primary btn-sm"
+            >Редактировать</a
+          >
+        </td>
+        <td valign="center" align="left" class="align-td-middle">
+          <app-shared-button [size]="0" (click)="deleteOne(cr)"
+            >Удалить</app-shared-button
+          >
+        </td>
+      </tr>
+    </tbody>
+  </ng-container>
+</table>

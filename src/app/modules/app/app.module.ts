@@ -3,12 +3,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from '@modules/core/guards/auth/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { BusPointTypesModule } from '@modules/buspoint-types/buspoint-types.module';
 import { BusPointsModule } from '@modules/buspoints/buspoints.module';
+import { BusTripsModule } from '@modules/bustrips/bustrips.module';
+import { BusesModule } from '@modules/buses/buses.module';
+import { CarriersModule } from '@modules/carriers/carriers.module';
 import { CoreModule } from '@modules/core/core.module';
+import { EmailGuard } from '@modules/core/guards/email/email.guard';
+import { FaresModule } from '@modules/fares/fares.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { RoleGuard } from '@modules/core/guards/role/role.guard';
+import { SeatsModule } from '@modules/seats/seats.module';
+// import { SecurePipe } from '@modules/core/pipes/secure.pipe';
+import { TicketsModule } from '@modules/tickets/tickets.module';
+import { UsersModule } from '@modules/users/users.module';
+import { authInterceptorProvider } from '@modules/core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,18 +26,24 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    BusPointTypesModule,
     BusPointsModule,
+    CarriersModule,
+    BusesModule,
+    FaresModule,
+    BusTripsModule,
+    SeatsModule,
+    TicketsModule,
+    UsersModule,
     CoreModule,
     // AuthGuard,
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['http://192.168.56.1:8080/api'],
-        sendAccessToken: true,
-      },
-    }),
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard,
+    RoleGuard,
+    EmailGuard,
+    authInterceptorProvider,
+    // SecurePipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

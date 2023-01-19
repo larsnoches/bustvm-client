@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/carriers', busTrip?.carrier?.id ?? 0, 'bustrips', busTrip?.id ?? 0, 'seats']" class="btn btn-light mb-2"
+          >&lsaquo; Список мест маршрута</a
+        >
+        <h2 class="h2 mb-2">
+          {{ seat ? 'Редактирование' : 'Создание' }}
+        </h2>
+        <h5 *ngIf="busTrip?.busRouteNumber != null" class="h5 mb-4 pb-3">Место для маршрута {{ busTrip?.busRouteNumber }}</h5>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="seatForm ?? null"
+        (ngSubmit)="onSubmitSeat()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': name?.invalid && (name?.dirty || name?.touched)
+            }"
+            id="name"
+            name="name"
+            placeholder="Название"
+            autofocus
+            autocomplete="off"
+            formControlName="name"
+            required
+          />
+          <label for="name">
+            <app-shared-float-label
+              [isNotValid]="name?.invalid && (name?.dirty || name?.touched)"
+              controlPlaceholder="Название"
+              [hasRequiredError]="name?.errors?.['required']"
+              requiredMessage="Название обязательно"
+              [hasMinLengthError]="name?.errors?.['minlength']"
+              minlengthMessage="Название должно быть не менее 1 символа"
+              [hasMaxLengthError]="name?.errors?.['maxlength']"
+              maxlengthMessage="Название должно быть не более 255 символов"
+              [hasPatternError]="name?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Название места"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-check mb-3 col-7">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="seatIsOccupied"
+            name="seatIsOccupied"
+            formControlName="seatIsOccupied"
+          />
+          <label class="form-check-label" for="seatIsOccupied">Занято</label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="seatForm?.valid === false"
+            >
+              {{ seat == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

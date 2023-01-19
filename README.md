@@ -1,1 +1,1 @@
-# BustvsClient
+# Bus ticket vending system Client

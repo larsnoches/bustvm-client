@@ -1,0 +1,95 @@
+<div class="d-flex justify-content-start mb-3">
+  <div class="col">
+
+    <form
+      [id]="formId"
+      [formGroup]="searchBusTripForm ?? null"
+      (ngSubmit)="onSubmitSearchBusTrip()"
+      class="pt-2"
+      novalidate
+    >
+      <div class="row g-2">
+
+        <div class="col-md">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': arrivalPointTo?.invalid && (arrivalPointTo?.dirty || arrivalPointTo?.touched)
+              }"
+              id="arrivalPointTo"
+              name="arrivalPointTo"
+              placeholder="Пункт прибытия"
+              autofocus
+              autocomplete="off"
+              formControlName="arrivalPointTo"
+              required
+            />
+            <label for="name">
+              <app-shared-float-label
+                [isNotValid]="arrivalPointTo?.invalid && (arrivalPointTo?.dirty || arrivalPointTo?.touched)"
+                controlPlaceholder="Пункт прибытия"
+                [hasRequiredError]="arrivalPointTo?.errors?.['required']"
+                requiredMessage="Пункт прибытия обязателен"
+                [hasMinLengthError]="arrivalPointTo?.errors?.['minlength']"
+                minlengthMessage="Не менее 2 символов"
+                [hasMaxLengthError]="arrivalPointTo?.errors?.['maxlength']"
+                maxlengthMessage="Не более 255 символов"
+                [hasPatternError]="arrivalPointTo?.errors?.['pattern']"
+                patternMessage="Недопустимые символы"
+                controlFullLabel="Пункт прибытия"
+              ></app-shared-float-label>
+            </label>
+          </div>
+        </div>
+  
+        <div class="col-md">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)
+              }"
+              id="departureDate"
+              name="departureDate"
+              placeholder="Дата отправления"
+              autofocus
+              autocomplete="off"
+              formControlName="departureDate"
+              required
+            />
+            <label for="departureDate">
+              <app-shared-float-label
+                [isNotValid]="departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)"
+                controlPlaceholder="Дата отправления"
+                [hasRequiredError]="departureDate?.errors?.['required']"
+                requiredMessage="Дата обязательна"
+                [hasPatternError]="departureDate?.errors?.['pattern']"
+                patternMessage="Формат ДД.ММ.ГГГГ"
+                controlFullLabel="Дата отправления"
+              ></app-shared-float-label>
+            </label>
+          </div>
+        </div>
+
+        <div class="col-md">
+          <!-- <div class="w-100"> -->
+            <button
+              type="submit"
+              class="btn btn-primary w-100 h-100"
+              [disabled]="searchBusTripForm?.valid === false"
+            >
+              Искать
+            </button>
+          <!-- </div> -->
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

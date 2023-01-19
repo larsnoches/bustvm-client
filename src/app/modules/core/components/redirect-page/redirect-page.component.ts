@@ -8,7 +8,7 @@ import { AuthService } from '@modules/core/services/auth/auth.service';
 })
 export class RedirectPageComponent implements OnInit {
   ngOnInit(): void {
-    this.authService.redirectOnCallback();
+    // this.authService.redirectOnCallback();
   }
 
   constructor(private authService: AuthService) {}

@@ -1,13 +1,12 @@
-import { BusTrip } from '@modules/bustrips/models/bustrip/bustrip.model';
-import { Carrier } from '@modules/carriers/models/carrier.model';
-
-export interface Bus {
-  id: number;
+export interface BasicBusRequestDto {
   makeModel: string;
   manufacturerCountry: string;
   yearOfManufacture: number;
   seatCount: number;
   regNumber: string;
-  carrier: Carrier;
-  busTrips: Array<BusTrip>;
+  carrier: number; // carrier id
+}
+
+export interface GetBusResponseDto extends BasicBusRequestDto {
+  id: number;
 }

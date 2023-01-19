@@ -1,9 +1,14 @@
-import { BusTrip } from '@modules/bustrips/models/bustrip/bustrip.model';
-import { SeatState } from '@modules/seat-states/models/seat-state.model';
+import { GetBusTripResponseDto } from '@modules/bustrips/models/bustrip.model';
 
-export interface Seat {
+export interface BasicSeatRequestDto {
+  name: string;
+  seatIsOccupied: boolean;
+  busTrip: number;
+}
+
+export interface GetSeatResponseDto {
   id: number;
   name: string;
-  seatState: SeatState;
-  busTrip: BusTrip;
+  seatIsOccupied: boolean;
+  busTrip: GetBusTripResponseDto;
 }

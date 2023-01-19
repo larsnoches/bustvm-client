@@ -1,11 +1,9 @@
-import { Bus } from '@modules/buses/models/bus.model';
-import { Fare } from '@modules/fares/models/fare.model';
-
-export interface Carrier {
-  id: number;
+export interface BasicCarrierRequestDto {
   name: string;
   inn: string;
   address: string;
-  buses: Array<Bus>;
-  fares: Array<Fare>;
+}
+
+export interface GetCarrierResponseDto extends BasicCarrierRequestDto {
+  id: number;
 }

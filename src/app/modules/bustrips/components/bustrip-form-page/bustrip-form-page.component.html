@@ -1,0 +1,361 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/carriers', carrier?.id, 'bustrips']" class="btn btn-light mb-2"
+          >&lsaquo; Список маршрутов перевозчика</a
+        >
+        <h2 class="h2 mb-2">
+          {{ busTrip ? 'Редактирование' : 'Создание' }}
+        </h2>
+        <h5 *ngIf="carrier?.name != null" class="h5 mb-4 pb-3">Маршрута для {{ carrier?.name }}</h5>
+      </div>
+
+      <div *ngIf="carrier != null && busTrip != null" class="d-flex pt-4 pb-3 gap-2">
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id ?? 0, 'bustrips', busTrip?.id ?? 0, 'seats']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Места
+          </a>
+        </div>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="busTripForm ?? null"
+        (ngSubmit)="onSubmitBusTrip()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid': departureBusPoint?.invalid && (departureBusPoint?.dirty || departureBusPoint?.touched)
+            }"
+            id="departureBusPoint"
+            name="departureBusPoint"
+            formControlName="departureBusPoint"
+            required
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let bp of busPointListData | async"
+              [ngValue]="bp.id"
+            >
+              {{ bp.name }}
+            </option>
+          </select>
+          <label for="departureBusPoint">
+            <app-shared-float-label
+              [isNotValid]="departureBusPoint?.invalid && (departureBusPoint?.dirty || departureBusPoint?.touched)"
+              controlPlaceholder="Пункт отправления"
+              [hasRequiredError]="departureBusPoint?.errors?.['required']"
+              requiredMessage="Пункт отправления обязателен"
+              controlFullLabel="Пункт отправления"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-floating mb-3 col-12">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid': arrivalBusPoint?.invalid && (arrivalBusPoint?.dirty || arrivalBusPoint?.touched)
+            }"
+            id="arrivalBusPoint"
+            name="arrivalBusPoint"
+            formControlName="arrivalBusPoint"
+            required
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let bp of busPointListData | async"
+              [ngValue]="bp.id"
+            >
+              {{ bp.name }}
+            </option>
+          </select>
+          <label for="arrivalBusPoint">
+            <app-shared-float-label
+              [isNotValid]="arrivalBusPoint?.invalid && (arrivalBusPoint?.dirty || arrivalBusPoint?.touched)"
+              controlPlaceholder="Пункт прибытия"
+              [hasRequiredError]="arrivalBusPoint?.errors?.['required']"
+              requiredMessage="Пункт прибытия обязателен"
+              controlFullLabel="Пункт прибытия"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': distance?.invalid && (distance?.dirty || distance?.touched)
+            }"
+            id="distance"
+            name="distance"
+            placeholder="Расстояние"
+            autofocus
+            autocomplete="off"
+            formControlName="distance"
+            required
+          />
+          <label for="distance">
+            <app-shared-float-label
+              [isNotValid]="distance?.invalid && (distance?.dirty || distance?.touched)"
+              controlPlaceholder="Расстояние"
+              [hasRequiredError]="distance?.errors?.['required']"
+              requiredMessage="Расстояние обязательно"
+              [hasMinLengthError]="distance?.errors?.['min']"
+              minlengthMessage="Расстояние должно быть больше"
+              [hasPatternError]="distance?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Расстояние"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': busRouteNumber?.invalid && (busRouteNumber?.dirty || busRouteNumber?.touched)
+            }"
+            id="busRouteNumber"
+            name="busRouteNumber"
+            placeholder="Номер маршрута"
+            autofocus
+            autocomplete="off"
+            formControlName="busRouteNumber"
+            required
+          />
+          <label for="busRouteNumber">
+            <app-shared-float-label
+              [isNotValid]="busRouteNumber?.invalid && (busRouteNumber?.dirty || busRouteNumber?.touched)"
+              controlPlaceholder="Номер маршрута"
+              [hasRequiredError]="busRouteNumber?.errors?.['required']"
+              requiredMessage="Номер маршрута обязателен"
+              [hasMinLengthError]="busRouteNumber?.errors?.['minlength']"
+              minlengthMessage="Номер маршрута содержит слишком мало символов"
+              [hasMaxLengthError]="busRouteNumber?.errors?.['maxlength']"
+              maxlengthMessage="Номер маршрута содержит слишком много символов"
+              [hasPatternError]="busRouteNumber?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Номер маршрута"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="row g-2">
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)
+              }"
+              id="departureDate"
+              name="departureDate"
+              placeholder="Дата отправления"
+              autofocus
+              autocomplete="off"
+              formControlName="departureDate"
+              required
+            />
+            <label for="departureDate">
+              <app-shared-float-label
+                [isNotValid]="departureDate?.invalid && (departureDate?.dirty || departureDate?.touched)"
+                controlPlaceholder="Дата отправления"
+                [hasRequiredError]="departureDate?.errors?.['required']"
+                requiredMessage="Дата отправления обязательна"
+                [hasPatternError]="departureDate?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
+                controlFullLabel="Дата отправления"
+              ></app-shared-float-label>
+            </label>
+          </div>
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)
+              }"
+              id="departureTime"
+              name="departureTime"
+              placeholder="Время отправления"
+              autofocus
+              autocomplete="off"
+              formControlName="departureTime"
+              required
+            />
+            <label for="departureTime">
+              <app-shared-float-label
+                [isNotValid]="departureTime?.invalid && (departureTime?.dirty || departureTime?.touched)"
+                controlPlaceholder="Время отправления"
+                [hasRequiredError]="departureTime?.errors?.['required']"
+                requiredMessage="Время отправления обязательно"
+                [hasPatternError]="departureTime?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ЧЧ:ММ символы"
+                controlFullLabel="Время отправления"
+              ></app-shared-float-label>
+            </label>
+          </div>
+        </div>
+
+        <div class="row g-2">
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)
+              }"
+              id="arrivalDate"
+              name="arrivalDate"
+              placeholder="Дата прибытия"
+              autofocus
+              autocomplete="off"
+              formControlName="arrivalDate"
+              required
+            />
+            <label for="arrivalDate">
+              <app-shared-float-label
+                [isNotValid]="arrivalDate?.invalid && (arrivalDate?.dirty || arrivalDate?.touched)"
+                controlPlaceholder="Дата прибытия"
+                [hasRequiredError]="arrivalDate?.errors?.['required']"
+                requiredMessage="Дата прибытия обязательна"
+                [hasPatternError]="arrivalDate?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ДД.ММ.ГГГГ символы"
+                controlFullLabel="Дата прибытия"
+              ></app-shared-float-label>
+            </label>
+          </div>
+          <div class="form-floating mb-3 col-md">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid': arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)
+              }"
+              id="arrivalTime"
+              name="arrivalTime"
+              placeholder="Время прибытия"
+              autofocus
+              autocomplete="off"
+              formControlName="arrivalTime"
+              required
+            />
+            <label for="arrivalTime">
+              <app-shared-float-label
+                [isNotValid]="arrivalTime?.invalid && (arrivalTime?.dirty || arrivalTime?.touched)"
+                controlPlaceholder="Время прибытия"
+                [hasRequiredError]="arrivalTime?.errors?.['required']"
+                requiredMessage="Время прибытия обязательно"
+                [hasPatternError]="arrivalTime?.errors?.['pattern']"
+                patternMessage="Несоответствующие формату ЧЧ:ММ символы"
+                controlFullLabel="Время прибытия"
+              ></app-shared-float-label>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3 col-12">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid': bus?.invalid && (bus?.dirty || bus?.touched)
+            }"
+            id="bus"
+            name="bus"
+            formControlName="bus"
+            required
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let b of busListData | async"
+              [ngValue]="b.id"
+            >
+              {{ b.makeModel }}, госномер {{ b.regNumber }}
+            </option>
+          </select>
+          <label for="bus">
+            <app-shared-float-label
+              [isNotValid]="bus?.invalid && (bus?.dirty || bus?.touched)"
+              controlPlaceholder="Автобус"
+              [hasRequiredError]="bus?.errors?.['required']"
+              requiredMessage="Автобус обязателен"
+              controlFullLabel="Автобус"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="form-floating mb-3 col-12">
+          <select
+            [ngClass]="{
+              'form-select': true,
+              'is-invalid': fare?.invalid && (fare?.dirty || fare?.touched)
+            }"
+            id="fare"
+            name="fare"
+            formControlName="fare"
+            required
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let f of fareListData | async"
+              [ngValue]="f.id"
+            >
+              {{ f.name }}, {{ f.price }}
+            </option>
+          </select>
+          <label for="fare">
+            <app-shared-float-label
+              [isNotValid]="fare?.invalid && (fare?.dirty || fare?.touched)"
+              controlPlaceholder="Тариф"
+              [hasRequiredError]="fare?.errors?.['required']"
+              requiredMessage="Тариф обязателен"
+              controlFullLabel="Тариф"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="busTripForm?.valid === false"
+            >
+              {{ busTrip == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

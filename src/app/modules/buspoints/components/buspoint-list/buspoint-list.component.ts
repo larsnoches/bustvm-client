@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { BusPoint } from '@modules/buspoints/models/buspoint.model';
 import { BusPointStoreService } from '@modules/buspoints/services/buspoint/buspoint-store.service';
+import { GetBusPointResponseDto } from '@modules/buspoints/models/buspoint.model';
 import { Observable } from 'rxjs';
 import { PageData } from '@helpers/page-data';
 
@@ -11,20 +11,22 @@ import { PageData } from '@helpers/page-data';
   styleUrls: ['./buspoint-list.component.scss'],
 })
 export class BusPointListComponent {
-  @Output() deleteItemHandler: EventEmitter<BusPoint> =
-    new EventEmitter<BusPoint>();
-  busPointData$: Observable<Array<BusPoint>>;
+  @Output() deleteItemHandler: EventEmitter<GetBusPointResponseDto> =
+    new EventEmitter<GetBusPointResponseDto>();
+  busPointListData$: Observable<Array<GetBusPointResponseDto>>;
   pageData$: Observable<PageData>;
   loading$: Observable<boolean>;
   bsModalRef?: BsModalRef;
 
   constructor(private busPointService: BusPointStoreService) {
-    this.busPointData$ = busPointService.busPointData.value$;
+    this.busPointListData$ = busPointService.listData.value$;
     this.pageData$ = busPointService.pageData.value$;
     this.loading$ = busPointService.loading.value$;
+
+    this.busPointService.getList(0);
   }
 
-  deleteOne(busPoint: BusPoint): void {
+  deleteOne(busPoint: GetBusPointResponseDto): void {
     this.deleteItemHandler.emit(busPoint);
   }
 }

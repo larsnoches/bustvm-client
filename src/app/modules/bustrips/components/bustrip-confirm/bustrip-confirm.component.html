@@ -1,0 +1,11 @@
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="busTrip == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+  >Желаете удалить маршрут {{ busTrip.busRouteNumber }} из
+  {{ busTrip.departureBusPoint.name }} в
+  {{ busTrip.arrivalBusPoint.name }}?</app-shared-confirm
+>

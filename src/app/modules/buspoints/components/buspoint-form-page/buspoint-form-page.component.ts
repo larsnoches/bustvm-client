@@ -6,11 +6,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
-import { BusPoint } from '@modules/buspoints/models/buspoint.model';
 import { BusPointStoreService } from '@modules/buspoints/services/buspoint/buspoint-store.service';
-import { BusPointType } from '@modules/buspoint-types/models/buspoint-type.model';
-import { BusPointTypeStoreService } from '@modules/buspoint-types/services/buspoint-type-store/buspoint-type-store.service';
+import { GetBusPointResponseDto } from '@modules/buspoints/models/buspoint.model';
 
 @Component({
   selector: 'app-buspoint-form-page',
@@ -18,9 +15,9 @@ import { BusPointTypeStoreService } from '@modules/buspoint-types/services/buspo
   styleUrls: ['./buspoint-form-page.component.scss'],
 })
 export class BusPointFormPageComponent implements OnInit {
-  busPointTypeData$: Observable<Array<BusPointType>>;
   busPointForm: FormGroup;
-  busPoint?: BusPoint;
+  busPoint?: GetBusPointResponseDto;
+  error: string | null = null;
 
   formId = 'busPointForm';
 
@@ -28,11 +25,8 @@ export class BusPointFormPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private busPointService: BusPointStoreService,
-    private busPointTypeService: BusPointTypeStoreService,
     private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.busPointTypeData$ = busPointTypeService.busPointTypeData.value$;
-
     this.busPointForm = new FormGroup({
       name: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -40,7 +34,7 @@ export class BusPointFormPageComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(255),
         Validators.pattern(
-          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._]+ )*[а-яА-Яa-zA-Z0-9._]+(?<![_.])$',
+          '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
         ),
       ]),
       address: new FormControl('', [
@@ -52,7 +46,7 @@ export class BusPointFormPageComponent implements OnInit {
           '^(?![_.])(?!.*[_.]{2})([а-яА-Яa-zA-Z0-9._,#№-]+ )*[а-яА-Яa-zA-Z0-9._#№-]+(?<![_.])$',
         ),
       ]),
-      busPointTypeId: new FormControl('', [
+      busPointType: new FormControl('', [
         // eslint-disable-next-line @typescript-eslint/unbound-method
         Validators.required,
       ]),
@@ -67,50 +61,56 @@ export class BusPointFormPageComponent implements OnInit {
     return this.busPointForm?.get('address') ?? null;
   }
 
-  get busPointTypeId(): AbstractControl {
-    return this.busPointForm?.get('busPointTypeId') ?? null;
+  get busPointType(): AbstractControl {
+    return this.busPointForm?.get('busPointType') ?? null;
   }
 
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(switchMap(val => val.getAll('id')))
-      .subscribe(val => {
-        const id = val;
-        this.busPoint = this.busPointService.getOne(id);
-        this.busPointForm.setValue({
-          name: this.busPoint?.name ?? '',
-          address: this.busPoint?.address ?? '',
-          busPointTypeId: this.busPoint?.busPointType.id ?? '',
-        });
+    const busPointId = this.route.snapshot.paramMap.get('id');
+    if (busPointId != null) {
+      const busPointIdInt = Number.parseInt(busPointId, 10);
+      this.busPointService.getItemById(busPointIdInt).subscribe({
+        next: this.handleGetItemResponse,
       });
+    }
   }
 
   onSubmitBusPoint(): void {
     if (!this.busPointForm.valid) return;
 
-    const bptId: string = this.busPointForm?.value?.busPointTypeId;
-    if (bptId == null) throw new Error('No bus point id');
-
-    const bpt = this.busPointTypeService.busPointTypeData.value.find(
-      v => v.id === Number(bptId),
-    );
-    if (bpt == null) throw new Error('No selected bus point');
-
     const busPointDto = {
       ...this.busPointForm?.value,
-      busPointType: `${this.busPointTypeService.apiUrl}/${bptId}`,
     };
 
     if (this.busPoint != null) {
-      this.busPointService.edit({
-        busPointDto,
-        busPointHref: this.busPoint.href,
-        busPointType: bpt,
-      });
+      this.busPointService
+        .updateItemById(this.busPoint?.id, busPointDto)
+        .subscribe({
+          complete: () => {
+            this.router.navigate(['/buspoints']);
+          },
+          error: (er: Error) => {
+            this.error = er.message;
+          },
+        });
     } else {
-      this.busPointService.create(busPointDto, bpt);
+      this.busPointService.createItem(busPointDto).subscribe({
+        complete: () => {
+          this.router.navigate(['/buspoints']);
+        },
+        error: (er: Error) => {
+          this.error = er.message;
+        },
+      });
     }
-
-    this.router.navigate(['buspoints']);
   }
+
+  private handleGetItemResponse = (data: GetBusPointResponseDto): void => {
+    this.busPoint = data;
+    this.busPointForm.setValue({
+      name: this.busPoint?.name ?? '',
+      address: this.busPoint?.address ?? '',
+      busPointType: this.busPoint?.busPointType ?? '',
+    });
+  };
 }

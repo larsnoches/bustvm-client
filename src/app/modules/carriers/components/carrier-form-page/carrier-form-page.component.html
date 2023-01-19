@@ -1,0 +1,175 @@
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <div class="col">
+      <div class="col mb-4">
+        <a [routerLink]="['/carriers']" class="btn btn-light mb-2"
+          >&lsaquo; Список перевозчиков</a
+        >
+        <h2 class="h2 mb-2">
+          {{ carrier ? 'Редактирование' : 'Создание' }}
+        </h2>
+      </div>
+
+      <div *ngIf="carrier != null" class="d-flex pt-4 pb-3 gap-2">
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'buses']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Автобусы
+          </a>
+        </div>
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'fares']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Тарифы
+          </a>
+        </div>
+        <div>
+          <a
+            [routerLink]="['/carriers', carrier?.id, 'bustrips']"
+            class="w-100 btn btn-primary btn-sm"
+          >
+            Маршруты
+          </a>
+        </div>
+      </div>
+
+      <div *ngIf="error != null" class="alert alert-danger d-flex flex-column justify-content-start text-start">
+        <div class="d-flex flex-row align-content-center align-items-center">
+            <div class="d-flex flex-column">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column fs-5 fw-bold">Ошибка</div>
+        </div>
+        <div class="d-flex flex-column">
+            <p class="pb-2 mb-0">{{ error }}</p>
+        </div>
+      </div>
+
+      <form
+        [id]="formId"
+        [formGroup]="carrierForm ?? null"
+        (ngSubmit)="onSubmitCarrier()"
+        class="pt-2"
+        novalidate
+      >
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': name?.invalid && (name?.dirty || name?.touched)
+            }"
+            id="name"
+            name="name"
+            placeholder="Название"
+            autofocus
+            autocomplete="off"
+            formControlName="name"
+            required
+          />
+          <label for="name">
+            <app-shared-float-label
+              [isNotValid]="name?.invalid && (name?.dirty || name?.touched)"
+              controlPlaceholder="Название"
+              [hasRequiredError]="name?.errors?.['required']"
+              requiredMessage="Название обязательно"
+              [hasMinLengthError]="name?.errors?.['minlength']"
+              minlengthMessage="Название должно быть не менее 2 символов"
+              [hasMaxLengthError]="name?.errors?.['maxlength']"
+              maxlengthMessage="Название должно быть не более 255 символов"
+              [hasPatternError]="name?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Название перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': inn?.invalid && (inn?.dirty || inn?.touched)
+            }"
+            id="inn"
+            name="inn"
+            placeholder="ИНН"
+            autofocus
+            autocomplete="off"
+            formControlName="inn"
+            required
+          />
+          <label for="inn">
+            <app-shared-float-label
+              [isNotValid]="inn?.invalid && (inn?.dirty || inn?.touched)"
+              controlPlaceholder="ИНН"
+              [hasRequiredError]="inn?.errors?.['required']"
+              requiredMessage="ИНН обязателен"
+              [hasMinLengthError]="inn?.errors?.['minlength']"
+              minlengthMessage="ИНН должен быть не менее 6 символов"
+              [hasMaxLengthError]="inn?.errors?.['maxlength']"
+              maxlengthMessage="ИНН должен быть не более 16 символов"
+              [hasPatternError]="inn?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="ИНН перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+        <div class="form-floating mb-3 col-12">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                address?.invalid && (address?.dirty || address?.touched)
+            }"
+            id="address"
+            name="address"
+            placeholder="Адрес"
+            autofocus
+            autocomplete="off"
+            formControlName="address"
+            required
+          />
+          <label for="address">
+            <app-shared-float-label
+              [isNotValid]="
+                address?.invalid && (address?.dirty || address?.touched)
+              "
+              controlPlaceholder="Адрес"
+              [hasRequiredError]="address?.errors?.['required']"
+              requiredMessage="Адрес обязателен"
+              [hasMinLengthError]="address?.errors?.['minlength']"
+              minlengthMessage="Адрес должен быть не менее 7 символов"
+              [hasMaxLengthError]="address?.errors?.['maxlength']"
+              maxlengthMessage="Адрес должен быть не более 255 символов"
+              [hasPatternError]="address?.errors?.['pattern']"
+              patternMessage="Недопустимые символы"
+              controlFullLabel="Адрес перевозчика"
+            ></app-shared-float-label>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="w-100">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="carrierForm?.valid === false"
+            >
+              {{ carrier == null ? 'Добавить' : 'Сохранить' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

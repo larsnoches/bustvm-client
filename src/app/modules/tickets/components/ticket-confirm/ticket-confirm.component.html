@@ -1,0 +1,11 @@
+<app-shared-confirm
+  caption="Удаление"
+  confirmBtnCaption="Удалить"
+  declineBtnCaption="Отменить"
+  [buttonsDisabled]="ticket == null"
+  (confirmBtnClick)="onConfirmBtnClick()"
+  (declineBtnClick)="onDeclineBtnClick()"
+  >Желаете удалить билет от {{ ticket.issueDateTime }} для
+  {{ ticket.passengerLastname }} {{ ticket.passengerFirstname }}
+  {{ ticket.passengerMiddlename }}?</app-shared-confirm
+>
